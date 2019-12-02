@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ChatController {
 
 	@RequestMapping(value = "/chat", method = RequestMethod.GET)
-	public String chat() {
+	public String chatasd() {
 		return null;
 	}
 }
