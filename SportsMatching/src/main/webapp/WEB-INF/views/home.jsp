@@ -6,9 +6,6 @@
 	<title>Home</title>
 </head>
 <body>
-<h1>
-</h1>
-
-<P>박상철입니다</P>
+<a href="./header.do">헤더</a>
 </body>
 </html>
