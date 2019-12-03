@@ -6,6 +6,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<header>안녕</header>
+	<header>
+		<a>
+			<img alt="" src="">
+		</a>
+		<a></a>
+	</header>
 </body>
 </html>

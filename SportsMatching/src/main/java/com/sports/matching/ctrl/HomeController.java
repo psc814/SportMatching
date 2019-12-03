@@ -30,7 +30,9 @@ public class HomeController {
 		return "home";
 	}
 	@RequestMapping(value = "/header.do", method = RequestMethod.GET)
-	public String header() {
+	public String header(Model model) {
+		System.out.println(model.hashCode());
+		System.identityHashCode(model);
 		return "header";
 	}
 }
