@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sports.matching.Schedule_Mapper">
+	<!--관리자 일정등록 -->
+	<insert id="registerSchedule" parameterType="SCDto">
+		INSERT INTO SCHEDULE(SCHEDULE_ID, STADIUM_CODE, GAME_DATE)
+		VALUES(SCHEDULE_SEQ.NEXTVAL,#{stadium_code}, #{game_date})
+	</insert>
+
+	<!-- 홈팀 일정등록 -->
+	<update id="homeRegisterSchedule" parameterType="java.lang.Integer">
+		UPDATE SCHEDULE
+		SET HOME_RESERVATION = 'N'
+		WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+
+	<!-- 홈팀 최종등록 -->
+	<update id="homeConfirmSchedule" parameterType="SCDto">
+		UPDATE SCHEDULE
+		SET HOME_RESERVATION = 'Y', HOME_TEAM = #{home_team}
+		WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+	<!-- 어웨이팀 일정등록 -->
+	<update id="awayRegisterSchedule" parameterType="java.lang.Integer">
+		UPDATE SCHEDULE
+		SET AWAY_RESERVATION = 'N'
+		WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+	<!-- 어웨이팀 최종등록 -->
+	<update id="awayConfirmSchedule" parameterType="SCDto">
+		UPDATE SCHEDULE
+		SET AWAY_RESERVATION = 'N'
+		WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+	<!-- 홈팀 일정취소 -->
+	<update id="homeCancel" parameterType="java.lang.Integer">
+		UPDATE SCHEDULE
+		SET HOME_CANCEL = 'N'
+		WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+	<!-- 홈팀 최종취소 -->
+	<update id="homeCancelConfirm" parameterType="java.lang.Integer">
+		UPDATE SCHEDULE
+		SET HOME_CANCEL = '', HOME_RESERVATION = '', HOME_TEAM = ''
+		WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+	<!-- 어웨이팀 일정취소 -->
+	<update id="awayCancel" parameterType="java.lang.Integer">
+		UPDATE SCHEDULE
+		SET AWAY_CANCEL = 'N'
+		WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+	<!-- 어웨이팀 최종취소 -->
+	<update id="awayCancelConfirm" parameterType="java.lang.Integer">
+		UPDATE SCHEDULE
+		SET AWAY_CANCEL = '', AWAY_RESERVATION = '', AWAY_TEAM= ''
+		WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+	<!-- 일정 삭제 -->
+	<delete id="deleteSchedule" parameterType="java.lang.Integer">
+		DELETE FROM SCHEDULE
+		WHERE SCHEDULE_ID = #{schedule_id}
+	</delete>
+	<!-- 홈팀 신청 거절 -->
+	<update id="denyHomeSchedule" parameterType="java.lang.Integer">
+		UPDATE SCHEDULE
+		SET HOME_RESERVATION = ''
+		WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+	<!-- 어웨이팀 신청 거절 -->
+	<update id="denyAwaySchedule" parameterType="java.lang.Integer">
+		UPDATE SCHEDULE
+		SET AWAY_RESERVATION = ''
+		WHERE SCHEDULE_ID = #{schedule_id}
+	</update>
+	<!-- 사용자 일정 조회 -->
+	<select id="selectSchedule" parameterType="java.util.Date" resultType="SCDto">
+		SELECT NVL(HOME_TEAM,'홈팀 없음'), NVL(AWAY_TEAM, '어웨이팀 없음')
+		FROM SCHEDULE
+		WHERE GAME_DATE = #{game_date}
+	</select>
+</mapper>
