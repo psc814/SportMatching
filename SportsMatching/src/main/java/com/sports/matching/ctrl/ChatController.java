@@ -27,6 +27,11 @@ public class ChatController implements ServletConfigAware {
 		servletContext = servletConfig.getServletContext();
 	}
 
+	@RequestMapping(value = "/chat.do", method = RequestMethod.GET)
+	public String chat() {
+		return "chat";
+	}
+	
 	@RequestMapping(value = "/socketOpen.do", method = RequestMethod.GET)
 	public String socketOpen(HttpSession session, String mem_id, String gr_id, Model model) {
 		logger.info("!!!socketOpen!!!");
