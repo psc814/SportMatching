@@ -7,7 +7,7 @@
 </head>
 <body>
 	<header>
-		<a href="./chat.do">채팅</a>
+	
 	</header>
 </body>
 </html>
