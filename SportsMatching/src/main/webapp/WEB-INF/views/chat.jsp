@@ -6,7 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<button onclick="goSocket('S','super')">체팅방 입장하기</button>
+	<button onclick="goSocket('S','super')">채팅방 입장하기</button>
 
 	<script type="text/javascript">
 		function goSocket(gr_id, mem_id) {
