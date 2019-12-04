@@ -6,6 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<jsp:include page="header.jsp"></jsp:include>
 	<button onclick="goSocket('S','super')">채팅방 입장하기</button>
 
 	<script type="text/javascript">
