@@ -59,7 +59,7 @@ public class MySocketHandler extends TextWebSocketHandler {
 
 					if (myGrSession.equals(otherGrSession)) { 
 						s.sendMessage(new TextMessage(
-								"<font color='red' size='1px'>" + myMemSession + " ���� �����߽��ϴ�.</font>"));
+								"<font color='red' size='1px'>" + myMemSession + "님이 입장하셨습니다.</font>"));
 					}
 				}
 			} else {
@@ -70,7 +70,7 @@ public class MySocketHandler extends TextWebSocketHandler {
 					String otherMemSession = (String) sessionMap.get("mem_id");
 					if (myGrSession.equals(otherGrSession)) {
 						if (msg2.equals(otherMemSession)) {
-							String newMsg = "[��]" + msg.replace(msg.substring(0, msg.trim().indexOf(":") + 1), "");
+							String newMsg = "[나]" + msg.replace(msg.substring(0, msg.trim().indexOf(":") + 1), "");
 							System.out.println("newMsg:" + newMsg);
 							txt = newMsg;
 						} else {
@@ -102,7 +102,7 @@ public class MySocketHandler extends TextWebSocketHandler {
 			String otherGrSession = (String) sessionMap.get("gr_id");
 			if (myGrSession.equals(otherGrSession)) {
 				a.sendMessage(new TextMessage(
-						"<font color='blue' size='1px'>" + myMemSession + "���� �����߽��ϴ� (" + now + ")</font>"));
+						"<font color='blue' size='1px'>" + myMemSession + " 님이 퇴장하셨습니다. (" + now + ")</font>"));
 			}
 		}
 	}

@@ -161,7 +161,7 @@
           $(".chat_div").show();
           $(".chat").focus();
           
-          ws = new WebSocket("ws://localhost:8090/WebSocket_Chatting/wsChat.do");
+          ws = new WebSocket("ws://localhost:8090/SportsMatching/wsChat.do");
           
           ws.onopen = function() {
              ws.send("#$nick_"+nick);
