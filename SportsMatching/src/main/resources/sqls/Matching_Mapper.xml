@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sports.matching.matching_mapper">
+
+	<!-- 매칭 전체조회 -->
+	<select id="selectAllMatching">
+
+	</select>
+	<!-- 매칭 검색 -->
+	<select id="searchMatching">
+
+	</select>
+	<!-- 내 매칭내역 조회 -->
+	<select id="selectMyMatching">
+
+	</select>
+	<!-- 매칭카드 등록 -->
+	<insert id="registMatchingCard">
+
+	</insert>
+	<!-- 매칭 신청 -->
+	<update id="applyMatching">
+
+	</update>
+	<!-- 기존 매칭 수 조회 -->
+	<select id="selectMatchingCount">
+
+	</select>
+	<!-- 매칭 성사여부 수정 -->
+	<update id="modifyMatchingAccomplish">
+
+	</update>
+	<!-- 성사된 매칭 등록 -->
+	<insert id="applySchduleMatching">
+
+	</insert>
+	<!-- 매칭카드 삭제 -->
+	<delete id="deleteMatchingCard">
+
+	</delete>
+	<!-- 매칭신청 여부 조회 -->
+	<select id="selectApplyMatching">
+
+	</select>
+	<!-- 매칭신청 삭제 -->
+	<update id="deleteApplyMatching">
+
+	</update>
+	<!-- 지난 매칭내역 정보 수정 -->
+	<update id="modifyMatchingHistory">
+
+	</update>
+	<!-- 다가올 매칭내역 정보 수정 -->
+	<update id="modifyNearMatching">
+
+	</update>
+
+
+
+
+
+
+
+
+
+</mapper>
+
