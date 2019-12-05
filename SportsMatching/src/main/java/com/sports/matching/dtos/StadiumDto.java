@@ -13,6 +13,15 @@ public class StadiumDto implements Serializable {
 	private String si_gun_gu;
 	private String address;
 	private String info;
+	private PictureDto pdto;
+
+	public PictureDto getPdto() {
+		return pdto;
+	}
+
+	public void setPdto(PictureDto pdto) {
+		this.pdto = pdto;
+	}
 
 	public StadiumDto() {
 
