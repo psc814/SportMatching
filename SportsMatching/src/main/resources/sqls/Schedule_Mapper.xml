@@ -4,7 +4,8 @@
 	<!--관리자 일정등록 -->
 	<insert id="registerSchedule" parameterType="SCDto">
 		INSERT INTO SCHEDULE(SCHEDULE_ID, STADIUM_CODE, GAME_DATE)
-		VALUES(SCHEDULE_SEQ.NEXTVAL,#{stadium_code}, #{game_date})
+		VALUES(SCHEDULE_SEQ.NEXTVAL,#{stadium_code}, TO_DATE(TO_CHAR(#{game_date},'YYYYMMDDHH24'),
+		'YYYYMMDDHH24'))
 	</insert>
 
 	<!-- 홈팀 일정등록 -->
@@ -61,6 +62,14 @@
 		DELETE FROM SCHEDULE
 		WHERE SCHEDULE_ID = #{schedule_id}
 	</delete>
+	<!-- 일정 다중 삭제 -->
+	<delete id="deleteMultiSchedule" parameterType="java.lang.Integer">
+		DELETE FROM SCHEDULE
+		WHERE SCHEDULE ID IN
+		<foreach collection="schedule_id_" item="schedule_id" open="(" separator="," close=")">
+			#{schedule_id}
+		</foreach>
+	</delete>
 	<!-- 홈팀 신청 거절 -->
 	<update id="denyHomeSchedule" parameterType="java.lang.Integer">
 		UPDATE SCHEDULE
@@ -73,10 +82,17 @@
 		SET AWAY_RESERVATION = ''
 		WHERE SCHEDULE_ID = #{schedule_id}
 	</update>
-	<!-- 사용자 일정 조회 -->
-	<select id="selectSchedule" parameterType="java.util.Date" resultType="SCDto">
+	<!-- 일정 전체 조회 -->
+	<select id="selectAllSchedule" parameterType="SCDto" resultType="java.lang.String">
+		SELECT TO_CHAR(GAME_DATE, 'HH24') FROM SCHEDULE
+		WHERE TO_CHAR(GAME_DATE,'YYYYMMDDHH24') LIKE #{game_date}||'%' AND STADIUM_CODE =
+		#{stadium_code}
+	</select>
+	<!-- 일정 상세 조회 -->
+	<select id="selectSchedule" parameterType="SCDto" resultType="SCDto">
 		SELECT NVL(HOME_TEAM,'홈팀 없음'), NVL(AWAY_TEAM, '어웨이팀 없음')
 		FROM SCHEDULE
-		WHERE GAME_DATE = #{game_date}
+		WHERE GAME_DATE = TO_DATE(#{game_date},'YYYYMMDDHH24') AND
+		STADIUM_CODE=#{stadium_code}
 	</select>
 </mapper>
