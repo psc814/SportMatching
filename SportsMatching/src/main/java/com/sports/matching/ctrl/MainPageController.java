@@ -11,5 +11,10 @@ public class MainPageController {
 	public String mainPage() {
 		return "MainPage";
 	}
+	
+//	@RequestMapping(value = "/showSchedule.do", method = RequestMethod.POST)
+//	public String showSchedule() {
+//		
+//	}
 
 }
