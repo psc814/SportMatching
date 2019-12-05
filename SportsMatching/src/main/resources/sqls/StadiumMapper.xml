@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sports.matching.stadium_mapper">
+
+<!-- 	구장검색 -->
+	<select id="searchStadium">
+	
+	</select>
+<!-- 	구장상세조회 -->
+	<select id="selectDetailStadium">
+	
+	</select>
+<!-- 	내 구장 조회 -->
+	<select id="selectMyStadium">
+	
+	</select>
+<!-- 	내 구장 상세조회 -->
+	<select id="selectMyDetailStadium">
+	
+	</select>
+<!-- 	구장정보수정 -->
+	<update id="modifyStadiumInfo">
+	
+	</update>
+<!-- 	진행되지 않은 예약정보확인 -->
+	<select id="selectReservationInfo">
+	
+	</select>
+<!-- 	관리자로그인 -->
+	<select id="adminLogin">
+	
+	</select>
+<!-- 	구장삭제 -->
+	<delete id="deleteStadium">
+	
+	</delete>
+<!-- 	구장등록 -->
+	<insert id="registStadium">
+	
+	</insert>
+	
+	
+	
+	
+	
+	
+
+
+</mapper>
