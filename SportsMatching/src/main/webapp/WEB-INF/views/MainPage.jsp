@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<%@page import="com.sun.org.apache.bcel.internal.generic.IUSHR"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Calendar"%>
 <%@ page contentType="text/html; charset=utf-8"%>
@@ -108,7 +107,17 @@ A:hover {
 
 <BODY>
 	<jsp:include page="header.jsp" />
-	<div id="calendarDiv" style="width: 800px; margin: auto;">
+	<div id="stadiumDiv" style="width: 700px; margin: auto; background-color: yellow">
+		<table style="width: 700px;">
+			<tr>
+				<td>잠실종합운동</td>
+			</tr>
+			<tr>
+				<td>이미지파일여기에</td>
+			</tr>
+		</table>
+	</div>
+	<div id="calendarDiv" style="width: 712px; margin: auto;">
 		<form name="calendarFrm" id="calendarFrm" action="" method="post">
 			<DIV id="content" style="width: 712px; text-align: center;">
 				<table width="100%" border="0" cellspacing="1" cellpadding="1">
@@ -236,12 +245,12 @@ A:hover {
 									}
 									out.println("<TD class='clickedDate' align='center' height='92px' bgcolor='" + backColor + "' nowrap>");
 							%>
-							<font color='<%=color%>' style="font-size: 30px;" name = '<%=clickedDate %>>'><%=index%></font>
-							
+							<font color='<%=color%>' style="font-size: 30px;" name='<%=clickedDate%>>'><%=index%></font>
+
 							<%
-							   out.println("<br>");
-							   out.println("<span class='datespan'>"+clickedDate+"</span>");
-								out.println("</TD>");
+								out.println("<br>");
+									out.println("<span class='datespan'>" + clickedDate + "</span>");
+									out.println("</TD>");
 									newLine++;
 									if (newLine == 7) {
 										out.println("</TR>");
@@ -263,20 +272,324 @@ A:hover {
 			</DIV>
 		</form>
 	</div>
+	<div style="width: 712px; margin: auto;">
+		<table id="timetable" width="100%" border="0" cellspacing="1" cellpadding="1">
+			<caption>시간 선택</caption>
+			<tr>
+				<td style="height: 50px; text-align: center; border: 1px solid;">00시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">01시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">02시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">03시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">04시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">05시</td>
+			</tr>
+			<tr style="border: 1px solid;">
+				<td style="height: 50px; text-align: center; border: 1px solid;">06시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">07시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">08시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">09시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">10시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">11시</td>
+			</tr>
+			<tr style="border: 1px solid;">
+				<td style="height: 50px; text-align: center; border: 1px solid;">12시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">13시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">14시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">15시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">16시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">17시</td>
+			</tr>
+			<tr style="border: 1px solid;">
+				<td style="height: 50px; text-align: center; border: 1px solid;">18시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">19시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">20시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">21시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">22시</td>
+				<td style="height: 50px; text-align: center; border: 1px solid;">23시</td>
+			</tr>
+		</table>
+		<button style="width: 350px; height: 52px;">예약하기</button>
+		<button style="width: 350px; height: 52px;">채팅하기</button>
+	</div>
+	<div class="map_wrap" style="width: 712px; margin: auto;">
+		<div id="map" style="width: 712px; height: 450px; margin-top: 50px; margin: auto; overflow: hidden;"></div>
+		<div id="menu_wrap" class="bg_white">
+			<div class="option">
+				<div>
+					<form onsubmit="searchPlaces(); return false;">
+						검색어 :
+						<input type="text" value="스탬포드 풋살장" id="keyword" size="15">
+						<button type="submit">검색하기</button>
+					</form>
+				</div>
+			</div>
+			<hr>
+			<ul id="placesList"></ul>
+			<div id="pagination"></div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a1c2bfb6e20541df7e13de6b410f730&libraries=services"></script>
+	<script>
+		// 마커를 담을 배열입니다
+		var markers = [];
+
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		mapOption = {
+			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+			level : 3
+		// 지도의 확대 레벨
+		};
+
+		// 지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption);
+
+		// 장소 검색 객체를 생성합니다
+		//장소 검색 서비스 객체를 생성한다.
+		//지도 객체를 인자로 넣을경우, 검색에 필요한 옵션들 중 location 이 자동으로 현재 지도의 중심 좌표로 설정되어 검색을 시도한다.
+		//필요에 따라서는 useMapBounds 옵션을 통해 현재 지도에 보여지는 영역을 자동 지정할 수 있다.
+		var ps = new kakao.maps.services.Places();
+
+		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+		var infowindow = new kakao.maps.InfoWindow({
+			zIndex : 1
+		});
+
+		// 키워드로 장소를 검색합니다
+		searchPlaces();
+
+		// 키워드 검색을 요청하는 함수입니다
+		function searchPlaces() {
+
+			var keyword = document.getElementById('keyword').value;
+
+			if (!keyword.replace(/^\s+|\s+$/g, '')) {
+				alert('키워드를 입력해주세요!');
+				return false;
+			}
+
+			// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+			ps.keywordSearch(keyword, placesSearchCB);
+		}
+
+		// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+		function placesSearchCB(data, status, pagination) {
+			if (status === kakao.maps.services.Status.OK) {
+				// 정상적으로 검색이 완료됐으면 검색 목록과 마커를 표출합니다
+				displayPlaces(data);
+				// 페이지 번호를 표출합니다
+				displayPagination(pagination);
+
+			} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+
+				alert('검색 결과가 존재하지 않습니다.');
+				return;
+
+			} else if (status === kakao.maps.services.Status.ERROR) {
+
+				alert('검색 결과 중 오류가 발생했습니다.');
+				return;
+
+			}
+		}
+
+		// 검색 결과 목록과 마커를 표출하는 함수입니다
+		function displayPlaces(places) {
+
+			var listEl = document.getElementById('placesList'), menuEl = document
+					.getElementById('menu_wrap'), fragment = document
+					.createDocumentFragment(), bounds = new kakao.maps.LatLngBounds(), listStr = '';
+
+			// 검색 결과 목록에 추가된 항목들을 제거합니다
+			removeAllChildNods(listEl);
+
+			// 지도에 표시되고 있는 마커를 제거합니다
+			removeMarker();
+			for (var i = 0; i < places.length; i++) {
+
+				// 마커를 생성하고 지도에 표시합니다
+				var placePosition = new kakao.maps.LatLng(places[i].y,
+						places[i].x), marker = addMarker(placePosition, i), itemEl = getListItem(
+						i, places[i]); // 검색 결과 항목 Element를 생성합니다
+				// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+				// LatLngBounds 객체에 좌표를 추가합니다
+				bounds.extend(placePosition);
+				// 마커와 검색결과 항목에 mouseover 했을때
+				// 해당 장소에 인포윈도우에 장소명을 표시합니다
+				// mouseout 했을 때는 인포윈도우를 닫습니다
+				(function(marker, title) {
+					kakao.maps.event.addListener(marker, 'click', function() {
+						window.open("https://map.kakao.com/link/to/" + title
+								+ "," + placePosition.getLat() + ","
+								+ placePosition.getLng(), '_blank');
+					});
+					kakao.maps.event.addListener(marker, 'mouseover',
+							function() {
+								displayInfowindow(marker, title);
+							});
+
+					kakao.maps.event.addListener(marker, 'mouseout',
+							function() {
+								infowindow.close();
+							});
+
+					itemEl.onclick = function() {
+						window.open("https://map.kakao.com/link/to/" + title
+								+ "," + placePosition.getLat() + ","
+								+ placePosition.getLng(), '_blank');
+					};
+
+					itemEl.onmouseover = function() {
+						displayInfowindow(marker, title);
+					};
+
+					itemEl.onmouseout = function() {
+						infowindow.close();
+					};
+				})(marker, places[i].place_name);
+
+				fragment.appendChild(itemEl);
+			}
+
+			// 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
+			listEl.appendChild(fragment);
+			menuEl.scrollTop = 0;
+
+			// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+			map.setBounds(bounds);
+		}
+
+		// 검색결과 항목을 Element로 반환하는 함수입니다
+		function getListItem(index, places) {
+
+			var el = document.createElement('li'), itemStr = '<span class="markerbg marker_'
+					+ (index + 1)
+					+ '"></span>'
+					+ '<div class="info">'
+					+ '   <h5>' + places.place_name + '</h5>';
+
+			if (places.road_address_name) {
+				itemStr += '    <span>' + places.road_address_name + '</span>'
+						+ '   <span class="jibun gray">' + places.address_name
+						+ '</span>';
+			} else {
+				itemStr += '    <span>' + places.address_name + '</span>';
+			}
+
+			itemStr += '  <span class="tel">' + places.phone + '</span>'
+					+ '</div>';
+
+			el.innerHTML = itemStr;
+			el.className = 'item';
+
+			return el;
+		}
+
+		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+		function addMarker(position, idx, title) {
+			var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+			imageSize = new kakao.maps.Size(36, 37), // 마커 이미지의 크기
+			imgOptions = {
+				spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+				spriteOrigin : new kakao.maps.Point(0, (idx * 46) + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+				offset : new kakao.maps.Point(13, 37)
+			// 마커 좌표에 일치시킬 이미지 내에서의 좌표
+			}, markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
+					imgOptions), marker = new kakao.maps.Marker({
+				position : position, // 마커의 위치
+				image : markerImage
+			});
+
+			marker.setMap(map); // 지도 위에 마커를 표출합니다
+			markers.push(marker); // 배열에 생성된 마커를 추가합니다
+
+			return marker;
+		}
+
+		// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+		function removeMarker() {
+			for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(null);
+			}
+			markers = [];
+		}
+
+		// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+		function displayPagination(pagination) {
+			var paginationEl = document.getElementById('pagination'), fragment = document
+					.createDocumentFragment(), i;
+
+			// 기존에 추가된 페이지번호를 삭제합니다
+			while (paginationEl.hasChildNodes()) {
+				paginationEl.removeChild(paginationEl.lastChild);
+			}
+
+			for (i = 1; i <= pagination.last; i++) {
+				var el = document.createElement('a');
+				el.href = "#";
+				el.innerHTML = i;
+
+				if (i === pagination.current) {
+					el.className = 'on';
+				} else {
+					el.onclick = (function(i) {
+						return function() {
+							pagination.gotoPage(i);
+						}
+					})(i);
+				}
+
+				fragment.appendChild(el);
+			}
+			paginationEl.appendChild(fragment);
+		}
+
+		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+		// 인포윈도우에 장소명을 표시합니다
+		function displayInfowindow(marker, title) {
+			var content = '<div style="padding:5px;z-index:1;">' + title
+					+ '</div>';
+
+			infowindow.setContent(content);
+			infowindow.open(map, marker);
+		}
+
+		// 검색결과 목록의 자식 Element를 제거하는 함수입니다
+		function removeAllChildNods(el) {
+			while (el.hasChildNodes()) {
+				el.removeChild(el.lastChild);
+			}
+		}
+	</script>
 </BODY>
 <script type="text/javascript">
 $(document).ready(function() {
 	$(".clickedDate").click(function() {
 		var game_date = $(this).children('.datespan').text();
-		alert(game_date);
 		$.ajax({
 			url : "showSchedule.do?game_date="+game_date,
 			type : "post",
 			success: function(data) {
-				alert(data)
+				if(data == ""){
+					alert("선택한 날의 정보가 없습니다.");
+				}else{
+					if($("#timetable") == ""){
+						$("#calendarDiv").append("<table id='timetable'></table>");
+						$.each(data, function(i, elt) {
+						$("#calendarDiv").append("<table><tr><td>"+elt+"<td/></tr></table>")
+					});
+					}else{
+						$("#calendarDiv").remove();
+						$("#calendarDiv").append("<table id='timetable'></table>");
+						$.each(data, function(i, elt) {
+							$("#calendarDiv").append("<table><tr><td>"+elt+"<td/></tr></table>")
+					}
+					
+					
+				}
 			},
 			error:function(request,status,error){
-		        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+		        alert("AJAX 오류"); // 실패 시 처리
 		       }
 		});
 	});
