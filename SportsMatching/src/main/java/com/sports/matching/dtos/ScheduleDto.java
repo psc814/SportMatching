@@ -9,7 +9,7 @@ public class ScheduleDto implements Serializable{
 
 	private int schedule_id;
 	private String stadium_code;
-	private Date game_date;
+	private String game_date;
 	private String home_team;
 	private String away_team;
 	private int home_score;
@@ -39,11 +39,11 @@ public class ScheduleDto implements Serializable{
 		this.stadium_code = stadium_code;
 	}
 
-	public Date getGame_date() {
+	public String getGame_date() {
 		return game_date;
 	}
 
-	public void setGame_date(Date game_date) {
+	public void setGame_date(String game_date) {
 		this.game_date = game_date;
 	}
 

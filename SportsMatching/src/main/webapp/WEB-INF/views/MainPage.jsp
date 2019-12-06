@@ -234,11 +234,13 @@ A:hover {
 									if (iUseDate == intToday) {
 										backColor = "#c9c9c9";
 									}
-									out.println("<TD align='center' height='92px' bgcolor='" + backColor + "' nowrap onclick=hi("
-											+ clickedDate + ")>");
+									out.println("<TD class='clickedDate' align='center' height='92px' bgcolor='" + backColor + "' nowrap>");
 							%>
-							<font color='<%=color%>' style="font-size: 30px;"> <%=index%></font>
+							<font color='<%=color%>' style="font-size: 30px;" name = '<%=clickedDate %>>'><%=index%></font>
+							
 							<%
+							   out.println("<br>");
+							   out.println("<span class='datespan'>"+clickedDate+"</span>");
 								out.println("</TD>");
 									newLine++;
 									if (newLine == 7) {
@@ -260,13 +262,24 @@ A:hover {
 				</TABLE>
 			</DIV>
 		</form>
-		<div id="here"></div>
 	</div>
 </BODY>
 <script type="text/javascript">
-function hi(index) {
-	document.getElementById("here").innerHTML = index;
-	
-}
+$(document).ready(function() {
+	$(".clickedDate").click(function() {
+		var game_date = $(this).children('.datespan').text();
+		alert(game_date);
+		$.ajax({
+			url : "showSchedule.do?game_date="+game_date,
+			type : "post",
+			success: function(data) {
+				alert(data)
+			},
+			error:function(request,status,error){
+		        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+		       }
+		});
+	});
+});
 </script>
 </HTML>

@@ -112,7 +112,7 @@ public class Schedule_DaoImpl implements Schedule_IDao {
 
 	@Override
 	public List<String> selectAllSchedule(ScheduleDto dto) {
-		logger.info("일정 전체 조회");
+		logger.info("일정 전체 조회-----{}", dto);
 		return session.selectList(NS+"selectAllSchedule", dto);
 	}
 
