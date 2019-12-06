@@ -22,14 +22,14 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
+
 	<websocket:handlers>
 		<websocket:mapping handler="wsChat.do" path="/wsChat.do" />
 		<websocket:handshake-interceptors>
 			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></beans:bean>
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
-	
+
 	<context:component-scan base-package="com.sports.matching" />
 
 	<interceptors>
@@ -49,5 +49,11 @@
 			</beans:property>
 		</beans:bean>
 	</interceptors>
+
+	<annotation-driven>
+		<message-converters>
+			<beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+		</message-converters>
+	</annotation-driven>
 
 </beans:beans>
