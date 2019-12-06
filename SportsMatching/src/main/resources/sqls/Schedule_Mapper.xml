@@ -84,7 +84,10 @@
 	</update>
 	<!-- 일정 전체 조회 -->
 	<select id="selectAllSchedule" parameterType="SCDto" resultType="java.lang.String">
-		SELECT MEMBER_ID FROM MEMBERS
+		SELECT TO_CHAR(GAME_DATE, 'HH24') GAME_DATE
+		FROM SCHEDULE
+		WHERE TO_CHAR(GAME_DATE,'YYYYMMDD') = #{game_date} AND STADIUM_CODE = #{stadium_code}
+		ORDER BY GAME_DATE
 	</select>
 	<!-- 일정 상세 조회 -->
 	<select id="selectSchedule" parameterType="SCDto" resultType="SCDto">
