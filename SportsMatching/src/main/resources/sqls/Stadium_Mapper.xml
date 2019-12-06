@@ -7,7 +7,7 @@
 		<result column="IMAGE2" property="image2"/>
 		<result column="IMAGE3" property="image3"/>
 	</resultMap>
-	<resultMap type="StDto" id="stadiumMap">
+	<resultMap type="STDto" id="stadiumMap">
 		<result column="STADIUM_CODE" property="stadium_code"/>
 		<result column="STADIUM_NAME" property="stadium_name"/>
 		<result column="AREA" property="area"/>
@@ -17,7 +17,7 @@
 	</resultMap>
 	
 	<!-- 구장검색 -->
-	<select id="searchStadium" parameterType="java.lang.String" resultType="StDto">
+	<select id="searchStadium" parameterType="java.lang.String" resultType="STDto">
 		SELECT STADIUM_CODE, STADIUM_NAME, ADDRESS, SI_GUN_GU
 		FROM STADIUM
 		WHERE SI_GUN_GU LIKE '%'||#{condition}||'%' OR STADIUM_NAME LIKE '%'||#{condition}||'%'
@@ -58,13 +58,13 @@
 		AND SUBSTR(TO_CHAR(GAME_DATE, 'YYYYMMDDHH24MISS'), 9, 2) = #{time}
 	</select>
 	<!-- 구장 정보수정 -->
-	<update id="modifyStadiumInfo" parameterType="StDto">
+	<update id="modifyStadiumInfo" parameterType="STDto">
 		UPDATE STADIUM
 		SET STADIUM_NAME=#{stadium_name}, AREA=#{area}, SI_GUN_GU=#{si_gun_gu}, ADDRESS=#{address}, INFO=#{info}
 		WHERE STADIUM_CODE =#{stadium_code};
 	</update>
 	<!-- 구장 사진정보수정 -->
-	<update id="modifyStadiumPicture" parameterType="StDto">
+	<update id="modifyStadiumPicture" parameterType="STDto">
 		UPDATE PICTURE
 		SET IMAGE1=#{image1}, IMAGE2=#{image2}, IMAGE3=#{image3}
 		WHERE STADIUM_CODE =#{stadium_code};
@@ -109,7 +109,7 @@
 		WHERE STADIUM_CODE=#{stadium_code}
 	</delete>
 	<!-- 구장등록 -->
-	<insert id="registStadium" parameterType="StDto">
+	<insert id="registStadium" parameterType="STDto">
 		INSERT INTO STADIUM 
 		VALUES(
 		(SELECT SUBSTR(MAX(STADIUM_CODE), 0, 2) || TO_CHAR(SUBSTR(MAX(STADIUM_CODE), 3)+1, 'FM0000')

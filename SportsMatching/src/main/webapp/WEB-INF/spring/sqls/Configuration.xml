@@ -4,9 +4,11 @@
 
 	<typeAliases>
 		<typeAlias type="com.sports.matching.dtos.ScheduleDto" alias="SCDto" />
-		<typeAlias type="com.sports.matching.dtos.StadiumDto" alias="StDto" />
-		<typeAlias type="com.sports.matching.dtos.MatchingCardDto" alias="McDto" />
-		<typeAlias type="com.sports.matching.dtos.PictureDto" alias="PtDto" />
+		<typeAlias type="com.sports.matching.dtos.StadiumDto" alias="STDto" />
+		<typeAlias type="com.sports.matching.dtos.MatchingCardDto" alias="MCDto" />
+		<typeAlias type="com.sports.matching.dtos.ScheduledMatchingDto" alias="SMDto" />
+		<typeAlias type="com.sports.matching.dtos.PictureDto" alias="PTDto" />
+		<typeAlias type="com.sports.matching.dtos.TeamDto" alias="TDto" />
 	</typeAliases>
 
 	<mappers>
