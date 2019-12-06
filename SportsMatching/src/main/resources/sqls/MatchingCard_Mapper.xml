@@ -104,9 +104,11 @@
 	</update>
 	<!-- 다가올 매칭내역 정보 수정 -->
 	<update id="modifyNearMatching" parameterType="java.util.Map">
+		<![CDATA[
 		UPDATE MATCHING_CARD
 		SET MATCHING_STYLE=#{matching_style}, RESERVATION_STADIUM=#{reservation_stadium}
 		WHERE MATCHING_NUMBER=#{matching_number}
+		]]>
 	</update>
 
 
