@@ -16,6 +16,17 @@ public class MatchingCardDto implements Serializable {
 	private String reservation_stadium;
 	private String matching_style;
 	private String accomplish;
+	private ScheduledMatchingDto smdto;
+
+
+
+	public ScheduledMatchingDto getSmdto() {
+		return smdto;
+	}
+
+	public void setSmdto(ScheduledMatchingDto smdto) {
+		this.smdto = smdto;
+	}
 
 	public MatchingCardDto() {
 
