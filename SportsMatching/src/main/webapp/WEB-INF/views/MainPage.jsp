@@ -270,46 +270,11 @@ A:hover {
 					</TBODY>
 				</TABLE>
 			</DIV>
+			<div>
+				<input id="reserveButton" type="button" style="width: 350px; height: 52px;" value="예약하기">
+				<input id="chatButton" type="button" style="width: 350px; height: 52px;" value="채팅하기">
+			</div>
 		</form>
-	</div>
-	<div style="width: 712px; margin: auto;">
-		<table id="timetable" width="100%" border="0" cellspacing="1" cellpadding="1">
-			<caption>시간 선택</caption>
-			<tr>
-				<td style="height: 50px; text-align: center; border: 1px solid;">00시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">01시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">02시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">03시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">04시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">05시</td>
-			</tr>
-			<tr style="border: 1px solid;">
-				<td style="height: 50px; text-align: center; border: 1px solid;">06시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">07시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">08시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">09시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">10시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">11시</td>
-			</tr>
-			<tr style="border: 1px solid;">
-				<td style="height: 50px; text-align: center; border: 1px solid;">12시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">13시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">14시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">15시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">16시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">17시</td>
-			</tr>
-			<tr style="border: 1px solid;">
-				<td style="height: 50px; text-align: center; border: 1px solid;">18시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">19시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">20시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">21시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">22시</td>
-				<td style="height: 50px; text-align: center; border: 1px solid;">23시</td>
-			</tr>
-		</table>
-		<button style="width: 350px; height: 52px;">예약하기</button>
-		<button style="width: 350px; height: 52px;">채팅하기</button>
 	</div>
 	<div class="map_wrap" style="width: 712px; margin: auto;">
 		<div id="map" style="width: 712px; height: 450px; margin-top: 50px; margin: auto; overflow: hidden;"></div>
@@ -543,7 +508,6 @@ A:hover {
 			}
 			paginationEl.appendChild(fragment);
 		}
-
 		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
 		// 인포윈도우에 장소명을 표시합니다
 		function displayInfowindow(marker, title) {
@@ -566,6 +530,7 @@ A:hover {
 $(document).ready(function() {
 	$(".clickedDate").click(function() {
 		var game_date = $(this).children('.datespan').text();
+		var temp = "<table id='timetable' width='712px'><caption>시간표 선택</caption>";
 		$.ajax({
 			url : "showSchedule.do?game_date="+game_date,
 			type : "post",
@@ -573,26 +538,56 @@ $(document).ready(function() {
 				if(data == ""){
 					alert("선택한 날의 정보가 없습니다.");
 				}else{
-					if($("#timetable") == ""){
-						$("#calendarDiv").append("<table id='timetable'></table>");
-						$.each(data, function(i, elt) {
-						$("#calendarDiv").append("<table><tr><td>"+elt+"<td/></tr></table>")
+					$("#timetable").remove();
+					temp += "<tr>";
+					$.each(data, function(i, elt) {
+						if( i % 6 != 0){
+							temp += "<td bgcolor='##04B404' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt+"'>"+elt+"시</td>";
+						}else{
+							temp +="</tr>";
+							temp +="<tr><td bgcolor='##04B404' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt+"'>"+elt+"시</td>"
+						}
 					});
-					}else{
-						$("#calendarDiv").remove();
-						$("#calendarDiv").append("<table id='timetable'></table>");
-						$.each(data, function(i, elt) {
-							$("#calendarDiv").append("<table><tr><td>"+elt+"<td/></tr></table>")
-					}
-					
-					
+					temp +="</tr>";
+					$("#calendarDiv").append(temp);
 				}
 			},
 			error:function(request,status,error){
-		        alert("AJAX 오류"); // 실패 시 처리
-		       }
+		        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
+		     }
 		});
 	});
+	
+	$("#reserveButton").click(function() {
+		var radioValue = $(":input:radio[name=time]:checked").val();
+		var year = radioValue.substr(0, 4);
+		var month = radioValue.substr(4, 2);
+		var day = radioValue.substr(6, 2);
+		var hour = radioValue.substr(8,2);
+		if(confirm(year+"년 "+month+"월 "+day+"일 "+hour+"시에 예약하시겠습니까?")){
+			$.ajax({
+				url : "reserve.do?game_date="+radioValue,
+				type : "post",
+				success: function(data) {
+					if(data==true){
+						alert("관리자가 승인하면 완료됩니다.");
+						}else{
+						alert("예약실패");
+					}
+				},
+				error:function(request,status,error){
+			        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
+			     }
+			});
+		}else{
+			alert("예약안해!")
+		}
+	});
+	$("#chatButton").click(function() {
+		location.href ="./chat.do";
+	});
+	
 });
+
 </script>
 </HTML>

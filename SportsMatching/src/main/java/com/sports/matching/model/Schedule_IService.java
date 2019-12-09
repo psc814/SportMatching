@@ -7,7 +7,7 @@ import com.sports.matching.dtos.ScheduleDto;
 public interface Schedule_IService {
 
 	public boolean registerSchedule(ScheduleDto dto);
-	public boolean homeRegisterSchedule(int schedule_id);
+	public boolean homeRegisterSchedule(ScheduleDto dto);
 	public boolean homeCofirmSchedule(ScheduleDto dto);
 	public boolean awayRegisterSchedule(int schedule_id);
 	public boolean awayConfirmSchedule(ScheduleDto dto);
