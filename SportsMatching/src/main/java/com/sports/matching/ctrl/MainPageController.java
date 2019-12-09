@@ -44,5 +44,15 @@ public class MainPageController {
 		System.out.println(scheduleList);
 		return scheduleList;
 	}
+	
+	@RequestMapping(value = "/reserve.do", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean reserve(String game_date){
+		logger.info("{}날짜에 예약 신청",game_date);
+		ScheduleDto dto = new ScheduleDto();
+		dto.setGame_date(game_date);
+		dto.setStadium_code("SC0003");
+		return sc_service.homeRegisterSchedule(dto);
+	}
 
 }

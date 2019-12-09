@@ -19,8 +19,8 @@ public class Schedule_ServiceImpl implements Schedule_IService {
 	}
 
 	@Override
-	public boolean homeRegisterSchedule(int schedule_id) {
-		return dao.homeRegisterSchedule(schedule_id);
+	public boolean homeRegisterSchedule(ScheduleDto dto) {
+		return dao.homeRegisterSchedule(dto);
 	}
 
 	@Override

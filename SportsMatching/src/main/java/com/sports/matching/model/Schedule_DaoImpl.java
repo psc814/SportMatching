@@ -27,9 +27,9 @@ public class Schedule_DaoImpl implements Schedule_IDao {
 	}
 
 	@Override
-	public boolean homeRegisterSchedule(int schedule_id) {
+	public boolean homeRegisterSchedule(ScheduleDto dto) {
 		logger.info("홈팀 일정 등록 신청");
-		int n = session.update(NS + "homeRegisterSchedule", schedule_id);
+		int n = session.update(NS + "homeRegisterSchedule", dto);
 		return (n > 0) ? true : false;
 	}
 
