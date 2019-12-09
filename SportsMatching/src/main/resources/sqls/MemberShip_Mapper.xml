@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sports.matching.MemberShip_Mapper">
+
+<resultMap type="MDto" id="memberMap">
+	<result column="MEMBER_ID" property="member_id"/>
+	<result column="WITHDRAW" property="withdraw"/>
+</resultMap>
+
+<resultMap type="BTDto" id="BelongedMap">
+	<result column="BELONGED_TEAM_CODE" property="belonged_team_code"/>
+	<result column="MEMBER_ID" property="member_id"/>
+	<result column="TEAM_ID" property="team_id"/>
+	<collection property="MDto" resultMap="memberMap"/>
+</resultMap>
+
+<resultMap type="TDto" id="teamMap">
+	<result column="TEAM_ID" property="team_id"/>
+	<result column="TEAM_PW" property="team_pw"/>
+	<result column="CAPTAIN_ID" property="captain_id"/>
+	<result column="CAPTAIN_PHONE_NUMBER" property="captain_phone_number"/>
+	<result column="PLAYGROUND" property="playground"/>
+	<result column="QUESTION" property="question"/>
+	<result column="ANSWER" property="answer"/>
+	<result column="DORMANT_ID" property="dormant_id"/>
+	<result column="LAST_LOGIN_DATE" property="last_login_date"/>
+</resultMap>
+
+<resultMap type="SDto" id="statMap">
+	<result column="TEAM_ID" property="team_id"/>
+	<result column="ATTACK" property="attack"/>
+	<result column="DEFENCE" property="defence"/>
+	<result column="MANNER" property="manner"/>
+	<collection property="TDto" resultMap="teamMap"></collection>
+</resultMap>
+
+<!-- 로그인  -->
+<!-- API 로그인 -->
+<insert id="apiLogin" parameterType="MDto">
+INSERT INTO MEMBERS (MEMBER_ID, WITHDRAW) VALUES(#{member_id, withdraw='N'})
+</insert>
+
+<!--팀 로그인  -->
+<select id="teamLogin" parameterType="TDto" resultType="TDto">
+SELECT TEAM_ID
+	FROM TEAM
+		WHERE TEAM_ID = #{team_id} AND TEAM_PW = #{team_pw}
+</select>
+
+<!-- 관리자 로그인 -->
+<select id="adminLogin" parameterType="SADto" resultType="SADto">
+SELECT ADMIN_ID
+	FROM STADIUM_ADMIN
+		WHERE ADMIN_ID = #{admin_id} AND ADMIN_PW = #{admin_pw}
+</select>
+
+<!-- 회원가입 -->
+<!-- 개인회원의 팀 가입 -->
+<insert id="joinTeam" parameterType="BTDto">
+INSERT INTO BELONGED_TEAM (MEMBER_ID, TEAM_ID) VALUES(#{member_id}, #{team_id})
+</insert>
+
+<!-- 팀 회원 가입 (팀 창단) -->
+<insert id="registTeam" parameterType="TDto">
+INSERT INTO TEAM
+(TEAM_ID, TEAM_PW, CAPTAIN_ID, CAPTAIN_PHONE_NUMBER, PLAYGROUND,QUESTION,ANSWER)
+VALUES(#{team_id}, #{team_pw}, #{captain_id}, #{captain_phone_number}, #{playground}, #{question} ,#{answer})
+</insert>
+
+<!-- 팀 아이디 중복검사 -->
+<select id="duplicateTeamId" parameterType="java.lang.String">
+SELECT COUNT(TEAM_ID)
+	FROM TEAM
+		WHERE TEAM_ID = #{team_id}
+</select>
+
+<!-- 탈퇴회원 검사 -->
+<select id="withDraw" parameterType="MDto" resultType="MDto">
+SELECT MEMBER_ID,WITHDRAW 
+	FROM MEMBERS WHERE MEMBER_ID='psc814'AND WITHDRAW = 'Y'
+</select>
+
+<!-- 재가입 -->
+<update id="reJoin" parameterType="MDto">
+UPDATE MEMBERS SET WITHDRAW = 'N' WHERE MEMBER_ID = #{member_id}
+</update>
+
+<!-- 팀 비밀번호 질문/답변 검사 -->
+<select id="teamPasswordQnA" parameterType="TDto" resultType="TDto">
+SELECT ANSWER
+	FROM TEAM
+		WHERE TEAM_ID = #{team_id} AND ANSWER = #{answer}
+</select>
+
+<!-- 회원정보조회 -->
+<!-- 개인회원 마이페이지 -->
+<select id="memberMypage" parameterType="java.lang.String" resultType="BelongedMap">
+SELECT M.MEMBER_ID, BT.TEAM_ID
+	FROM  MEMBERS M, BELONGED_TEAM BT
+		WHERE M.MEMBER_ID = BT.MEMBER_ID AND M.MEMBER_ID= #{member_id}
+</select>
+
+<!--팀 회원 리스트  -->
+<select id="teamMemberList" parameterType="java.lang.String" resultType="BTDto">
+SELECT MEMBER_ID
+	FROM BELONGED_TEAM
+		 WHERE TEAM_ID= #{team_id}
+</select>
+
+<!-- 팀 조회 (팀 페이지) -->
+<select id="selectTeam" parameterType="java.lang.String" resultType="teamMap">
+SELECT T.TEAM_ID, T.CAPTAIN_ID, T.CAPTAIN_PHONE_NUMBER, T.PLAYGROUND, S.ATTACK,S.DEFENCE,S.MANNER
+	FROM TEAM T INNER JOIN STAT S
+		ON T.TEAM_ID = S.TEAM_ID
+		WHERE T.TEAM_ID = #{TEAM_ID}
+</select>
+
+<!-- 주장여부 -->
+<select id="captainId" parameterType="TDto" resultType="TDto">
+SELECT TEAM_ID,CAPTAIN_ID
+	FROM TEAM
+		WHERE TEAM_ID= #{team_id} AND CAPTAIN_ID = #{captain_id}
+</select>
+
+<!-- 회원정보수정  -->
+<!-- 팀 정보 수정 -->
+<update id="updateTeamInfo" parameterType="TDto">
+UPDATE TEAM
+SET CAPTAIN_ID= #{captain_id}, CAPTAIN_PHONE_NUMBER= #{captain_phone_number}, PLAYGROUND= #{playground}
+WHERE TEAM_ID= #{team_id}
+</update>
+
+<!-- 팀 휴면 전환 -->
+<update id="dormantTeam" parameterType="TDto">
+<![CDATA[UPDATE TEAM SET DORMANT_ID = 'Y' WHERE LAST_LOGIN_DATE < ADD_MONTHS(SYSDATE,-3)]]>
+</update>
+
+<!-- 관리자 비밀번호 수정 -->
+<update id="modifyAdminPassword" parameterType="SADto">
+UPDATE STADIUM_ADMIN
+SET ADMIN_PW= #{admin_pw}
+WHERE ADMIN_ID= #{admin_id}
+</update>
+
+<!-- 회원 정보 삭제/탈퇴 -->
+<!-- 탈퇴/미탈퇴 회원 구분 -->
+<update id="updateWithdraw" parameterType="MDto">
+UPDATE MEMBERS SET WITHDRAW ='Y' WHERE MEMBER_ID = #{member_id}
+</update>
+
+<!-- 회원탈퇴 -->
+<delete id="deleteMemberTeam" parameterType="java.lang.String">
+DELETE FROM BELONGED_TEAM WHERE MEMBER_ID = #{member_id}
+</delete>
+
+<!-- 팀회원 다중 삭제 -->
+<delete id="teamMemberMultiDel" parameterType="java.util.Map">
+DELETE FROM
+ BELONGED_TEAM 
+		WHERE MEMBER_ID IN
+		<foreach collection="member_id_" item="member_id" open="(" separator="," close=")">
+			#{member_id}
+		</foreach>
+</delete>
+
+<!-- 소속팀 삭제 -->
+<delete id="deleteBelongedTeam" parameterType="java.lang.String">
+DELETE FROM BELONGED_TEAM  WHERE TEAM_ID = #{team_id}
+</delete>
+
+
+</mapper>

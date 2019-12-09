@@ -8,11 +8,16 @@
 		<typeAlias type="com.sports.matching.dtos.MatchingCardDto" alias="MCDto" />
 		<typeAlias type="com.sports.matching.dtos.ScheduledMatchingDto" alias="SMDto" />
 		<typeAlias type="com.sports.matching.dtos.PictureDto" alias="PTDto" />
+		<typeAlias type="com.sports.matching.dtos.MembersDto" alias="MDto"/>
+		<typeAlias type="com.sports.matching.dtos.StadiumAdminDto" alias="SADto"/>
 		<typeAlias type="com.sports.matching.dtos.TeamDto" alias="TDto" />
+		<typeAlias type="com.sports.matching.dtos.Belonged_TeamDto" alias="BTDto"/>
+		<typeAlias type="com.sports.matching.dtos.StatDto" alias="SDto"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/sqls/Schedule_Mapper.xml" />
+		<mapper resource="/sqls/MemberShip_Mapper.xml"/>
 	</mappers>
 
 </configuration>
