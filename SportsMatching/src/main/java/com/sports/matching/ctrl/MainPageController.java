@@ -32,6 +32,13 @@ public class MainPageController {
 		return "MainPage";
 	}
 	
+	@RequestMapping(value = "/userMain.do", method = RequestMethod.GET)
+	public String userMainPage() {
+		logger.info("유저메인페이지");
+		
+		return "UserMainPage";
+	}
+	
 	@RequestMapping(value = "/showSchedule.do", method = RequestMethod.POST)
 	@ResponseBody
 	public List<String> showSchedule(String game_date){

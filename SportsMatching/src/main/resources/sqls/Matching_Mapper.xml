@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sports.matching.matchingcard_mapper">
+<mapper namespace="com.sports.matching.matching_mapper">
 
 	<resultMap type="SMDto" id="scheduled_matching">
 		<result column="COMMENTS" property="comments"/>
@@ -35,7 +35,7 @@
 		OR M.MATCHING_STYLE LIKE '%'||#{condition}||'%'
 	</select>
 	<!-- 내 매칭내역 조회 -->
-	<select id="selectMyMatching" parameterType="java.lang.String" resultType="smdto">
+	<select id="selectMyMatching" parameterType="java.lang.String" resultType="SMDto">
 		SELECT MC.MATCHING_NUMBER, MC.GAME_DATE, MC.APPLIED_TEAM_ID, MC.RESERVATION_STADIUM, MC.MATCHING_STYLE, SM.COMMENTS 
 		FROM SCHEDULED_MATCHING SM 
 		JOIN MATCHING_CARD MC ON SM.MATCHING_NUMBER = MC.MATCHING_NUMBER
@@ -110,13 +110,6 @@
 		WHERE MATCHING_NUMBER=#{matching_number}
 		]]>
 	</update>
-
-
-
-
-
-
-
 
 
 </mapper>
