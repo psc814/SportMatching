@@ -1,4 +1,4 @@
-package com.sports.matching.dto;
+package com.sports.matching.dtos;
 
 import java.io.Serializable;
 
