@@ -583,7 +583,7 @@ $(document).ready(function() {
 		location.href ="./chat.do";
 	});
 	
-});
+})
 
 </script>
 </HTML>
