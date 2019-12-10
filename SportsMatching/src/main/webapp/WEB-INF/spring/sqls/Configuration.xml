@@ -25,7 +25,6 @@
 		<mapper resource="/sqls/Schedule_Mapper.xml" />
 		<mapper resource="/sqls/MemberShip_Mapper.xml" />
 		<mapper resource="/sqls/Mapper.xml" />
-		<mapper resource="/sqls/BoardMapper.xml" />
 	</mappers>
 
 </configuration>
