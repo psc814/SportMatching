@@ -78,28 +78,24 @@ select {
 A:link {
 	font-size: 9pt;
 	font-family: "돋움";
-	color: #000000;
 	text-decoration: none;
 }
 
 A:visited {
 	font-size: 9pt;
 	font-family: "돋움";
-	color: #000000;
 	text-decoration: none;
 }
 
 A:active {
 	font-size: 9pt;
 	font-family: "돋움";
-	color: red;
 	text-decoration: none;
 }
 
 A:hover {
 	font-size: 9pt;
 	font-family: "돋움";
-	color: red;
 	text-decoration: none;
 }
 </style>
