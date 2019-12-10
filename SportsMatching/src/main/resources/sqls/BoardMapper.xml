@@ -5,7 +5,7 @@
 
 <!-- 게시글 조회 시작 -->
 	<!-- 멤버 게시글 조회 -->
-	<select id="MemberBoardList" parameterType="RowNum" resultType="MemberBoardDTO">
+	<select id="MemberBoardList" parameterType="RowNum" resultType="MBDto">
 	SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT 
  		FROM(SELECT ROWNUM RNUM,MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT 
   		FROM (SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT 
@@ -18,7 +18,7 @@
 	</select>
 	
 	<!-- 팀 게시글 조회 -->
-	<select id="TeamBoardList" parameterType="RowNum" resultType="TeamBoardDTO">
+	<select id="TeamBoardList" parameterType="RowNum" resultType="TBDto">
 	SELECT TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT
  		FROM(SELECT ROWNUM RNUM,TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT 
   		FROM (SELECT TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT 
@@ -31,7 +31,7 @@
 	</select>
 	
 	<!-- 멤버 게시글 상세 조회 -->
-	<select id="MemberBoardDetail" parameterType="java.lang.String" resultType="MemberBoardDTO">
+	<select id="MemberBoardDetail" parameterType="java.lang.String" resultType="MBDto">
 	SELECT MEMBER_BOARD_SEQ, MEMBER_ID,BOARD_TITLE, NVL(BOARD_CONTENT, ' '),READCOUNT,REGDATE,CATEGORY_CODE,REPLUCOUNT 
  		FROM MEMBER_BOARD
  			WHERE 
@@ -40,7 +40,7 @@
 	
 	
 	<!-- 팀 게시글 상세 조회 -->
-	<select id="TeamBoardDetail" parameterType="java.lang.String" resultType="TeamBoardDTO">
+	<select id="TeamBoardDetail" parameterType="java.lang.String" resultType="TBDto">
 	SELECT TEAM_BOARD_SEQ,TEAM_ID,BOARD_TITLE, NVL(BOARD_CONTENT, ' '),READCOUNT,REGDATE,CATEGORY_CODE,REPLUCOUNT 
  		FROM TEAM_BOARD
  			WHERE 
@@ -49,7 +49,7 @@
 	</select>
 	
 	<!-- 멤버 게시글 댓글 조회 -->
-	<select id="DetailMemberReply" parameterMap="java.lang.String" resultType="MemberReplyDTO">
+	<select id="DetailMemberReply" parameterType="java.lang.String" resultType="MRDto">
 	SELECT REPLY_SEQ, MEMBER_ID, NVL(REPLY_CONTENT, ' '), PARENTS_BOARD, REFER, "DEPTH"
  		FROM MEMBER_REPLY
  			WHERE 
@@ -58,7 +58,7 @@
 	</select>
 	
 	<!-- 팀 게시글 댓글 조회 -->
-	<select id="DetailTeamReply" parameterType="java.lang.String" resultType="TeamReplyDTO">
+	<select id="DetailTeamReply" parameterType="java.lang.String" resultType="TRDto">
 	SELECT REPLY_SEQ,TEAM_ID, NVL(REPLY_CONTENT, ' '),PARENTS_BOARD,REFER,"DEPTH" 
  		FROM TEAM_REPLY
  			WHERE 
@@ -67,7 +67,7 @@
 	</select>
 	
 	<!-- 멤버 게시글 검색 조회 -->
-	<select id="MemberBoardSearch" resultType="MemberBoardDTO">
+	<select id="MemberBoardSearch" resultType="MBDto">
 	SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,BOARD_CONTENT,REGDATE 
  		FROM MEMBER_BOARD
  		<include refid="Search"/>
@@ -77,7 +77,7 @@
 	</select>
 	
 	<!-- 팀 게시글 검색 조회 -->
-	<select id="TeamBoardSearch" resultType="TeamBoardDTO">
+	<select id="TeamBoardSearch" resultType="TBDto">
 	SELECT TEAM_BOARD_SEQ,TEAM_ID,BOARD_TITLE,BOARD_CONTENT,REGDATE 
  		FROM TEAM_BOARD
  		<include refid="Search"/>
@@ -127,7 +127,7 @@
 <!-- 게시글 작성 시작 -->
 	
 	<!-- 멤버 게시글 작성 -->
-	<insert id="MembarBoardWrite" parameterType="MemberBoardDTO">
+	<insert id="MembarBoardWrite" parameterType="MBDto">
 	INSERT INTO MEMBER_BOARD MB
 		(MEMBER_BOARD_SEQ, MEMBER_ID, BOARD_TITLE, BOARD_CONTENT, READCOUNT, REGDATE, CATEGORY_CODE, REPLUCOUNT)
 		VALUES(MEMBER_BOARD_SEQ.NEXTVAL, 
@@ -138,7 +138,7 @@
 	</insert>
 	
 	<!-- 팀 게시글 작성 -->
-	<insert id="TeamBoardWrite" parameterType="TeamBoardDTO">
+	<insert id="TeamBoardWrite" parameterType="TBDto">
 	INSERT INTO TEAM_BOARD
 		(TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, BOARD_CONTENT, READCOUNT, REGDATE, CATEGORY_CODE, REPLUCOUNT)
 		VALUES(TEAM_BOARD_SEQ.NEXTVAL, 
@@ -149,7 +149,7 @@
 	</insert>
 	
 	<!-- 멤버 게시판 댓글 작성 -->
-	<insert id="MemberWriteReply" parameterType="MemberReplyDTO">
+	<insert id="MemberWriteReply" parameterType="MRDto">
 	INSERT INTO MEMBER_REPLY
 		(REPLY_SEQ, MEMBER_ID, REPLY_CONTENT, REFER, PARENTS_BOARD, "DEPTH")
 		VALUES(REPLY_SEQ.NEXTVAL, 
@@ -158,7 +158,7 @@
 	</insert>
 	
 	<!-- 팀 게시판 댓글 작성 -->
-	<insert id="TeamWriteReply" parameterType="TeamReplyDTO">
+	<insert id="TeamWriteReply" parameterType="TRDto">
 	INSERT INTO TEAM_REPLY
 		(REPLY_SEQ, TEAM_ID, REPLY_CONTENT, PARENTS_BOARD, REFER, "DEPTH")
 		VALUES(REPLY_SEQ.NEXTVAL, 
@@ -174,7 +174,7 @@
 <!-- 게시글 수정 시작 -->
 	
 	<!-- 멤버 게시글 수정 -->
-	<update id="MemberBoardModify" parameterMap="MemberBoardDTO">
+	<update id="MemberBoardModify" parameterMap="MBDto">
 	UPDATE MEMBER_BOARD
 	SET 
 		BOARD_TITLE=#{board_title}, 
@@ -184,7 +184,7 @@
 	</update>
 	
 	<!-- 팀 게시글 수정 -->
-	<update id="TeamBoarModify" parameterType="TeamBoardDTO">
+	<update id="TeamBoarModify" parameterType="TBDto">
 	UPDATE TEAM_BOARD
 	SET 
 		BOARD_TITLE=#{board_title}, 
@@ -195,7 +195,7 @@
 	</update>
 	
 	<!-- 멤버 게시글 댓글 수정 -->
-	<update id="MemReplyModify" parameterType="MemberReplyDTO">
+	<update id="MemReplyModify" parameterType="MRDto">
 	UPDATE MEMBER_REPLY
 	SET 
 		REPLY_CONTENT=#{reply_content}
@@ -204,7 +204,7 @@
 	</update>
 	
 	<!-- 팀 게시글 댓글 수정 -->
-	<update id="TeamReplyModify" parameterType="TeamReplyDTO">
+	<update id="TeamReplyModify" parameterType="TRDto">
 	UPDATE TEAM_REPLY
 	SET 
 		REPLY_CONTENT=#{reply_content}

@@ -26,13 +26,15 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
 		return "home";
 	}
 	@RequestMapping(value = "/header.do", method = RequestMethod.GET)
 	public String header(Model model) {
-		System.out.println(model.hashCode());
-		System.identityHashCode(model);
 		return "header";
+	}
+	
+	@RequestMapping(value = "/adminReservation.do", method = RequestMethod.GET)
+	public String adminReservation(Model model) {
+		return "AdminReservationPage";
 	}
 }

@@ -18,13 +18,13 @@
 		<typeAlias type="com.sports.matching.dtos.TeamBoardDTO" alias="TBDto" />
 		<typeAlias type="com.sports.matching.dtos.MemberReplyDTO" alias="MRDto" />
 		<typeAlias type="com.sports.matching.dtos.TeamReplyDTO" alias="TRDto" />
+		<typeAlias type="com.sports.matching.dtos.RowNum_DTO" alias="RowNum"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/sqls/Schedule_Mapper.xml" />
 		<mapper resource="/sqls/MemberShip_Mapper.xml" />
 		<mapper resource="/sqls/Mapper.xml" />
-		<mapper resource="/sqls/BoardMapper.xml" />
 	</mappers>
 
 </configuration>
