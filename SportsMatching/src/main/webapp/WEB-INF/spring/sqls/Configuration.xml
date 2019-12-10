@@ -18,6 +18,7 @@
 		<typeAlias type="com.sports.matching.dtos.TeamBoardDTO" alias="TBDto" />
 		<typeAlias type="com.sports.matching.dtos.MemberReplyDTO" alias="MRDto" />
 		<typeAlias type="com.sports.matching.dtos.TeamReplyDTO" alias="TRDto" />
+		<typeAlias type="com.sports.matching.dtos.RowNum_DTO" alias="RowNum"/>
 	</typeAliases>
 
 	<mappers>
