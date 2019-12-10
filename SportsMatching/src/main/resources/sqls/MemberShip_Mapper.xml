@@ -37,7 +37,7 @@
 <!-- 로그인  -->
 <!-- API 로그인 -->
 <insert id="apiLogin" parameterType="MDto">
-INSERT INTO MEMBERS (MEMBER_ID, WITHDRAW) VALUES(#{member_id, withdraw='N'})
+INSERT INTO MEMBERS (MEMBER_ID) VALUES(#{member_id})
 </insert>
 
 <!--팀 로그인  -->
@@ -77,7 +77,7 @@ SELECT COUNT(TEAM_ID)
 <!-- 탈퇴회원 검사 -->
 <select id="withDraw" parameterType="MDto" resultType="MDto">
 SELECT MEMBER_ID,WITHDRAW 
-	FROM MEMBERS WHERE MEMBER_ID='psc814'AND WITHDRAW = 'Y'
+	FROM MEMBERS WHERE MEMBER_ID= #{member_id} AND WITHDRAW = 'Y'
 </select>
 
 <!-- 재가입 -->
@@ -94,7 +94,7 @@ SELECT ANSWER
 
 <!-- 회원정보조회 -->
 <!-- 개인회원 마이페이지 -->
-<select id="memberMypage" parameterType="java.lang.String" resultType="BelongedMap">
+<select id="memberMypage" parameterType="java.lang.String" resultType="BTDto">
 SELECT M.MEMBER_ID, BT.TEAM_ID
 	FROM  MEMBERS M, BELONGED_TEAM BT
 		WHERE M.MEMBER_ID = BT.MEMBER_ID AND M.MEMBER_ID= #{member_id}
@@ -108,7 +108,7 @@ SELECT MEMBER_ID
 </select>
 
 <!-- 팀 조회 (팀 페이지) -->
-<select id="selectTeam" parameterType="java.lang.String" resultType="teamMap">
+<select id="selectTeam" parameterType="java.lang.String" resultType="SDto">
 SELECT T.TEAM_ID, T.CAPTAIN_ID, T.CAPTAIN_PHONE_NUMBER, T.PLAYGROUND, S.ATTACK,S.DEFENCE,S.MANNER
 	FROM TEAM T INNER JOIN STAT S
 		ON T.TEAM_ID = S.TEAM_ID
