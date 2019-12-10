@@ -20,7 +20,8 @@
 	<select id="searchStadium" parameterType="java.lang.String" resultType="STDto">
 		SELECT STADIUM_CODE, STADIUM_NAME, ADDRESS, SI_GUN_GU
 		FROM STADIUM
-		WHERE SI_GUN_GU LIKE '%'||#{condition}||'%' OR STADIUM_NAME LIKE '%'||#{condition}||'%'
+		WHERE SI_GUN_GU LIKE '%'||#{condition}||'%' 
+		OR STADIUM_NAME LIKE '%'||#{condition}||'%'
 	</select>
 	<!-- 구장상세조회 -->
 	<select id="selectDetailStadium" parameterType="java.lang.String" resultMap="StadiumMap">

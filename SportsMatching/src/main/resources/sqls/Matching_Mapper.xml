@@ -35,7 +35,7 @@
 		OR M.MATCHING_STYLE LIKE '%'||#{condition}||'%'
 	</select>
 	<!-- 내 매칭내역 조회 -->
-	<select id="selectMyMatching" parameterType="java.lang.String" resultType="SMDto">
+	<select id="selectMyMatching" parameterType="java.lang.String" resultMap="matchingMap">
 		SELECT MC.MATCHING_NUMBER, MC.GAME_DATE, MC.APPLIED_TEAM_ID, MC.RESERVATION_STADIUM, MC.MATCHING_STYLE, SM.COMMENTS 
 		FROM SCHEDULED_MATCHING SM 
 		JOIN MATCHING_CARD MC ON SM.MATCHING_NUMBER = MC.MATCHING_NUMBER
