@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Sprots.Matching.BoardMapper">
+
+
+<!-- 게시글 조회 시작 -->
+	<!-- 멤버 게시글 조회 -->
+	<select id="MemberBoardList" parameterType="RowNum" resultType="MemberBoardDTO">
+	SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT 
+ 		FROM(SELECT ROWNUM RNUM,MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT 
+  		FROM (SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT 
+   			FROM MEMBER_BOARD
+   				WHERE CATEGORY_CODE = #{category_code}
+   		ORDER BY MEMBER_BOARD_SEQ DESC))
+  			WHERE 
+  				RNUM BETWEEN #{start} AND #{last}
+	
+	</select>
+	
+	<!-- 팀 게시글 조회 -->
+	<select id="TeamBoardList" parameterType="RowNum" resultType="TeamBoardDTO">
+	SELECT TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT
+ 		FROM(SELECT ROWNUM RNUM,TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT 
+  		FROM (SELECT TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT 
+   			FROM TEAM_BOARD
+   				WHERE CATEGORY_CODE = #{category_code}
+   		ORDER BY TEAM_BOARD_SEQ DESC))
+  			WHERE 
+  				RNUM BETWEEN #{start} AND #{last}
+	
+	</select>
+	
+	<!-- 멤버 게시글 상세 조회 -->
+	<select id="MemberBoardDetail" parameterType="java.lang.String" resultType="MemberBoardDTO">
+	SELECT MEMBER_BOARD_SEQ, MEMBER_ID,BOARD_TITLE, NVL(BOARD_CONTENT, ' '),READCOUNT,REGDATE,CATEGORY_CODE,REPLUCOUNT 
+ 		FROM MEMBER_BOARD
+ 			WHERE 
+ 				MEMBER_BOARD_SEQ = #{member_board_seq}
+	</select>
+	
+	
+	<!-- 팀 게시글 상세 조회 -->
+	<select id="TeamBoardDetail" parameterType="java.lang.String" resultType="TeamBoardDTO">
+	SELECT TEAM_BOARD_SEQ,TEAM_ID,BOARD_TITLE, NVL(BOARD_CONTENT, ' '),READCOUNT,REGDATE,CATEGORY_CODE,REPLUCOUNT 
+ 		FROM TEAM_BOARD
+ 			WHERE 
+ 				TEAM_BOARD_SEQ = ${team_board_seq}
+	
+	</select>
+	
+	<!-- 멤버 게시글 댓글 조회 -->
+	<select id="DetailMemberReply" parameterMap="java.lang.String" resultType="MemberReplyDTO">
+	SELECT REPLY_SEQ, MEMBER_ID, NVL(REPLY_CONTENT, ' '), PARENTS_BOARD, REFER, "DEPTH"
+ 		FROM MEMBER_REPLY
+ 			WHERE 
+ 				REPLY_SEQ = #{reply_seq}
+	
+	</select>
+	
+	<!-- 팀 게시글 댓글 조회 -->
+	<select id="DetailTeamReply" parameterType="java.lang.String" resultType="TeamReplyDTO">
+	SELECT REPLY_SEQ,TEAM_ID, NVL(REPLY_CONTENT, ' '),PARENTS_BOARD,REFER,"DEPTH" 
+ 		FROM TEAM_REPLY
+ 			WHERE 
+ 				REPLY_SEQ = #{reply_seq}
+	
+	</select>
+	
+	<!-- 멤버 게시글 검색 조회 -->
+	<select id="MemberBoardSearch" resultType="MemberBoardDTO">
+	SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,BOARD_CONTENT,REGDATE 
+ 		FROM MEMBER_BOARD
+ 		<include refid="Search"/>
+ 		ORDER BY MEMBER_BOARD_SEQ DESC, REGDATE DESC
+	
+	
+	</select>
+	
+	<!-- 팀 게시글 검색 조회 -->
+	<select id="TeamBoardSearch" resultType="TeamBoardDTO">
+	SELECT TEAM_BOARD_SEQ,TEAM_ID,BOARD_TITLE,BOARD_CONTENT,REGDATE 
+ 		FROM TEAM_BOARD
+ 		<include refid="Search"/>
+ 		ORDER BY TEAM_BOARD_SEQ DESC, REGDATE DESC
+	</select>
+	
+	<!-- sql code -->
+	<sql id="Search">
+  		<choose>
+  			<when test="searchOption == 'all'">
+  			<!-- 검색 옵션을 사용으로 검색할 경우 -->
+  				WHERE writer like '%'||'keyword'||'%'
+ 				OR content like '%'||'keyword'|| '%'
+ 				OR title like '%'||'keyword'|| '%'
+  			</when>
+  			<!-- 그러지 않을 경우 -->
+  			<otherwise>
+   				WHERE #{searchOption} like '%'||'keyword'|| '%'  
+  			</otherwise>
+  		</choose>
+ 	</sql>
+	
+	
+	<!-- 멤버 게시판 상세글 조회수 증가 -->
+	<select id="MemberCountBoard" parameterType="java.lang.String">
+	UPDATE MEMBER_BOARD
+		SET READCOUNT = READCOUNT+1
+		WHERE MEMBER_BOARD_SEQ = #{member_board_seq}
+	
+	</select>
+	
+	<!-- 팀 게시판 상세글 조회수 증가 -->
+	<select id="TeamCountBoard" parameterType="java.lang.String">
+	UPDATE TEAM_BOARD
+		SET READCOUNT = READCOUNT+1
+		WHERE TEAM_BOARD_SEQ = #{team_board_seq}
+	</select>
+	
+<!-- 게시글 조회 끝 -->
+
+
+
+
+
+
+
+<!-- 게시글 작성 시작 -->
+	
+	<!-- 멤버 게시글 작성 -->
+	<insert id="MembarBoardWrite" parameterType="MemberBoardDTO">
+	INSERT INTO MEMBER_BOARD MB
+		(MEMBER_BOARD_SEQ, MEMBER_ID, BOARD_TITLE, BOARD_CONTENT, READCOUNT, REGDATE, CATEGORY_CODE, REPLUCOUNT)
+		VALUES(MEMBER_BOARD_SEQ.NEXTVAL, 
+			#{member_id}, 
+			#{board_title},
+			#{board_content}, 0, SYSDATE, 
+			#{category_code}, 0)
+	</insert>
+	
+	<!-- 팀 게시글 작성 -->
+	<insert id="TeamBoardWrite" parameterType="TeamBoardDTO">
+	INSERT INTO TEAM_BOARD
+		(TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, BOARD_CONTENT, READCOUNT, REGDATE, CATEGORY_CODE, REPLUCOUNT)
+		VALUES(TEAM_BOARD_SEQ.NEXTVAL, 
+			#{team_id}, 
+			#{board_title}, 
+			#{board_content}, 0, SYSDATE, 
+			#{category_code}, 0)
+	</insert>
+	
+	<!-- 멤버 게시판 댓글 작성 -->
+	<insert id="MemberWriteReply" parameterType="MemberReplyDTO">
+	INSERT INTO MEMBER_REPLY
+		(REPLY_SEQ, MEMBER_ID, REPLY_CONTENT, REFER, PARENTS_BOARD, "DEPTH")
+		VALUES(REPLY_SEQ.NEXTVAL, 
+			#{member_id}, 
+			#{reply_content}, 0, 0, 0)
+	</insert>
+	
+	<!-- 팀 게시판 댓글 작성 -->
+	<insert id="TeamWriteReply" parameterType="TeamReplyDTO">
+	INSERT INTO TEAM_REPLY
+		(REPLY_SEQ, TEAM_ID, REPLY_CONTENT, PARENTS_BOARD, REFER, "DEPTH")
+		VALUES(REPLY_SEQ.NEXTVAL, 
+			#{team_id},
+			#{reply_content}, 0, 0, 0)
+	
+	</insert>
+	
+<!-- 게시글 작성 끝 -->
+
+
+
+<!-- 게시글 수정 시작 -->
+	
+	<!-- 멤버 게시글 수정 -->
+	<update id="MemberBoardModify" parameterMap="MemberBoardDTO">
+	UPDATE MEMBER_BOARD
+	SET 
+		BOARD_TITLE=#{board_title}, 
+		BOARD_CONTENT=#{board_content}
+			WHERE 
+				MEMBER_BOARD_SEQ= #{member_board_seq}
+	</update>
+	
+	<!-- 팀 게시글 수정 -->
+	<update id="TeamBoarModify" parameterType="TeamBoardDTO">
+	UPDATE TEAM_BOARD
+	SET 
+		BOARD_TITLE=#{board_title}, 
+		BOARD_CONTENT=#{board_content}
+			WHERE 
+				TEAM_BOARD_SEQ= #{team_board_seq}
+	
+	</update>
+	
+	<!-- 멤버 게시글 댓글 수정 -->
+	<update id="MemReplyModify" parameterType="MemberReplyDTO">
+	UPDATE MEMBER_REPLY
+	SET 
+		REPLY_CONTENT=#{reply_content}
+			WHERE 
+				REPLY_SEQ=#{reply_seq}
+	</update>
+	
+	<!-- 팀 게시글 댓글 수정 -->
+	<update id="TeamReplyModify" parameterType="TeamReplyDTO">
+	UPDATE TEAM_REPLY
+	SET 
+		REPLY_CONTENT=#{reply_content}
+			WHERE 
+				REPLY_SEQ= #{reply_seq}
+	</update>
+	
+<!-- 게시글 수정 끝 -->
+	
+	
+<!-- 게시글 삭제 시작 -->
+
+	<!--DelMemberBoard (트랜젝션) -->
+	<!-- 멤버 게시글 원본글 삭제 -->
+	<delete id="MemberDetailReReplyDel" parameterType="java.util.Map">
+	DELETE 
+		FROM MEMBER_REPLY
+			WHERE 
+				REPLY_SEQ IN
+				<foreach collection="reply_seqs" item="reply_seq" open="(" separator="," close=")">
+					#{reply_seq}
+				</foreach>
+	</delete>
+	
+	<delete id="MemberDetailReplyDel" parameterType="java.util.Map">
+	DELETE 
+		FROM MEMBER_REPLY
+			WHERE 
+				PARENTS_BOARD IN
+				<foreach collection="parentss" item="parents_board" open="(" separator="," close=")">
+					#{parents_board}
+				</foreach>
+	</delete>
+	
+	<delete id="MemberDetailDelBoard" parameterType="java.util.Map">
+	DELETE 
+		FROM MEMBER_BOARD
+			WHERE 
+				MEMBER_BOARD_SEQ IN
+				<foreach collection="member_boardss" item="member_board_seq" open="(" separator="," close=")">
+					#{member_board_seq}
+				</foreach>
+	</delete>
+	
+	<!--DelTeamBoard (트랜젝션) -->
+	<!-- 팀 게시글 원본글 삭제 -->
+	<delete id="TeamDetailReReplyDel" parameterType="java.util.Map">
+	DELETE 
+		FROM TEAM_REPLY
+			WHERE 
+				REPLY_SEQ IN
+				<foreach collection="reply_seqs" item="reply_seq" open="(" separator="," close=")">
+					#{reply_seq}
+				</foreach>
+	</delete>
+	
+	<delete id="TeamDetailReplyDel" parameterType="java.util.Map">
+	DELETE 
+		FROM MEMBER_REPLY
+			WHERE 
+				PARENTS_BOARD IN 
+				<foreach collection="parentss" item="parents_board" open="(" separator="," close=")">
+					#{parents_board}
+				</foreach>
+	</delete>
+	
+	<delete id="TeamDetailDelBoard" parameterType="java.util.Map">
+	DELETE 
+		FROM TEAM_BOARD
+			WHERE 
+				TEAM_BOARD_SEQ IN
+				<foreach collection="team_boardss" item="team_board_seq" open="(" separator="," close=")">
+					#{team_board_seq}
+				</foreach>
+	</delete>
+	
+	<!--DelMembarReply (트랜젝션) -->
+	<!-- 멤버 댓글 삭제 -->
+	<delete id="MembarReReplyDel" parameterType="java.util.Map">
+	DELETE 
+		FROM MEMBER_REPLY
+			WHERE REPLY_SEQ IN 
+				<foreach collection="reply_seqs" item="reply_seq" open="(" separator="," close=")">
+					#{reply_seq}
+				</foreach>
+	</delete>
+	
+	<delete id="MembarReplyDel" parameterType="java.util.Map">
+	DELETE 
+		FROM MEMBER_REPLY
+			WHERE PARENTS_BOARD IN
+			<foreach collection="parentss" item="parents_board" open="(" separator="," close=")">
+				#{parents_board}
+			</foreach>
+	</delete>
+	
+	
+	
+	<!--DelTeamReply (트랜젝션) -->
+	<!-- 팀 댓글 삭제 -->
+	<delete id="TeamReReplyDel" parameterType="java.util.Map">
+	DELETE 
+		FROM TEAM_REPLY
+			WHERE REPLY_SEQ IN
+			<foreach collection="reply_seqs" item="reply_seq" open="(" separator="," close=")">
+				#{reply_seq}
+			</foreach>
+	</delete>
+	
+	<delete id="TeamReplyDel" parameterType="java.util.Map">
+	DELETE 
+		FROM MEMBER_REPLY
+			WHERE 
+				PARENTS_BOARD IN
+				<foreach collection="parentss" item="parents_board" open="(" separator="," close=")">
+					#{parents_board}
+				</foreach>
+	</delete>
+	
+	
+	
+	<!-- 멤버 대댓글 삭제 -->
+	<delete id="DelMembarReReply" parameterType="java.util.Map">
+	DELETE 
+		FROM MEMBER_REPLY
+			WHERE 
+				REFER IN
+				<foreach collection="refers" item="refer" open="(" separator="," close=")">
+					#{refer}
+				</foreach>
+	</delete>
+	
+	<!-- 팀 대댓글 삭제 -->
+	<delete id="DelTeamReReply" parameterType="java.util.Map">
+	DELETE 
+		FROM TEAM_REPLY
+			WHERE 
+				REFER IN
+				<foreach collection="refers" item="refer"  open="(" separator="," close=")">
+					 #{refer}
+				</foreach>
+	</delete>
+	
+<!-- 게시글 삭제 끝 -->
+
+
+
+</mapper>

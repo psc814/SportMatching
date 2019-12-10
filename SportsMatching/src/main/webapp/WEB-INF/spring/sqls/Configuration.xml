@@ -2,8 +2,16 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 
+	<typeAliases>
+		<typeAlias type="com/sports/matching/dto/MemberBoardDTO" alias="MemberBoardDTO"/>
+		<typeAlias type="com/sports/matching/dto/TeamBoardDTO" alias="TeamBoardDTO"/>
+		<typeAlias type="com/sports/matching/dto/MemberReplyDTO" alias="MemberReplyDTO"/>
+		<typeAlias type="com/sports/matching/dto/TeamReplyDTO" alias="TeamReplyDTO"/>
+	</typeAliases>
+
 	<mappers>
 		<mapper resource="/sqls/Mapper.xml" />
+		<mapper resource="/sqls/BoardMapper.xml"/>
 	</mappers>
 
 </configuration>
