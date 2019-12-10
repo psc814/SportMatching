@@ -13,10 +13,10 @@
 	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="${driver}"></property>
-		<property name="url" value="${url}"></property>
-		<property name="username" value="${id}"></property>
-		<property name="password" value="${pw}"></property>
+		<property name="driverClassName" value="${driver}"/>
+		<property name="url" value="${url}"/>
+		<property name="username" value="${id}"/>
+		<property name="password" value="${pw}"/>
 		<property name="defaultAutoCommit" value="true"></property>
 	</bean>
 

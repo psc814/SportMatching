@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sports.matching.matchingcard_mapper">
+
+	<resultMap type="SMDto" id="scheduled_matching">
+		<result column="COMMENTS" property="comments"/>
+	</resultMap>
+	<resultMap type="MCDto" id="matchingMap">
+		<result column="MATCHING_NUMBER" property="matching_number"/>
+		<result column="GAME_DATE" property="game_date"/>
+		<result column="REGIST_TEAM_ID" property="regist_team_id"/>
+		<result column="REGIST_TEAM_INFO" property="regist_team_info"/>
+		<result column="APPLIED_TEAM_ID" property="applied_team_id"/>
+		<result column="APPLIED_TEAM_INFO" property="applied_team_info"/>
+		<result column="RESERVATION_STADIUM" property="reservation_stadium"/>
+		<result column="MATCHING_STYLE" property="matching_style"/>
+		<result column="ACCOMPLISH" property="accomplish"/>
+		<collection property="smdto" resultMap="schedule_matching"/>
+	</resultMap>
+
+
+	<!-- 매칭 전체조회 -->
+	<select id="selectAllMatching" resultType="MCDto">
+		SELECT M.REGIST_TEAM_ID, M.REGIST_TEAM_INFO, T.PLAYGROUND, M.RESERVATION_STADIUM, M.MATCHING_STYLE
+		FROM MATCHING_CARD M 
+		JOIN TEAM T ON M.REGIST_TEAM_ID = T.TEAM_ID
+	</select>
+	<!-- 매칭 검색 -->
+	<select id="searchMatching" parameterType="java.lang.String" resultType="MCDto">
+		SELECT M.GAME_DATE, M.REGIST_TEAM_ID, M.RESERVATION_STADIUM, M.MATCHING_STYLE
+		FROM MATCHING_CARD M
+		JOIN TEAM T ON M.REGIST_TEAM_ID = T.TEAM_ID
+		WHERE T.PLAYGROUND LIKE '%'||#{condition}||'%' 
+		OR M.REGIST_TEAM_ID LIKE '%'||#{condition}||'%' 
+		OR M.MATCHING_STYLE LIKE '%'||#{condition}||'%'
+	</select>
+	<!-- 내 매칭내역 조회 -->
+	<select id="selectMyMatching" parameterType="java.lang.String" resultType="smdto">
+		SELECT MC.MATCHING_NUMBER, MC.GAME_DATE, MC.APPLIED_TEAM_ID, MC.RESERVATION_STADIUM, MC.MATCHING_STYLE, SM.COMMENTS 
+		FROM SCHEDULED_MATCHING SM 
+		JOIN MATCHING_CARD MC ON SM.MATCHING_NUMBER = MC.MATCHING_NUMBER
+		WHERE MC.REGIST_TEAM_ID = #{team_id}
+		UNION
+		SELECT MC.MATCHING_NUMBER, MC.GAME_DATE, MC.REGIST_TEAM_ID, MC.RESERVATION_STADIUM, MC.MATCHING_STYLE, SM.COMMENTS 
+		FROM SCHEDULED_MATCHING SM 
+		JOIN MATCHING_CARD MC ON SM.MATCHING_NUMBER = MC.MATCHING_NUMBER
+		WHERE MC.APPLIED_TEAM_ID = #{team_id}
+	</select>
+	<!-- 매칭카드 등록 -->
+	<insert id="registMatchingCard" parameterType="MCDto">
+		INSERT INTO MATCHING_CARD (MATCHING_NUMBER, GAME_DATE, REGIST_TEAM_ID, REGIST_TEAM_INFO, RESERVATION_STADIUM, MATCHING_STYLE)
+		VALUES (MATCHING_SEQ.NEXTVAL, #{game_date}, #{team_id}, #{regist_team_info}, #{reservation_stadium}, #{matching_style})
+	</insert>
+	<!-- 매칭 신청 -->
+	<update id="applyMatching" parameterType="java.util.Map">
+		UPDATE MATCHING_CARD 
+		SET APPLIED_TEAM_ID = #{team_id}, APPLIED_TEAM_INFO = #{applied_team_info}
+		WHERE MATCHING_NUMBER = #{matching_number};
+	</update>
+	<!-- 기존 매칭 수 조회 -->
+	<select id="selectMatchingCount" parameterType="java.lang.String">
+		SELECT COUNT(*)
+		FROM MATCHING_CARD
+		WHERE REGIST_TEAM_ID =#{team_id} AND ACCOMPLISH ='N'
+	</select>
+	<!-- 기존 신청 수 조회 -->
+	<select id="selectApplyCount" parameterType="java.lang.String">
+		SELECT COUNT(*)
+		FROM MATCHING_CARD
+		WHERE APPLIED_TEAM_ID = #{team_id} AND ACCOMPLISH ='N';
+	</select>
+	<!-- 매칭 성사여부 수정 -->
+	<update id="modifyMatchingAccomplish" parameterType="java.lang.Integer">
+		UPDATE MATCHING_CARD SET ACCOMPLISH='Y'
+		WHERE MATCHING_NUMBER=#{matching_number}
+	</update>
+	<!-- 성사된 매칭 등록 -->
+	<insert id="applySchduleMatching" parameterType="java.lang.Integer">
+		INSERT INTO SCHEDULED_MATCHING (MATCHING_NUMBER)
+		VALUES (#{matching_number})
+	</insert>
+	<!-- 매칭카드 삭제 -->
+	<delete id="deleteMatchingCard" parameterType="java.lang.Integer">
+		DELETE FROM MATCHING_CARD 
+		WHERE MATCHING_NUMBER=#{matching_number}
+	</delete>
+	<!-- 매칭신청 여부 조회 -->
+	<select id="selectApplyMatching" parameterType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM MATCHING_CARD
+		WHERE MATCHING_NUMBER=#{matching_number}
+	</select>
+	<!-- 매칭신청 삭제 -->
+	<update id="deleteApplyMatching" parameterType="java.lang.Integer">
+		UPDATE MATCHING_CARD 
+		SET APPLIED_TEAM_ID = NULL, APPLIED_TEAM_INFO=NULL
+		WHERE MATCHING_NUMBER=#{matching_number} AND ACCOMPLISH='N'
+	</update>
+	<!-- 지난 매칭내역 정보 수정 -->
+	<update id="modifyMatchingHistory" parameterType="java.util.Map">
+		UPDATE SCHEDULED_MATCHING 
+		SET COMMENTS=#{comments}
+		WHERE MATCHING_NUMBER=#{matching_number}
+	</update>
+	<!-- 다가올 매칭내역 정보 수정 -->
+	<update id="modifyNearMatching" parameterType="java.util.Map">
+		<![CDATA[
+		UPDATE MATCHING_CARD
+		SET MATCHING_STYLE=#{matching_style}, RESERVATION_STADIUM=#{reservation_stadium}
+		WHERE MATCHING_NUMBER=#{matching_number}
+		]]>
+	</update>
+
+
+
+
+
+
+
+
+
+</mapper>
+
