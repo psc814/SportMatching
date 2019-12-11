@@ -33,7 +33,7 @@
 
 <html lang="ko">
 <HEAD>
-<TITLE>캘린더</TITLE>
+<TITLE>사용자 신청페이지</TITLE>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <script type="text/javaScript" language="javascript"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
@@ -582,8 +582,7 @@ $(document).ready(function() {
 	$("#chatButton").click(function() {
 		location.href ="./chat.do";
 	});
-	
-})
+});
 
 </script>
 </HTML>

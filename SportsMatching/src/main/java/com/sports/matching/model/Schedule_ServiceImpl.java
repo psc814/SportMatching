@@ -88,4 +88,9 @@ public class Schedule_ServiceImpl implements Schedule_IService {
 		return dao.selectSchedule(dto);
 	}
 
+	@Override
+	public List<ScheduleDto> selectRequestReservation(ScheduleDto dto) {
+		return dao.selectRequestReservation(dto);
+	}
+
 }

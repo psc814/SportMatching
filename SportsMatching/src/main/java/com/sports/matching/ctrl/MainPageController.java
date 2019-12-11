@@ -61,5 +61,4 @@ public class MainPageController {
 		dto.setStadium_code("SC0003");
 		return sc_service.homeRegisterSchedule(dto);
 	}
-
 }
