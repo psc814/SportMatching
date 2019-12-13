@@ -6,7 +6,7 @@
 </head>
 <body>
 	<a href="./header.do">헤더</a>
-	<a href="./login.do">로그인페이지</a>
+	<a href="./loginForm.do">로그인페이지</a>
 	<a href="./main.do">메인페이지</a>
 </body>
 </html>

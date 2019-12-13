@@ -49,7 +49,7 @@
 	</select>
 	
 	<!-- 멤버 게시글 댓글 조회 -->
-	<select id="DetailMemberReply" parameterMap="java.lang.String" resultType="MRDto">
+	<select id="DetailMemberReply" parameterType="java.lang.String" resultType="MRDto">
 	SELECT REPLY_SEQ, MEMBER_ID, NVL(REPLY_CONTENT, ' '), PARENTS_BOARD, REFER, "DEPTH"
  		FROM MEMBER_REPLY
  			WHERE 
