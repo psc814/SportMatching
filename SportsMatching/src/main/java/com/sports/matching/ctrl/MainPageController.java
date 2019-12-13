@@ -21,6 +21,8 @@ import com.sports.matching.model.Schedule_IService;
 @Controller
 public class MainPageController {
 
+
+
 	private Logger logger = LoggerFactory.getLogger(MainPageController.class);
 	
 	@Autowired
@@ -62,3 +64,4 @@ public class MainPageController {
 		return sc_service.homeRegisterSchedule(dto);
 	}
 }
+
