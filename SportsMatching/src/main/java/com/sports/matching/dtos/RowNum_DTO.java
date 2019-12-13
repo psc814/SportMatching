@@ -1,111 +1,92 @@
 package com.sports.matching.dtos;
 
-public class RowNum_DTO {
-	private int pageList; 	// 출력할 페이지번호 갯수
-	private int index; 		// 출력할 페이지 번호
-	private int pageNum;	// 출력할 페이지 시작 번호
-	private int listNum;	// 출력할 리스트 갯수
-	private int total;		// 리스트의 총 갯수
+import java.io.Serializable;
+
+public class RowNum_DTO implements Serializable{
+
+	private static final long serialVersionUID = -1653396913725611483L;
 	
-	{
-		pageList = 5;
-		index = 0;
-		pageNum =1;
-		listNum = 5;
+	private int page; 			// 현재페이지
+	private int countList; 		// 페이지 당 보여줄 게시글 수
+	private int totalCount;		// 총 게시글 수
+	private int countPage; 		// 한 화면에 보여줄 페이지 수
+	private int totalPage; 		// 총 페이지 수
+	private int start;			// 시작번호
+	private int end; 			// 마지막번호
+
+	public RowNum_DTO(int page, int totalCount, int start, int end) {
+		this.page = page;
+		this.countList = 10;
+		this.totalCount = totalCount;
+		this.countPage = 5;
+		this.totalPage = (this.totalCount / this.countList);
+		if (this.totalCount % this.countList > 0) {
+			totalPage++;
+		}
+		this.start = start;
+		this.end = end;
 	}
 
-	
 	@Override
 	public String toString() {
-		return "RowNum_DTO [출력할 페이지번호 갯수=" + pageList + ", 출력할 페이지 번호=" + index + ", 출력할 페이지 시작 번호=" + pageNum + ", 출력할 리스트 갯수=" + listNum
-				+ ", 리스트의 총 갯수=" + total + "]";
+		return "RowNum_DTO [page=" + page + ", countList=" + countList + ", totalCount=" + totalCount + ", countPage="
+				+ countPage + ", totalPage=" + totalPage + ", start=" + start + ", end=" + end + "]";
 	}
-	public RowNum_DTO() {
-		super();
-		// TODO Auto-generated constructor stub
+
+	public int getPage() {
+		return page;
 	}
-	
-	public RowNum_DTO(String index, String pageNum, String listNum) {
-		if(index != null) {
-			this.index = Integer.parseInt(index);
-		}
-		if(pageNum != null) {
-			this.pageNum = Integer.parseInt(pageNum);
-		}
-		if(listNum != null) {
-			this.listNum = Integer.parseInt(listNum);
-		}
+
+	public void setPage(int page) {
+		this.page = page;
 	}
-	
-	// 글 리스트 중 시작 번호
+
+	public int getCountList() {
+		return countList;
+	}
+
+	public void setCountList(int countList) {
+		this.countList = countList;
+	}
+
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	public int getCountPage() {
+		return countPage;
+	}
+
+	public void setCountPage(int countPage) {
+		this.countPage = countPage;
+	}
+
+	public int getTotalPage() {
+		return totalPage;
+	}
+
+	public void setTotalPage(int totalPage) {
+		this.totalPage = totalPage;
+	}
+
 	public int getStart() {
-		return index*listNum+1;
-	}
-	// 글 리스트 중 끝 번호
-	public int getLast() {
-		return (index*listNum)+listNum;
-	}
-	// 카운트
-	
-	public int getCount() {
-		//         전체갯수 - 출력리스트 *(시작 번호); ex) 91 - 5 *(1-1)
-		int temp = total -listNum*(pageNum-1);
-		//         ex)91/5 = 18
-		int min = temp/listNum; 
-		
-		if(temp%listNum !=0) {
-			min++;
-		}
-		
-		int count =0;
-		if(temp<=listNum) {
-			count = pageNum;
-		}else if(min <=pageList) {
-			count = min+pageNum-1;
-		}else {
-			count = pageList+pageNum-1;
-		}
-		return count;
+		return start;
 	}
 
-	public int getPageList() {
-		return pageList;
+	public void setStart(int start) {
+		this.start = start;
 	}
 
-	public void setPageList(int pageList) {
-		this.pageList = pageList;
+	public int getEnd() {
+		return end;
 	}
 
-	public int getIndex() {
-		return index;
+	public void setEnd(int end) {
+		this.end = end;
 	}
 
-	public void setIndex(int index) {
-		this.index = index;
-	}
-
-	public int getPageNum() {
-		return pageNum;
-	}
-
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
-	}
-
-	public int getListNum() {
-		return listNum;
-	}
-
-	public void setListNum(int listNum) {
-		this.listNum = listNum;
-	}
-
-	public int getTotal() {
-		return total;
-	}
-
-	public void setTotal(int total) {
-		this.total = total;
-	}
-	
 }

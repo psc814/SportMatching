@@ -21,6 +21,8 @@ import com.sports.matching.model.Schedule_IService;
 @Controller
 public class MainPageController {
 
+
+
 	private Logger logger = LoggerFactory.getLogger(MainPageController.class);
 	
 	@Autowired
@@ -30,6 +32,13 @@ public class MainPageController {
 	public String mainPage() {
 		logger.info("메인페이지로~~!");
 		return "MainPage";
+	}
+	
+	@RequestMapping(value = "/userMain.do", method = RequestMethod.GET)
+	public String userMainPage() {
+		logger.info("유저메인페이지");
+		
+		return "UserMainPage";
 	}
 	
 	@RequestMapping(value = "/showSchedule.do", method = RequestMethod.POST)
@@ -54,5 +63,5 @@ public class MainPageController {
 		dto.setStadium_code("SC0003");
 		return sc_service.homeRegisterSchedule(dto);
 	}
-
 }
+

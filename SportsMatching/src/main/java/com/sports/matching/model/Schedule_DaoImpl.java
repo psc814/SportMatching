@@ -34,9 +34,9 @@ public class Schedule_DaoImpl implements Schedule_IDao {
 	}
 
 	@Override
-	public boolean homeCofirmSchedule(ScheduleDto dto) {
+	public boolean homeConfirmSchedule(ScheduleDto dto) {
 		logger.info("홈팀 최종 등록");
-		int n = session.update(NS + "homeCofirmSchedule", dto);
+		int n = session.update(NS + "homeConfirmSchedule", dto);
 		return (n > 0) ? true : false;
 	}
 
@@ -120,6 +120,12 @@ public class Schedule_DaoImpl implements Schedule_IDao {
 	public List<ScheduleDto> selectSchedule(ScheduleDto dto) {
 		logger.info("일정 상세 조회");
 		return session.selectList(NS+"selectSchedule", dto);
+	}
+
+	@Override
+	public List<ScheduleDto> selectRequestReservation(ScheduleDto dto) {
+		logger.info("관리자가 요청된 예약 조회");
+		return session.selectList(NS+"selectRequestReservation", dto);
 	}
 
 }

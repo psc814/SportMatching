@@ -32,8 +32,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자예약신청승인페이지</title>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<title>관리자 예약취소 페이지</title>
 </head>
 <style TYPE="text/css">
 body {
@@ -91,6 +90,7 @@ A:active {
 	text-decoration: none;
 }
 
+s
 A:hover {
 	font-size: 9pt;
 	font-family: "돋움";
@@ -116,7 +116,7 @@ function toCancel() {
 		<input type="button" value="예약신청목록" onclick="toReservation()">
 		<input type="button" value="취소신청목록" onclick="toCancel()">
 	</nav>
-	<div style="width: 712px; margin: auto; text-align: center; font-size: 40px;">예약신청목록</div>
+	<div style="width: 712px; margin: auto; text-align: center; font-size: 40px;">예약취소목록</div>
 	<div id="calendarDiv" style="width: 712px; margin: auto;">
 		<form name="calendarFrm" id="calendarFrm" action="" method="post">
 			<DIV id="content" style="width: 712px; text-align: center;">
@@ -229,13 +229,12 @@ function toCancel() {
 										color = "#529dbc";
 									} else {
 										color = "BLACK";
-									} ;
+									}
+									;
 									String sUseDate = Integer.toString(year);
-									sUseDate += Integer.toString(month + 1).length() == 1
-											? "0" + Integer.toString(month + 1)
+									sUseDate += Integer.toString(month + 1).length() == 1 ? "0" + Integer.toString(month + 1)
 											: Integer.toString(month + 1);
-									sUseDate += Integer.toString(index).length() == 1
-											? "0" + Integer.toString(index)
+									sUseDate += Integer.toString(index).length() == 1 ? "0" + Integer.toString(index)
 											: Integer.toString(index);
 									int iUseDate = Integer.parseInt(sUseDate);
 									clickedDate = Integer.toString(iUseDate);
@@ -273,88 +272,4 @@ function toCancel() {
 		</form>
 	</div>
 </body>
-<script type="text/javascript">
-$(document).ready(function() {
-	$(".clickedDate").click(function() {
-		var game_date_val = $(this).children('.datespan').text();
-		var temp = "<table id='timetable' width='712px'>";
-		temp+="<tr align='center' bgcolor='#00ffcc'>";
-		temp+="<td>예약번호</td>";
-		temp+="<td>홈팀</td>";
-		temp+="<td>어웨이팀</td>";
-		temp+="<td>경기날짜</td>";
-		temp+="<td>승인여부</td>";
-		temp+="</tr>";
-		$.ajax({
-			url : "showRequestReservation.do?game_date="+game_date_val,
-			type : "post",
-			success: function(data) {
-				$("#timetable").remove();
-				if(data == ""){
-					temp+="<tr><td colspan='5' align='center'>조회된 일정이 없습니다.</td></tr>";
-					temp+="</table>";
-					$("#calendarDiv").append(temp);
-				}else{
-					$.each(data, function(i, elt) {
-						temp += "<tr align='center' bgcolor='#9999ff'>";
-						temp += "<td>"+elt.schedule_id+"</td>";
-						if(elt.home_team == null){
-							temp += "<td>등록된 팀 없음</td>";
-						}else{
-							temp += "<td>"+elt.home_team+"</td>";
-						}
-						if(elt.away_team == null){
-							temp += "<td>등록된 팀 없음</td>";
-						}else{
-							temp += "<td>"+elt.away_team+"</td>";
-						}
-						temp += "<td>"+elt.game_date+"</td>";
-						temp += "<td><button onclick='approval(\""+elt.schedule_id+"\")'>승인</button><button onclick='deny(\""+elt.schedule_id+"\")'>거절</button></td>"
-						temp += "</tr>";
-					});
-					temp += "</table>"
-					$("#calendarDiv").append(temp);
-				}
-			},
-			error:function(request,status,error){
-		        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
-		     }
-		});
-	});
-});
-
-function approval(schedule_id) {
-	$.ajax({
-		url : "confirmReservation.do?schedule_id="+schedule_id,
-		type: "post",
-		success: function(data) {
-			if(data==true){
-				alert("승인완료!");
-			}else {
-				alert("승인오류!");
-			}
-		},
-		error : function(){
-			  alert("데이터를 불러올수 없습니다."); // 실패 시 처리
-		}
-	});
-};
-
-function deny(schedule_id) {
-	$.ajax({
-		url : "denyReservation.do?schedule_id="+schedule_id,
-		type: "post",
-		success: function(data) {
-			if(data==true){
-				alert("승인완료!");
-			}else {
-				alert("승인오류!");
-			}
-		},
-		error : function(){
-			  alert("데이터를 불러올수 없습니다."); // 실패 시 처리
-		}
-	});
-};
-</script>
 </html>

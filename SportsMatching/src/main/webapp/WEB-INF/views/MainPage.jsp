@@ -33,7 +33,7 @@
 
 <html lang="ko">
 <HEAD>
-<TITLE>캘린더</TITLE>
+<TITLE>사용자 신청페이지</TITLE>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <script type="text/javaScript" language="javascript"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
@@ -78,28 +78,24 @@ select {
 A:link {
 	font-size: 9pt;
 	font-family: "돋움";
-	color: #000000;
 	text-decoration: none;
 }
 
 A:visited {
 	font-size: 9pt;
 	font-family: "돋움";
-	color: #000000;
 	text-decoration: none;
 }
 
 A:active {
 	font-size: 9pt;
 	font-family: "돋움";
-	color: red;
 	text-decoration: none;
 }
 
 A:hover {
 	font-size: 9pt;
 	font-family: "돋움";
-	color: red;
 	text-decoration: none;
 }
 </style>
@@ -586,7 +582,6 @@ $(document).ready(function() {
 	$("#chatButton").click(function() {
 		location.href ="./chat.do";
 	});
-	
 });
 
 </script>

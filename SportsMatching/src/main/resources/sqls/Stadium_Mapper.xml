@@ -2,44 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sports.matching.stadium_mapper">
 
-	<resultMap type="PtDto" id="picture">
+	<resultMap type="PTDto" id="Picture">
 		<result column="IMAGE1" property="image1"/>
 		<result column="IMAGE2" property="image2"/>
 		<result column="IMAGE3" property="image3"/>
 	</resultMap>
-	<resultMap type="STDto" id="stadiumMap">
+	<resultMap type="STDto" id="StadiumMap">
 		<result column="STADIUM_CODE" property="stadium_code"/>
 		<result column="STADIUM_NAME" property="stadium_name"/>
 		<result column="AREA" property="area"/>
 		<result column="ADDRESS" property="address"/>
 		<result column="INFO" property="info"/>
-		<collection property="pdto" resultMap="picture"/>
+		<collection property="pdto" resultMap="Picture"/>
 	</resultMap>
 	
 	<!-- 구장검색 -->
 	<select id="searchStadium" parameterType="java.lang.String" resultType="STDto">
 		SELECT STADIUM_CODE, STADIUM_NAME, ADDRESS, SI_GUN_GU
 		FROM STADIUM
-		WHERE SI_GUN_GU LIKE '%'||#{condition}||'%' OR STADIUM_NAME LIKE '%'||#{condition}||'%'
+		WHERE SI_GUN_GU LIKE '%'||#{condition}||'%' 
+		OR STADIUM_NAME LIKE '%'||#{condition}||'%'
 	</select>
 	<!-- 구장상세조회 -->
-	<select id="selectDetailStadium" parameterType="java.lang.String" resultMap="stadiumMap">
+	<select id="selectDetailStadium" parameterType="java.lang.String" resultMap="StadiumMap">
 		SELECT STADIUM_CODE, STADIUM_NAME, ADDRESS, AREA, INFO, IMAGE1, IMAGE2, IMAGE3
 		FROM STADIUM S JOIN PICTURE P
 		USING(STADIUM_CODE)
 		WHERE S.STADIUM_CODE = #{stadium_code}
 	</select>
 	<!-- 내 구장 조회 -->
-	<select id="selectMyStadium" parameterType="java.lang.String" resultType="java.util.Map">
+	<select id="selectMyStadium" parameterType="java.lang.String" resultType="STDto">
 		SELECT STADIUM_CODE, STADIUM_NAME
 		FROM STADIUM
 		WHERE ADMIN_ID = #{admin_id}
 	</select>
 	<!-- 월 별 통계 -->
-	<select id="selectStadiumMonthStatistic" parameterType="java.lang.String" resultType="java.lang.Integer">
-		SELECT COUNT(SUBSTR(TO_CHAR(GAME_DATE), 4, 2))
+	<select id="selectStadiumMonthStatistic" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(*)
 		FROM SCHEDULE
 		WHERE STADIUM_CODE = #{stadium_code} AND AWAY_RESERVATION = 'Y'
+		AND SUBSTR(TO_CHAR(GAME_DATE), 4, 2) = #{month}
 	</select>
 	<!-- 요일 별 통계 -->
 	<select id="selectStadiumDayStatistic" parameterType="java.util.Map" resultType="java.lang.Integer">
@@ -61,19 +63,19 @@
 	<update id="modifyStadiumInfo" parameterType="STDto">
 		UPDATE STADIUM
 		SET STADIUM_NAME=#{stadium_name}, AREA=#{area}, SI_GUN_GU=#{si_gun_gu}, ADDRESS=#{address}, INFO=#{info}
-		WHERE STADIUM_CODE =#{stadium_code};
+		WHERE STADIUM_CODE =#{stadium_code}
 	</update>
 	<!-- 구장 사진정보수정 -->
-	<update id="modifyStadiumPicture" parameterType="STDto">
+	<update id="modifyStadiumPicture" parameterType="PTDto">
 		UPDATE PICTURE
 		SET IMAGE1=#{image1}, IMAGE2=#{image2}, IMAGE3=#{image3}
-		WHERE STADIUM_CODE =#{stadium_code};
+		WHERE STADIUM_CODE =#{stadium_code}
 	</update>
 	<!-- 지난 일정 스코어 수정 -->
 	<update id="modifyScore" parameterType="java.util.Map">
 		UPDATE SCHEDULE
 		SET HOME_SCORE=#{home_score}, AWAY_SCORE=#{away_score}
-		WHERE SCHEDULE_ID = #{schedule_id};
+		WHERE SCHEDULE_ID = #{schedule_id}
 	</update>
 	<!-- 진행되지 않은 예약정보확인 -->
 	<select id="selectReservationInfo" parameterType="java.lang.String" resultType="java.lang.Integer">
@@ -84,8 +86,8 @@
 		AND STADIUM_CODE=#{stadium_code}
 	</select>
 	<!-- 관리자로그인 -->
-	<select id="adminLogin" parameterType="java.util.Map" resultType="java.lang.String">
-		SELECT ADMIN_ID
+	<select id="adminLogin" parameterType="java.util.Map">
+		SELECT COUNT(*)
 		FROM STADIUM_ADMIN
 		WHERE ADMIN_ID = #{admin_id}
 		AND ADMIN_PW = #{admin_pw}

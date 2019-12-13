@@ -8,7 +8,7 @@ public interface Schedule_IService {
 
 	public boolean registerSchedule(ScheduleDto dto);
 	public boolean homeRegisterSchedule(ScheduleDto dto);
-	public boolean homeCofirmSchedule(ScheduleDto dto);
+	public boolean homeConfirmSchedule(ScheduleDto dto);
 	public boolean awayRegisterSchedule(int schedule_id);
 	public boolean awayConfirmSchedule(ScheduleDto dto);
 	
@@ -24,4 +24,6 @@ public interface Schedule_IService {
 	
 	public List<String> selectAllSchedule(ScheduleDto dto);
 	public List<ScheduleDto> selectSchedule(ScheduleDto dto);
+	public List<ScheduleDto> selectRequestReservation(ScheduleDto dto);
+	
 }
