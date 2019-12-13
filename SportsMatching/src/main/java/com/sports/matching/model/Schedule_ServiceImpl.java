@@ -24,8 +24,8 @@ public class Schedule_ServiceImpl implements Schedule_IService {
 	}
 
 	@Override
-	public boolean homeCofirmSchedule(ScheduleDto dto) {
-		return dao.homeCofirmSchedule(dto);
+	public boolean homeConfirmSchedule(ScheduleDto dto) {
+		return dao.homeConfirmSchedule(dto);
 	}
 
 	@Override

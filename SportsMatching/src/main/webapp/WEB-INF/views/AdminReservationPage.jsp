@@ -99,6 +99,9 @@ A:hover {
 </style>
 
 <script type="text/javascript">
+function toRegisterPage() {
+	location.href ="./AdminRegisterSchedulePage.do";
+}
 function toReservation() {
 	location.href ="./AdminReservation.do";
 }
@@ -109,7 +112,7 @@ function toCancel() {
 <body>
 	<jsp:include page="header.jsp" />
 	<nav style="text-align: center; background-color: red; height: 50px; vertical-align: center;">
-		<input type="button" value="마이 페이지">
+		<input type="button" value="일정 등록" onclick="toRegisterPage()">
 		<input type="button" value="예약신청목록" onclick="toReservation()">
 		<input type="button" value="취소신청목록" onclick="toCancel()">
 	</nav>
@@ -275,7 +278,7 @@ $(document).ready(function() {
 	$(".clickedDate").click(function() {
 		var game_date_val = $(this).children('.datespan').text();
 		var temp = "<table id='timetable' width='712px'>";
-		temp+="<tr>";
+		temp+="<tr align='center' bgcolor='#00ffcc'>";
 		temp+="<td>예약번호</td>";
 		temp+="<td>홈팀</td>";
 		temp+="<td>어웨이팀</td>";
@@ -287,25 +290,31 @@ $(document).ready(function() {
 			type : "post",
 			success: function(data) {
 				$("#timetable").remove();
-				$.each(data, function(i, elt) {
-					temp += "<tr>";
-					temp += "<td>"+elt.schedule_id+"</td>";
-					if(elt.home_team == null){
-						temp += "<td>등록된 팀 없음</td>";
-					}else{
-						temp += "<td>"+elt.home_team+"</td>";
-					}
-					if(elt.away_team == null){
-						temp += "<td>등록된 팀 없음</td>";
-					}else{
-						temp += "<td>"+elt.away_team+"</td>";
-					}
-					temp += "<td>"+elt.game_date+"</td>";
-					temp += "<td><button class='hi' onclick='approval(\""+elt.schedule_id+"\")'>승인</button><button>거절</button></td>"
-					temp += "</tr>";
-				});
-				temp += "</table>"
-				$("#calendarDiv").append(temp);
+				if(data == ""){
+					temp+="<tr><td colspan='5' align='center'>조회된 일정이 없습니다.</td></tr>";
+					temp+="</table>";
+					$("#calendarDiv").append(temp);
+				}else{
+					$.each(data, function(i, elt) {
+						temp += "<tr align='center' bgcolor='#9999ff'>";
+						temp += "<td>"+elt.schedule_id+"</td>";
+						if(elt.home_team == null){
+							temp += "<td>등록된 팀 없음</td>";
+						}else{
+							temp += "<td>"+elt.home_team+"</td>";
+						}
+						if(elt.away_team == null){
+							temp += "<td>등록된 팀 없음</td>";
+						}else{
+							temp += "<td>"+elt.away_team+"</td>";
+						}
+						temp += "<td>"+elt.game_date+"</td>";
+						temp += "<td><button onclick='approval(\""+elt.schedule_id+"\")'>승인</button><button onclick='deny(\""+elt.schedule_id+"\")'>거절</button></td>"
+						temp += "</tr>";
+					});
+					temp += "</table>"
+					$("#calendarDiv").append(temp);
+				}
 			},
 			error:function(request,status,error){
 		        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
@@ -316,15 +325,36 @@ $(document).ready(function() {
 
 function approval(schedule_id) {
 	$.ajax({
-		url : "confirm",
+		url : "confirmReservation.do?schedule_id="+schedule_id,
 		type: "post",
-		success: function() {
-			
+		success: function(data) {
+			if(data==true){
+				alert("승인완료!");
+			}else {
+				alert("승인오류!");
+			}
 		},
 		error : function(){
-			
+			  alert("데이터를 불러올수 없습니다."); // 실패 시 처리
 		}
 	});
-}
+};
+
+function deny(schedule_id) {
+	$.ajax({
+		url : "denyReservation.do?schedule_id="+schedule_id,
+		type: "post",
+		success: function(data) {
+			if(data==true){
+				alert("승인완료!");
+			}else {
+				alert("승인오류!");
+			}
+		},
+		error : function(){
+			  alert("데이터를 불러올수 없습니다."); // 실패 시 처리
+		}
+	});
+};
 </script>
 </html>
