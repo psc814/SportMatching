@@ -21,38 +21,47 @@ import com.sports.matching.model.Schedule_IService;
 @Controller
 public class MainPageController {
 
-   private Logger logger = LoggerFactory.getLogger(MainPageController.class);
-   
-   @Autowired
-   private Schedule_IService sc_service;
-   
-   @RequestMapping(value = "/main.do", method = RequestMethod.GET)
-   public String mainPage() {
-      logger.info("메인페이지로~~!");
-      return "MainPage";
-   }
-   
-   @RequestMapping(value = "/showSchedule.do", method = RequestMethod.POST)
-   @ResponseBody
-   public List<String> showSchedule(String game_date){
-      logger.info("{}날짜의 스케쥴을 보여줘",game_date);
-      ScheduleDto dto = new ScheduleDto();
-      dto.setGame_date(game_date);
-      dto.setStadium_code("SC0003");
-      System.out.println(dto);
-      List<String> scheduleList = sc_service.selectAllSchedule(dto);
-      System.out.println(scheduleList);
-      return scheduleList;
-   }
-   
-   @RequestMapping(value = "/reserve.do", method = RequestMethod.POST)
-   @ResponseBody
-   public boolean reserve(String game_date){
-      logger.info("{}날짜에 예약 신청",game_date);
-      ScheduleDto dto = new ScheduleDto();
-      dto.setGame_date(game_date);
-      dto.setStadium_code("SC0003");
-      return sc_service.homeRegisterSchedule(dto);
-   }
 
+
+	private Logger logger = LoggerFactory.getLogger(MainPageController.class);
+	
+	@Autowired
+	private Schedule_IService sc_service;
+	
+	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
+	public String mainPage() {
+		logger.info("메인페이지로~~!");
+		return "MainPage";
+	}
+	
+	@RequestMapping(value = "/userMain.do", method = RequestMethod.GET)
+	public String userMainPage() {
+		logger.info("유저메인페이지");
+		
+		return "UserMainPage";
+	}
+	
+	@RequestMapping(value = "/showSchedule.do", method = RequestMethod.POST)
+	@ResponseBody
+	public List<String> showSchedule(String game_date){
+		logger.info("{}날짜의 스케쥴을 보여줘",game_date);
+		ScheduleDto dto = new ScheduleDto();
+		dto.setGame_date(game_date);
+		dto.setStadium_code("SC0003");
+		System.out.println(dto);
+		List<String> scheduleList = sc_service.selectAllSchedule(dto);
+		System.out.println(scheduleList);
+		return scheduleList;
+	}
+	
+	@RequestMapping(value = "/reserve.do", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean reserve(String game_date){
+		logger.info("{}날짜에 예약 신청",game_date);
+		ScheduleDto dto = new ScheduleDto();
+		dto.setGame_date(game_date);
+		dto.setStadium_code("SC0003");
+		return sc_service.homeRegisterSchedule(dto);
+	}
 }
+

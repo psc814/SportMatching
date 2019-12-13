@@ -4,8 +4,7 @@
 	<!--관리자 일정등록 -->
 	<insert id="registerSchedule" parameterType="SCDto">
 		INSERT INTO SCHEDULE(SCHEDULE_ID, STADIUM_CODE, GAME_DATE)
-		VALUES(SCHEDULE_SEQ.NEXTVAL,#{stadium_code}, TO_DATE(TO_CHAR(#{game_date},'YYYYMMDDHH24'),
-		'YYYYMMDDHH24'))
+		VALUES(SCHEDULE_SEQ.NEXTVAL,#{stadium_code}, TO_DATE(#{game_date},'YYYYMMDDHH24'))
 	</insert>
 
 	<!-- 홈팀 일정등록 -->
@@ -86,7 +85,8 @@
 	<select id="selectAllSchedule" parameterType="SCDto" resultType="java.lang.String">
 		SELECT TO_CHAR(GAME_DATE, 'HH24') GAME_DATE
 		FROM SCHEDULE
-		WHERE TO_CHAR(GAME_DATE,'YYYYMMDD') = #{game_date} AND STADIUM_CODE = #{stadium_code}
+		WHERE TO_CHAR(GAME_DATE,'YYYYMMDD') = #{game_date} AND STADIUM_CODE =
+		#{stadium_code}
 		ORDER BY GAME_DATE
 	</select>
 	<!-- 일정 상세 조회 -->
@@ -95,5 +95,11 @@
 		FROM SCHEDULE
 		WHERE GAME_DATE = TO_DATE(#{game_date},'YYYYMMDDHH24') AND
 		STADIUM_CODE=#{stadium_code}
+	</select>
+	<select id="selectRequestReservation" parameterType="SCDto" resultType="SCDto">
+		SELECT SCHEDULE_ID, STADIUM_CODE, HOME_TEAM, AWAY_TEAM, GAME_DATE
+		FROM SCHEDULE
+		WHERE STADIUM_CODE = #{stadium_code} AND TO_CHAR(GAME_DATE,'YYYYMMDD') = #{game_date} AND HOME_RESERVATION = 'N'
+		ORDER BY GAME_DATE
 	</select>
 </mapper>
