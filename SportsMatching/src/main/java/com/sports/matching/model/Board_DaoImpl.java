@@ -31,6 +31,7 @@ public class Board_DaoImpl implements Board_IDao {
 		return sqlsession.selectList(NS+"MemberBoardList");
 	}
 
+
 	
 	@Override
 	/**

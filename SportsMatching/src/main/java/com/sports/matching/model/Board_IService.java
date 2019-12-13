@@ -9,7 +9,7 @@ import com.sports.matching.dtos.TeamBoardDTO;
 import com.sports.matching.dtos.TeamReplyDTO;
 
 public interface Board_IService {
-	
+
 	//게시글 조회
 	/**
 	 * 멤버 게시글 조회

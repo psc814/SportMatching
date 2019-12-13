@@ -18,7 +18,7 @@ public interface Board_IDao {
 	 * @return MemberBoardList
 	 */
 	public List<MemberBoardDTO> MemberBoardList();
-	
+		
 	
 	/**
 	 * 팀 게시글 조회

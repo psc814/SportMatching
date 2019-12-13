@@ -22,7 +22,7 @@ public class Board_ServiceImpl implements Board_IService {
 	@Autowired
 	private Board_IDao dao;
 	
-	
+	 
 	
 	// 게시글 조회
 	@Override
