@@ -8,7 +8,7 @@ public interface Schedule_IDao {
 
 	public boolean registerSchedule(ScheduleDto dto);
 	public boolean homeRegisterSchedule(ScheduleDto dto);
-	public boolean homeCofirmSchedule(ScheduleDto dto);
+	public boolean homeConfirmSchedule(ScheduleDto dto);
 	public boolean awayRegisterSchedule(int schedule_id);
 	public boolean awayConfirmSchedule(ScheduleDto dto);
 	

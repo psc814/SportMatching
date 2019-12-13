@@ -34,9 +34,9 @@ public class Schedule_DaoImpl implements Schedule_IDao {
 	}
 
 	@Override
-	public boolean homeCofirmSchedule(ScheduleDto dto) {
+	public boolean homeConfirmSchedule(ScheduleDto dto) {
 		logger.info("홈팀 최종 등록");
-		int n = session.update(NS + "homeCofirmSchedule", dto);
+		int n = session.update(NS + "homeConfirmSchedule", dto);
 		return (n > 0) ? true : false;
 	}
 

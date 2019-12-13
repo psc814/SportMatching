@@ -4,8 +4,7 @@
 	<!--관리자 일정등록 -->
 	<insert id="registerSchedule" parameterType="SCDto">
 		INSERT INTO SCHEDULE(SCHEDULE_ID, STADIUM_CODE, GAME_DATE)
-		VALUES(SCHEDULE_SEQ.NEXTVAL,#{stadium_code}, TO_DATE(TO_CHAR(#{game_date},'YYYYMMDDHH24'),
-		'YYYYMMDDHH24'))
+		VALUES(SCHEDULE_SEQ.NEXTVAL,#{stadium_code}, TO_DATE(#{game_date},'YYYYMMDDHH24'))
 	</insert>
 
 	<!-- 홈팀 일정등록 -->
