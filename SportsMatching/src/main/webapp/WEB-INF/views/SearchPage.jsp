@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>검색페이지</title>
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+<link type="text/css" rel="stylesheet" href="./css/userMain.css">
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -30,6 +31,8 @@ body {
 
 </style>
 </head>
+<script type="text/javascript" src="./js/UserMain.js"></script>
+<script type="text/javascript" src="./js/jquery-3.4.1.js"></script>
 <body>
 <jsp:include page="KLoginHeader.jsp"/>
 <nav style="text-align: center;" class="navbar">
@@ -37,5 +40,16 @@ body {
   <a href="./TeamPage.do">팀페이지</a>
   <a href="./AnswerBoard.do">게시판</a>
 </nav> 
+	<div id="userMainContainer">
+		<div id="searchbox">
+			<select id="searchoption" onchange="chg(this)">
+				<option value="stadium" id="stadium">구장검색</option>
+				<option value="matching" id="matching">매칭카드 검색</option>
+				<option value="team" id="team">팀 검색</option>
+			</select>
+			<input type="text" id="searchbar" placeholder="구장뭐로검색하더라;">
+			<button id="btnSearch" class="btn btn-link" onclick="search()">검색</button>
+		</div>
+	</div>
 </body>
 </html>
