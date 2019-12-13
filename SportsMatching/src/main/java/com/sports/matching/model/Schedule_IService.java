@@ -24,4 +24,6 @@ public interface Schedule_IService {
 	
 	public List<String> selectAllSchedule(ScheduleDto dto);
 	public List<ScheduleDto> selectSchedule(ScheduleDto dto);
+	public List<ScheduleDto> selectRequestReservation(ScheduleDto dto);
+	
 }
