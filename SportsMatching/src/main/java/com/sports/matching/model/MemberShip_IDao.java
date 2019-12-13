@@ -1,6 +1,7 @@
 package com.sports.matching.model;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sports.matching.dtos.Belonged_TeamDto;
 import com.sports.matching.dtos.MembersDto;
@@ -10,8 +11,12 @@ import com.sports.matching.dtos.TeamDto;
 
 public interface MemberShip_IDao {
 
-	//API 로그인 
-		public boolean apiLogin(MembersDto MDto);
+		//API 회원가입
+		public boolean apiLogin(String member_id);
+		//일반회원 아이디 중복검사
+		public int duplicateUserId(String member_id);
+		// 회원 로그인
+		public MembersDto selectUser(String member_id);
 		//팀 로그인 
 		public TeamDto teamLogin(TeamDto TDto);
 		//관리자 로그인
@@ -29,7 +34,7 @@ public interface MemberShip_IDao {
 		//팀 비밀번호 질문/답변 검사
 		public TeamDto teamPasswordQnA(TeamDto TDto);
 		//개인회원 마이페이지
-		public Belonged_TeamDto memberMypage(String member_id);
+		public List<Belonged_TeamDto> memberMypage(String member_id);
 		//팀 회원 리스트
 		public List<Belonged_TeamDto> teamMemberList(String team_id);
 		//팀 조회 (팀 페이지)

@@ -1,6 +1,7 @@
 package com.sports.matching.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,18 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	private MemberShip_IDao dao;
 	
 	@Override
-	public boolean apiLogin(MembersDto MDto) {
-		return dao.apiLogin(MDto);
+	public boolean apiLogin(String member_id) {
+		return dao.apiLogin(member_id);
+	}
+	
+	@Override
+	public int duplicateUserId(String member_id) {
+		return dao.duplicateUserId(member_id);
+	}
+	
+	@Override
+	public MembersDto selectUser(String member_id) {
+		return dao.selectUser(member_id);
 	}
 
 	@Override
@@ -62,7 +73,7 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	}
 
 	@Override
-	public Belonged_TeamDto memberMypage(String member_id) {
+	public List<Belonged_TeamDto> memberMypage(String member_id) {
 		return dao.memberMypage(member_id);
 	}
 
@@ -115,5 +126,9 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	public boolean deleteBelongedTeam(String team_id) {
 		return dao.deleteBelongedTeam(team_id);
 	}
+
+	
+
+	
 
 }

@@ -1,6 +1,7 @@
 package com.sports.matching.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -23,10 +24,22 @@ public class MemberShip_DaoImpl implements MemberShip_IDao {
 	private SqlSessionTemplate session;
 
 	@Override
-	public boolean apiLogin(MembersDto MDto) {
+	public boolean apiLogin(String member_id) {
 		logger.info("API 로그인 ");
-		int a = session.insert(NS+"apiLogin", MDto);
+		int a = session.insert(NS+"apiLogin", member_id);
 		return (a>0)?true:false;
+	}
+	
+	@Override
+	public int duplicateUserId(String member_id) {
+		logger.info("일반회원 아이디 중복검사");
+		return session.selectOne(NS+"duplicateUserId", member_id);
+	}
+	
+	@Override
+	public MembersDto selectUser(String member_id) {
+		logger.info("회원 로그인");
+		return session.selectOne(NS+"selectUser", member_id);
 	}
 
 	@Override
@@ -81,9 +94,9 @@ public class MemberShip_DaoImpl implements MemberShip_IDao {
 	}
 
 	@Override
-	public Belonged_TeamDto memberMypage(String member_id) {
+	public List<Belonged_TeamDto> memberMypage(String member_id) {
 		logger.info("개인회원 마이페이지");
-		return session.selectOne(NS+"memberMypage", member_id);
+		return session.selectList(NS+"memberMypage", member_id);
 	}
 
 	@Override
@@ -152,5 +165,9 @@ public class MemberShip_DaoImpl implements MemberShip_IDao {
 		int a = session.delete(NS+"deleteBelongedTeam", team_id);
 		return (a>0)?true:false;
 	}
+
+	
+
+	
 
 }
