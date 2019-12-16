@@ -83,18 +83,12 @@ public class Schedule_DaoImpl implements Schedule_IDao {
 	}
 
 	@Override
-	public boolean deleteSchedule(int schedule_id) {
+	public boolean deleteSchedule(ScheduleDto dto) {
 		logger.info("관리자 일정 삭제");
-		int n = session.delete(NS + "deleteSchedule", schedule_id);
+		int n = session.delete(NS + "deleteSchedule", dto);
 		return (n > 0) ? true : false;
 	}
 
-	@Override
-	public boolean deleteMultiSchedule(int[] schedule_id) {
-		logger.info("관리자 일정 다중 삭제");
-		int n = session.delete(NS + "deleteMultiSchedule", schedule_id);
-		return (n > 0) ? true : false;
-	}
 
 	@Override
 	public boolean denyHomeSchedule(int schedule_id) {

@@ -117,11 +117,11 @@ function toCancel() {
 <body>
 	<jsp:include page="header.jsp" />
 	<nav style="text-align: center; background-color: red; height: 50px; vertical-align: center;">
-		<input type="button" value="일정 등록" onclick="toRegisterPage()">
+		<input type="button" value="일정 등록 & 삭제" onclick="toRegisterPage()">
 		<input type="button" value="예약신청목록" onclick="toReservation()">
 		<input type="button" value="취소신청목록" onclick="toCancel()">
 	</nav>
-	<div style="width: 712px; margin: auto; text-align: center; font-size: 40px;">일정 등록페이지</div>
+	<div style="width: 712px; margin: auto; text-align: center; font-size: 40px;">일정 등록 & 삭제</div>
 	<div id="calendarDiv" style="width: 712px; margin: auto;">
 		<form name="calendarFrm" id="calendarFrm" action="" method="post">
 			<DIV id="content" style="width: 712px; text-align: center;">
@@ -320,7 +320,7 @@ $(document).ready(function() {
 				temp += "<div id='tablecolor' align='right'><span style='background-color:#ff99cc'>　</span><span>:등록</span><span style='background-color:#99ff99'>　</span><span>:미등록</span></div>"
 				temp += "<div id='buttonDiv' align='center'>"
 				temp += "<input id='registerSC' type='button' value='구장 일정 등록' width='350px'>"
-				temp += "<input type='button' id='cancelSC' value='구장 일정 삭제' width='350px'>"
+				temp += "<input id='deleteSC' type='button' value='구장 일정 삭제' width='350px'>"
 				temp += "</div>"
 				$("#calendarDiv").append(temp);
 				$("[name=checkAll]").click(function(){
@@ -357,35 +357,36 @@ $(document).ready(function() {
 						        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
 						    }
 						});
-						$("#registerSC").click(function() {
-							var selectedTime = 999;
-							$("input:checkbox[name='checkOne']").each(function() {
-								if($(this).is(":checked")){
-									selectedTime += ","+ $(this).val();	
+					};
+				});
+				$("#deleteSC").click(function() {
+					var selectedTime = 999;
+					$("input:checkbox[name='checkOne']").each(function() {
+						if($(this).is(":checked")){
+							selectedTime += ","+ $(this).val();	
+						}
+					});
+					if(selectedTime == 999){
+						alert("삭제하실 시간을 선택하여 주세요!");
+					}else{
+						$.ajax({
+							url : "deleteSchedule.do?game_date="+game_date_val+"&time="+selectedTime,
+							type : "post",
+							success : function(data){
+								if(data){
+									alert("일정 삭제 완료!");
+									location.href = "./AdminRegisterSchedulePage.do";
+								}else{
+									alert("일정 삭제에 뭔가 문제가 있습니다.");
+									location.href = "./AdminRegisterSchedulePage.do";
 								}
-							});
-							if(selectedTime == 999){
-								alert("등록하실 시간을 선택하여 주세요!");
-							}else{
-								$.ajax({
-									url : "registSchedule.do?game_date="+game_date_val+"&time="+selectedTime,
-									type : "post",
-									success : function(data){
-										if(data){
-											alert("일정 등록 완료!");
-											location.href = "./AdminRegisterSchedulePage.do";
-										}else{
-											alert("일정 등록에 뭔가 문제가 있습니다.");
-											location.href = "./AdminRegisterSchedulePage.do";
-										}
-									},
-									error:function(request,status,error){
-								        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
-								    }
-								});
-							};
+							},
+							error:function(request,status,error){
+						        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
+						    }
 						});
 					};
+					alert(selectedTime);
 				});
 			},
 			error:function(request,status,error){

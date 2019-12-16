@@ -26,7 +26,7 @@ public class AdminController {
 	@RequestMapping(value = "/AdminRegisterSchedulePage.do", method =  RequestMethod.GET)
 	public String AdminMyPage() {
 		logger.info("관리자 마이페이지 입장");
-		return "AdminMyPage";
+		return "AdminRegisterSchedulePage";
 	}
 	
 	@RequestMapping(value = "/AdminReservation.do",method = RequestMethod.GET)
@@ -72,7 +72,8 @@ public class AdminController {
 	
 	@RequestMapping(value = "/registSchedule.do", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean registSchedule(String game_date, String time, Model model) {
+	public boolean registSchedule(String game_date, String time) {
+		logger.info("{}날짜, {}시간의 일정을 등록",game_date, time);
 		ScheduleDto dto = new ScheduleDto();
 		String[] timeArray = time.split(",");
 		String date = "";
@@ -87,6 +88,29 @@ public class AdminController {
 				dto.setGame_date(date);
 			}
 			sc_service.registerSchedule(dto);
+			cnt++;
+		}
+		return (cnt == timeArray.length-1)?true:false;
+	}
+	
+	@RequestMapping(value = "/deleteSchedule.do", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean deleteSchedule(String game_date, String time) {
+		logger.info("{}날짜, {}시간의 일정을 삭제",game_date, time);
+		ScheduleDto dto = new ScheduleDto();
+		String[] timeArray = time.split(",");
+		String date = "";
+		int cnt = 0;
+		dto.setStadium_code("SC0003");
+		for (int i = 1; i < timeArray.length; i++) {
+			if(Integer.parseInt(timeArray[i]) < 10) {
+				date = game_date+"0"+timeArray[i];
+				dto.setGame_date(date);
+			}else {
+				date = game_date+timeArray[i];
+				dto.setGame_date(date);
+			}
+			sc_service.deleteSchedule(dto);
 			cnt++;
 		}
 		return (cnt == timeArray.length-1)?true:false;

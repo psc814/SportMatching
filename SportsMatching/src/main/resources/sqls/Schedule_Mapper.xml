@@ -57,9 +57,9 @@
 		WHERE SCHEDULE_ID = #{schedule_id}
 	</update>
 	<!-- 일정 삭제 -->
-	<delete id="deleteSchedule" parameterType="java.lang.Integer">
+	<delete id="deleteSchedule" parameterType="SCDto">
 		DELETE FROM SCHEDULE
-		WHERE SCHEDULE_ID = #{schedule_id}
+		WHERE STADIUM_CODE =#{stadium_code} AND GAME_DATE = TO_DATE(#{game_date},'YYYYMMDDHH24')
 	</delete>
 	<!-- 일정 다중 삭제 -->
 	<delete id="deleteMultiSchedule" parameterType="java.lang.Integer">

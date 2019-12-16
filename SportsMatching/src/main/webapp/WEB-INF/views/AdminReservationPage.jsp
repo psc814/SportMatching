@@ -112,7 +112,7 @@ function toCancel() {
 <body>
 	<jsp:include page="header.jsp" />
 	<nav style="text-align: center; background-color: red; height: 50px; vertical-align: center;">
-		<input type="button" value="일정 등록" onclick="toRegisterPage()">
+		<input type="button" value="일정 등록 & 삭제" onclick="toRegisterPage()">
 		<input type="button" value="예약신청목록" onclick="toReservation()">
 		<input type="button" value="취소신청목록" onclick="toCancel()">
 	</nav>
