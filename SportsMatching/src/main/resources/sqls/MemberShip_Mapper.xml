@@ -34,6 +34,11 @@
 	<collection property="TDto" resultMap="teamMap"></collection>
 </resultMap>
 
+<resultMap type="SADto" id="adminLogin">
+	<result column="ADMIN_ID" property="admin_id"/>
+	<result column="ADMIN_PW" property="admin_pw"/>
+</resultMap>
+
 <!-- 로그인  -->
 <!-- API 회원가입 -->
 <insert id="apiLogin" parameterType="java.lang.String">
@@ -62,7 +67,7 @@ SELECT TEAM_ID
 </select>
 
 <!-- 관리자 로그인 -->
-<select id="adminLogin" parameterType="SADto" resultType="SADto">
+<select id="adminLogin" parameterType="java.util.Map" resultMap="adminLogin">
 SELECT ADMIN_ID
 	FROM STADIUM_ADMIN
 		WHERE ADMIN_ID = #{admin_id} AND ADMIN_PW = #{admin_pw}

@@ -39,7 +39,7 @@
 			<tr>			
 				<th>비밀번호</th>
 				<td>
-					<input type="password" name="password" value="ADMIN">
+					<input type="password" name="password" value="1234">
 				</td>
 			</tr>
 			<tr>
@@ -50,6 +50,13 @@
 			</tr>
 		</table>
 </div>
-
 </body>
+<script type="text/javascript">
+	function adminLogin(){
+		location.href = "./adminLogin.do?admin_id=ADMIN&admin_pw=1234";
+	}
+	function teamLogin(){
+		location.href = "./teamLogin.do?team_id=APPLE&team_pw=1234";
+	}
+</script>
 </html>

@@ -20,7 +20,7 @@ public interface MemberShip_IDao {
 		//팀 로그인 
 		public TeamDto teamLogin(TeamDto TDto);
 		//관리자 로그인
-		public StadiumAdminDto adminLogin(StadiumAdminDto SADto);
+		public StadiumAdminDto adminLogin(Map<String, String> map);
 		//개인회원의 팀 가입
 		public boolean joinTeam(Belonged_TeamDto BTDto);
 		//팀 회원 가입 (팀 창단)
