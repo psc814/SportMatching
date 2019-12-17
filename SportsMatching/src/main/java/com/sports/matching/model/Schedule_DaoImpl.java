@@ -83,18 +83,12 @@ public class Schedule_DaoImpl implements Schedule_IDao {
 	}
 
 	@Override
-	public boolean deleteSchedule(int schedule_id) {
+	public boolean deleteSchedule(ScheduleDto dto) {
 		logger.info("관리자 일정 삭제");
-		int n = session.delete(NS + "deleteSchedule", schedule_id);
+		int n = session.delete(NS + "deleteSchedule", dto);
 		return (n > 0) ? true : false;
 	}
 
-	@Override
-	public boolean deleteMultiSchedule(int[] schedule_id) {
-		logger.info("관리자 일정 다중 삭제");
-		int n = session.delete(NS + "deleteMultiSchedule", schedule_id);
-		return (n > 0) ? true : false;
-	}
 
 	@Override
 	public boolean denyHomeSchedule(int schedule_id) {
@@ -111,15 +105,15 @@ public class Schedule_DaoImpl implements Schedule_IDao {
 	}
 
 	@Override
-	public List<String> selectAllSchedule(ScheduleDto dto) {
+	public List<ScheduleDto> selectAllSchedule(ScheduleDto dto) {
 		logger.info("일정 전체 조회-----{}", dto);
 		return session.selectList(NS+"selectAllSchedule", dto);
 	}
 
 	@Override
-	public List<ScheduleDto> selectSchedule(ScheduleDto dto) {
+	public ScheduleDto selectSchedule(ScheduleDto dto) {
 		logger.info("일정 상세 조회");
-		return session.selectList(NS+"selectSchedule", dto);
+		return session.selectOne(NS+"selectSchedule", dto);
 	}
 
 	@Override

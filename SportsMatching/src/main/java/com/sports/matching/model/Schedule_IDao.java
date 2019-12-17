@@ -16,14 +16,13 @@ public interface Schedule_IDao {
 	public boolean homeCancelConfirm(int schedule_id);
 	public boolean awayCancel(int schedule_id);
 	public boolean awayCancelConfirm(int schedule_id);
-	public boolean deleteSchedule(int schedule_id);
-	public boolean deleteMultiSchedule(int[] schedule_id);
+	public boolean deleteSchedule(ScheduleDto dto);
 	
 	public boolean denyHomeSchedule(int schedule_id);
 	public boolean denyAwaySchedule(int schedule_id);
 	
-	public List<String> selectAllSchedule(ScheduleDto dto);
-	public List<ScheduleDto> selectSchedule(ScheduleDto dto);
+	public List<ScheduleDto> selectAllSchedule(ScheduleDto dto);
+	public ScheduleDto selectSchedule(ScheduleDto dto);
 	public List<ScheduleDto> selectRequestReservation(ScheduleDto dto);
 	
 }

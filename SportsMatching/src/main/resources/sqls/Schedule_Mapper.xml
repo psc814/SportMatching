@@ -57,9 +57,9 @@
 		WHERE SCHEDULE_ID = #{schedule_id}
 	</update>
 	<!-- 일정 삭제 -->
-	<delete id="deleteSchedule" parameterType="java.lang.Integer">
+	<delete id="deleteSchedule" parameterType="SCDto">
 		DELETE FROM SCHEDULE
-		WHERE SCHEDULE_ID = #{schedule_id}
+		WHERE STADIUM_CODE =#{stadium_code} AND GAME_DATE = TO_DATE(#{game_date},'YYYYMMDDHH24')
 	</delete>
 	<!-- 일정 다중 삭제 -->
 	<delete id="deleteMultiSchedule" parameterType="java.lang.Integer">
@@ -82,8 +82,8 @@
 		WHERE SCHEDULE_ID = #{schedule_id}
 	</update>
 	<!-- 일정 전체 조회 -->
-	<select id="selectAllSchedule" parameterType="SCDto" resultType="java.lang.String">
-		SELECT TO_CHAR(GAME_DATE, 'HH24') GAME_DATE
+	<select id="selectAllSchedule" parameterType="SCDto" resultType="SCDto">
+		SELECT TO_CHAR(GAME_DATE, 'HH24') GAME_DATE, HOME_TEAM, AWAY_TEAM
 		FROM SCHEDULE
 		WHERE TO_CHAR(GAME_DATE,'YYYYMMDD') = #{game_date} AND STADIUM_CODE =
 		#{stadium_code}
@@ -91,7 +91,7 @@
 	</select>
 	<!-- 일정 상세 조회 -->
 	<select id="selectSchedule" parameterType="SCDto" resultType="SCDto">
-		SELECT NVL(HOME_TEAM,'홈팀 없음'), NVL(AWAY_TEAM, '어웨이팀 없음')
+		SELECT NVL(HOME_TEAM,'홈팀 없음') HOME_TEAM, NVL(AWAY_TEAM, '어웨이팀 없음') AWAY_TEAM
 		FROM SCHEDULE
 		WHERE GAME_DATE = TO_DATE(#{game_date},'YYYYMMDDHH24') AND
 		STADIUM_CODE=#{stadium_code}

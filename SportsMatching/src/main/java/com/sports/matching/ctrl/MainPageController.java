@@ -43,13 +43,13 @@ public class MainPageController {
 	
 	@RequestMapping(value = "/showSchedule.do", method = RequestMethod.POST)
 	@ResponseBody
-	public List<String> showSchedule(String game_date){
+	public List<ScheduleDto> showSchedule(String game_date){
 		logger.info("{}날짜의 스케쥴을 보여줘",game_date);
 		ScheduleDto dto = new ScheduleDto();
 		dto.setGame_date(game_date);
 		dto.setStadium_code("SC0003");
 		System.out.println(dto);
-		List<String> scheduleList = sc_service.selectAllSchedule(dto);
+		List<ScheduleDto> scheduleList = sc_service.selectAllSchedule(dto);
 		System.out.println(scheduleList);
 		return scheduleList;
 	}
@@ -63,5 +63,17 @@ public class MainPageController {
 		dto.setStadium_code("SC0003");
 		return sc_service.homeRegisterSchedule(dto);
 	}
+	
+	@RequestMapping(value = "/selectSchedule.do", method = RequestMethod.POST)
+	@ResponseBody
+	public ScheduleDto selectSchedule(String game_date){
+		logger.info("{}날짜에 예약된 팀 조회",game_date);
+		ScheduleDto dto = new ScheduleDto();
+		dto.setGame_date(game_date);
+		dto.setStadium_code("SC0003");
+		return sc_service.selectSchedule(dto);
+	}
+	
+	
 }
 
