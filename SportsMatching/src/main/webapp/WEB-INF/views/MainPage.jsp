@@ -536,22 +536,33 @@ $(document).ready(function() {
 				}else{
 					$("#timetable").remove();
 					$("#teamInfo").remove();
+					$("#tableColor").remove();
 					temp += "<tr>";
 					$.each(data, function(i, elt) {
 						if( i % 6 != 0){
 							if(elt.home_team == null && elt.away_team == null){
-								temp += "<td bgcolor='##04B404' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>";	
-							}else if(elt.hom_team != null && elt.away_team != null){
+								temp += "<td bgcolor='#66ff33' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>";	
+							}else if(elt.home_team != null && elt.away_team != null){
 								temp += "<td bgcolor='#ff0066' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>";
 							}else {
 								temp += "<td bgcolor='#ffff99' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>";
 							}
 						}else{
 							temp +="</tr>";
-							temp +="<tr><td bgcolor='##04B404' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>"
+							if(elt.home_team == null && elt.away_team == null){
+								temp +="<tr><td bgcolor='#66ff33' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>"
+							}else if(elt.home_team != null && elt.away_team != null){
+								temp +="<tr><td bgcolor='#ff0066' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>"
+							}else {
+								temp +="<tr><td bgcolor='#ffff99' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>"
+							}
 						}
 					});
 					temp +="</tr>";
+					temp += "<div align='right' id='tableColor'><span style='background-color:#ff0066'>　</span><span> : 예약불가 </span>"
+					temp += "<span style='background-color:#ffff99'>　</span><span> : 한 팀 예약가능 </span>"
+					temp+= "<span style='background-color:#66ff33'>　</span><span> : 공석</span>"
+					temp += "</div>"
 					$("#calendarDiv").append(temp);
 					$("input:radio[name=time]").click(function() {
 						$("#teamInfo").remove();
@@ -559,9 +570,10 @@ $(document).ready(function() {
 							url : "selectSchedule.do?game_date="+$(this).val(),
 							type: "post",
 							success: function(selectedData) {
-								tmp = "<table id='teamInfo' width='712px'><caption>예약한 팀 정보</caption>"
-								tmp +="<tr><td>홈팀</td><td>어웨이팀</td></tr>";
-								tmp += "<tr><td>"+selectedData.home_team+"</td><td>"+selectedData.away_team+"</td></tr><table>";
+								tmp = "<table id='teamInfo' width='712px' border='1'><caption>예약한 팀 정보</caption>"
+								tmp +="<tr bgcolor='#00ccff' align='center'><td>홈팀</td><td>어웨이팀</td></tr>";
+								tmp += "<tr align='center'><td id='reservedHomeTeam'>"+selectedData.home_team+"</td>"
+								tmp +="<td id='reservedAwayTeam'>"+selectedData.away_team+"</td></tr><table>";
 								$("#calendarDiv").append(tmp);
 							},
 							error:function(request,status,error){
@@ -577,29 +589,32 @@ $(document).ready(function() {
 		});
 	});
 	
+	
 	$("#reserveButton").click(function() {
 		var radioValue = $(":input:radio[name=time]:checked").val();
-		var year = radioValue.substr(0, 4);
-		var month = radioValue.substr(4, 2);
-		var day = radioValue.substr(6, 2);
-		var hour = radioValue.substr(8,2);
-		if(confirm(year+"년 "+month+"월 "+day+"일 "+hour+"시에 예약하시겠습니까?")){
-			$.ajax({
-				url : "reserve.do?game_date="+radioValue,
-				type : "post",
-				success: function(data) {
-					if(data==true){
-						alert("관리자가 승인하면 완료됩니다.");
-						}else{
-						alert("예약실패");
-					}
-				},
-				error:function(request,status,error){
-			        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
-			     }
-			});
+		if(radioValue == null){
+			alert("날짜와 시간을 선택한 후 예약해주세요")
 		}else{
-			alert("예약안해!")
+			var year = radioValue.substr(0, 4);
+			var month = radioValue.substr(4, 2);
+			var day = radioValue.substr(6, 2);
+			var hour = radioValue.substr(8,2);
+			if(confirm(year+"년 "+month+"월 "+day+"일 "+hour+"시에 예약하시겠습니까?")){
+					$.ajax({
+						url : "reserve.do?game_date="+radioValue,
+						type : "post",
+						success: function(data) {
+							if(data==true){
+								alert("관리자가 승인하면 완료됩니다.");
+								}else{
+								alert("해당 시간은 모두 예약중이므로 사용 불가능합니다.");
+							}
+						},
+						error:function(request,status,error){
+					        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
+					     }
+					});
+			}
 		}
 	});
 	$("#chatButton").click(function() {
