@@ -32,8 +32,19 @@ body {
 <meta charset="UTF-8">
 <title>마이페이지</title>
 </head>
+<script type="text/javascript">
+	function withdraw(){
+		var withdraw = confirm("정말로 탈퇴하시겠습니까?")
+		if(withdraw){
+			alert("탈퇴되었습니다");
+			location.href = "./withdraw.do";
+		}else{
+			alert("취소되었습니다")
+		}
+	}
+</script>
 <body>
-	<jsp:include page="KLoginHeader.jsp"/>
+	<jsp:include page="LoginHeader.jsp"/>
 		<nav style="text-align: center;" class="navbar">
   			<a href="./MemberMyPage.do">마이페이지</a>
   			<a href="./TeamPage.do">팀페이지</a>
@@ -50,7 +61,7 @@ body {
 		</tr>
 		<c:forEach items="${btdto}" var="bt">
 			<tr>
-				<td colspan="2">소속팀 :&nbsp;${bt.team_id} <input type="button" value="탈퇴" onclick="delete()"></td>
+				<td colspan="2">소속팀 :&nbsp;${bt.team_id} <input type="button" value="탈퇴" onclick="delUser()"></td>
 			</tr>
 		</c:forEach>	
 	</table>

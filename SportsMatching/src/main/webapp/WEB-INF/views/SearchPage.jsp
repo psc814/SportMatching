@@ -31,7 +31,7 @@ body {
 </style>
 </head>
 <body>
-<jsp:include page="KLoginHeader.jsp"/>
+<jsp:include page="LoginHeader.jsp"/>
 <nav style="text-align: center;" class="navbar">
   <a href="./MemberMyPage.do">마이페이지</a>
   <a href="./TeamPage.do">팀페이지</a>

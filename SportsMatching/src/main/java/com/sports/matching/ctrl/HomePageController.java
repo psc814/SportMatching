@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sports.matching.dtos.Belonged_TeamDto;
+import com.sports.matching.dtos.MembersDto;
 import com.sports.matching.model.MemberShip_IService;
 
 @Controller
@@ -34,8 +35,16 @@ public class HomePageController {
 		model.addAttribute("btdto", btdto);
 		return "MemberMyPage";
 	}
+	@RequestMapping(value = "/withdraw.do", method = RequestMethod.POST)
+	public String withdraw(HttpSession session, String member_id) {
+		log.info("개인회원 탈퇴");
+		MembersDto mdto = (MembersDto) session.getAttribute("uEmail");
+		boolean isc = service.updateWithdraw(member_id);
+		if(isc) {
+			service.deleteMemberTeam(member_id);
+		}else {
+			return "MemberMyPage";
+		}
+		return "SearchPage";
+	}
 }
-
-//		Map<String, String> map = new HashMap<String, String>();
-//		map.put("member_id", BTDto.getMember_id());
-//		map.put("belongTeam", BTDto.getTeam_id());

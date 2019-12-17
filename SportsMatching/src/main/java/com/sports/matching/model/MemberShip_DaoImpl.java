@@ -49,9 +49,9 @@ public class MemberShip_DaoImpl implements MemberShip_IDao {
 	}
 
 	@Override
-	public StadiumAdminDto adminLogin(StadiumAdminDto SADto) {
+	public StadiumAdminDto adminLogin(Map<String, String> map) {
 		logger.info("관리자 로그인");
-		return session.selectOne(NS+"adminLogin", SADto);
+		return session.selectOne(NS+"adminLogin", map);
 	}
 
 	@Override
