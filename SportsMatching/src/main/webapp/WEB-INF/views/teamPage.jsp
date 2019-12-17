@@ -4,8 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>검색페이지</title>
-<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+<title>팀 페이지</title>
+<style type="text/css">
+#regiForm{
+	margin-left: 550px;
+	margin-top: 200px;
+}
+</style>
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -37,6 +42,17 @@ body {
   <a href="./TeamPage.do">팀페이지</a>
   <a href="./MakeTeam.do">팀 창설</a>
   <a href="./AnswerBoard.do">게시판</a>
-</nav> 
+</nav>
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

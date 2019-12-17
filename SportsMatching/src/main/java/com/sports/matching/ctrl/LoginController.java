@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.sports.matching.api.KakaoApi;
 import com.sports.matching.dtos.MembersDto;
 import com.sports.matching.dtos.StadiumAdminDto;
+import com.sports.matching.dtos.TeamDto;
 import com.sports.matching.model.MemberShip_IService;
 
 
@@ -267,5 +268,20 @@ public class LoginController {
     	return "AdminReservationPage";
     }
     
+    
+    @RequestMapping(value = "/teamLogin.do", method = RequestMethod.GET)
+    public String teamLogin(HttpSession session, TeamDto TDto) {
+    	log.info("팀 로그인 \t:{}", TDto);
+    	Map<String, String> map = new HashMap<String, String>();
+    	map.put("team_id", TDto.getTeam_id());
+    	map.put("team_pw", TDto.getTeam_pw());
+    	TeamDto tdto = service.teamLogin(map);
+    	if(tdto != null) {
+    		session.setAttribute("tdto", tdto);
+    	}else {
+    		return "LoginPage";
+    	}
+    	return "teamPage";
+    }
 	
 }

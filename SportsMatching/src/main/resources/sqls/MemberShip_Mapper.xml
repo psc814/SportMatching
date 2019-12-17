@@ -39,6 +39,18 @@
 	<result column="ADMIN_PW" property="admin_pw"/>
 </resultMap>
 
+<resultMap type="TDto" id="teamLogin">
+	<result column="TEAM_ID" property="team_id"/>
+	<result column="TEAM_PW" property="team_pw"/>
+	<result column="CAPTAIN_ID" property="captain_id"/>
+	<result column="CAPTAIN_PHONE_NUMBER" property="captain_phone_number"/>
+	<result column="PLAYGROUND" property="playground"/>
+	<result column="QUESTION" property="question"/>
+	<result column="ANSWER" property="answer"/>
+	<result column="DORMANT_ID" property="dormant_id"/>
+	<result column="LAST_LOGIN_DATE" property="last_login_date"/>
+</resultMap>
+
 <!-- 로그인  -->
 <!-- API 회원가입 -->
 <insert id="apiLogin" parameterType="java.lang.String">
@@ -60,7 +72,7 @@ SELECT COUNT(MEMBER_ID)
 </select>
 
 <!--팀 로그인  -->
-<select id="teamLogin" parameterType="TDto" resultType="TDto">
+<select id="teamLogin" parameterType="java.util.Map" resultMap="teamLogin">
 SELECT TEAM_ID
 	FROM TEAM
 		WHERE TEAM_ID = #{team_id} AND TEAM_PW = #{team_pw}
@@ -87,7 +99,7 @@ VALUES(#{team_id}, #{team_pw}, #{captain_id}, #{captain_phone_number}, #{playgro
 </insert>
 
 <!-- 팀 아이디 중복검사 -->
-<select id="duplicateTeamId" parameterType="java.lang.String">
+<select id="duplicateTeamId" parameterType="java.lang.String" resultType="java.lang.Integer">
 SELECT COUNT(TEAM_ID)
 	FROM TEAM
 		WHERE TEAM_ID = #{team_id}
@@ -185,5 +197,11 @@ DELETE FROM
 DELETE FROM BELONGED_TEAM  WHERE TEAM_ID = #{team_id}
 </delete>
 
-
+<!--만들어야할것  -->
+<!-- 소속팀 추가 -->
+<insert id="addBelongedTeam" parameterType="java.lang.String">
+INSERT INTO BELONGED_TEAM
+(BELONGED_TEAM_CODE, MEMBER_ID, TEAM_ID)
+VALUES(#{belonged_team_code},#{member_id},#{team_id})
+</insert>
 </mapper>

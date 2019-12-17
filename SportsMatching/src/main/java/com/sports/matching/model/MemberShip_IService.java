@@ -18,7 +18,7 @@ public interface MemberShip_IService {
 	// 회원 로그인
 	public MembersDto selectUser(String member_id);
 	//팀 로그인 
-	public TeamDto teamLogin(TeamDto TDto);
+	public TeamDto teamLogin(Map<String, String> map);
 	//관리자 로그인
 	public StadiumAdminDto adminLogin(Map<String, String> map);
 	//개인회원의 팀 가입
@@ -26,7 +26,7 @@ public interface MemberShip_IService {
 	//팀 회원 가입 (팀 창단)
 	public boolean registTeam(TeamDto TDto);
 	//팀 아이디 중복검사
-	public TeamDto duplicateTeamId(String team_id);
+	public int duplicateTeamId(String team_id);
 	//탈퇴회원 검사
 	public MembersDto withDraw(MembersDto MDto);
 	//재가입
