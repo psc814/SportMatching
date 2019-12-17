@@ -29,8 +29,8 @@ public class Schedule_ServiceImpl implements Schedule_IService {
 	}
 
 	@Override
-	public boolean awayRegisterSchedule(int schedule_id) {
-		return dao.awayRegisterSchedule(schedule_id);
+	public boolean awayRegisterSchedule(ScheduleDto dto) {
+		return dao.awayRegisterSchedule(dto);
 	}
 
 	@Override
