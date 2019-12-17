@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sports.matching.dtos.Belonged_TeamDto;
 import com.sports.matching.dtos.MembersDto;
+import com.sports.matching.dtos.TeamDto;
 import com.sports.matching.model.MemberShip_IService;
 
 @Controller
@@ -46,5 +47,67 @@ public class HomePageController {
 			return "MemberMyPage";
 		}
 		return "SearchPage";
+	}
+	
+	@RequestMapping(value = "/delTeam.do", method = RequestMethod.GET)
+	public String deleteBelongTeam(HttpSession session, String team_id) {
+		log.info("마이페이지에서 소속팀 탈퇴");
+		TeamDto Tdto = (TeamDto) session.getAttribute("tdto");
+		boolean isc = service.deleteBelongedTeam(team_id);
+		if(isc) {
+			return "redirect:/MemberMyPage.do";
+		}else {
+			return "MemberMyPage";
+		}
+	}
+	
+	/**
+	 * 마이페이지에서 소속팀 추가
+	 * @param session
+	 * @param team_id
+	 * @return
+	 */
+	@RequestMapping(value = "/addTeam.do", method = RequestMethod.GET)
+	public String addBelongteam(HttpSession session, String team_id) {
+		
+		return "";
+		
+	}
+	
+	
+	@RequestMapping(value = "/MakeTeam.do",method = RequestMethod.GET)
+	public String registTeamForm() {
+		log.info("팀 창설(회원가입폼)");		
+		return "RegistTeam";
+	}
+	
+	
+	@RequestMapping(value = "/idchk.do",method = RequestMethod.GET)
+	public String idCheck(Model model, String team_id) {
+		log.info("팀 아이디 중복체크 \t:{}",team_id);
+		int n = service.duplicateTeamId(team_id);
+		if(n>0) {
+			model.addAttribute("isc", n==0?true:false);
+		}else {
+			model.addAttribute("isc", n==0?true:false);
+		}
+		return "RegistTeamIdChk";
+	}
+	
+	@RequestMapping(value = "/Regist.do", method = RequestMethod.POST)
+	public String registTeam(TeamDto TDto) {
+		log.info("팀회원가입");
+		boolean isc = service.registTeam(TDto);
+		return isc?"redirect:/SearchPage.do":"redirect:/MakeTeam.do";
+	}
+	
+	@RequestMapping(value = "/SearchPage.do", method = RequestMethod.GET)
+	public String searchPage() {
+		return "SearchPage";
+	}
+	
+	@RequestMapping(value = "/TeamPage.do", method = RequestMethod.GET)
+	public String teamPage() {
+		return "teamPage";
 	}
 }
