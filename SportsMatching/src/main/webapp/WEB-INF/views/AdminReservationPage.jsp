@@ -249,7 +249,7 @@ function toCancel() {
 
 							<%
 								out.println("<br>");
-									out.println("<span class='datespan'>" + clickedDate + "</span>");
+							out.println("<span class='datespan' style='display:none;'>" + clickedDate + "</span>");
 									out.println("</TD>");
 									newLine++;
 									if (newLine == 7) {

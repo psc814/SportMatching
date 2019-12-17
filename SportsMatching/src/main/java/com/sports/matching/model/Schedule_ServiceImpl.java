@@ -74,12 +74,12 @@ public class Schedule_ServiceImpl implements Schedule_IService {
 	}
 
 	@Override
-	public List<String> selectAllSchedule(ScheduleDto dto) {
+	public List<ScheduleDto> selectAllSchedule(ScheduleDto dto) {
 		return dao.selectAllSchedule(dto);
 	}
 
 	@Override
-	public List<ScheduleDto> selectSchedule(ScheduleDto dto) {
+	public ScheduleDto selectSchedule(ScheduleDto dto) {
 		return dao.selectSchedule(dto);
 	}
 

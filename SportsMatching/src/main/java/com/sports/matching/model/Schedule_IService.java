@@ -21,8 +21,8 @@ public interface Schedule_IService {
 	public boolean denyHomeSchedule(int schedule_id);
 	public boolean denyAwaySchedule(int schedule_id);
 	
-	public List<String> selectAllSchedule(ScheduleDto dto);
-	public List<ScheduleDto> selectSchedule(ScheduleDto dto);
+	public List<ScheduleDto> selectAllSchedule(ScheduleDto dto);
+	public ScheduleDto selectSchedule(ScheduleDto dto);
 	public List<ScheduleDto> selectRequestReservation(ScheduleDto dto);
 	
 }

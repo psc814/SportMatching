@@ -254,7 +254,7 @@ function toCancel() {
 
 							<%
 								out.println("<br>");
-									out.println("<span class='datespan'>" + clickedDate + "</span>");
+									out.println("<span class='datespan' style='display:none;'>" + clickedDate + "</span>");
 									out.println("</TD>");
 									newLine++;
 									if (newLine == 7) {
@@ -297,7 +297,7 @@ $(document).ready(function() {
 					timeData[i] ="999";
 				}
 				$.each(data, function(i, elt) {
-					timeData[elt*1] = elt*1;
+					timeData[elt.game_date*1] = elt.game_date*1;
 				});
 				for(var i = 0; i < 24;i++){
 					if(i % 6 == 0){

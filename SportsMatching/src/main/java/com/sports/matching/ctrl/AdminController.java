@@ -66,7 +66,7 @@ public class AdminController {
 	@RequestMapping(value = "/denyReservation.do", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean denyReservation(String schedule_id) {
-		logger.info("관리자가 스케쥴 아이디가 {}인 예약을 확정",schedule_id);
+		logger.info("관리자가 스케쥴 아이디가 {}인 예약을 거절",schedule_id);
 		return sc_service.denyHomeSchedule(Integer.parseInt(schedule_id));
 	}
 	
