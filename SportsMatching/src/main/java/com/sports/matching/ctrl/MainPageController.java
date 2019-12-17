@@ -37,7 +37,6 @@ public class MainPageController {
 	@RequestMapping(value = "/userMain.do", method = RequestMethod.GET)
 	public String userMainPage() {
 		logger.info("유저메인페이지");
-		
 		return "UserMainPage";
 	}
 	
@@ -61,7 +60,16 @@ public class MainPageController {
 		ScheduleDto dto = new ScheduleDto();
 		dto.setGame_date(game_date);
 		dto.setStadium_code("SC0003");
-		return sc_service.homeRegisterSchedule(dto);
+		ScheduleDto tDto = sc_service.selectSchedule(dto);
+		if(tDto.getHome_team().equals("홈팀 없음") ) {
+			return sc_service.homeRegisterSchedule(dto);
+		}else {
+			if(tDto.getAway_team().equals("어웨이팀 없음")) {
+				return sc_service.awayRegisterSchedule(dto);
+			}else {
+				return false;
+			}
+		}
 	}
 	
 	@RequestMapping(value = "/selectSchedule.do", method = RequestMethod.POST)

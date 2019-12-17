@@ -9,7 +9,7 @@ public interface Schedule_IService {
 	public boolean registerSchedule(ScheduleDto dto);
 	public boolean homeRegisterSchedule(ScheduleDto dto);
 	public boolean homeConfirmSchedule(ScheduleDto dto);
-	public boolean awayRegisterSchedule(int schedule_id);
+	public boolean awayRegisterSchedule(ScheduleDto dto);
 	public boolean awayConfirmSchedule(ScheduleDto dto);
 	
 	public boolean homeCancel(int schedule_id);

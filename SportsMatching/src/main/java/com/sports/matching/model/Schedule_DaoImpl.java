@@ -41,9 +41,9 @@ public class Schedule_DaoImpl implements Schedule_IDao {
 	}
 
 	@Override
-	public boolean awayRegisterSchedule(int schedule_id) {
+	public boolean awayRegisterSchedule(ScheduleDto dto) {
 		logger.info("어웨이팀 일정 등록 신청");
-		int n = session.update(NS + "awayRegisterSchedule", schedule_id);
+		int n = session.update(NS + "awayRegisterSchedule", dto);
 		return (n > 0) ? true : false;
 	}
 
