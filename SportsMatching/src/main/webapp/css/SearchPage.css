@@ -36,5 +36,50 @@
 
 #btnSearch{
 	border-radius: 24px;
-	mar
 }
+#searchResult{
+	border : 1px solid black;
+	width : 80%;
+	margin: auto;
+}
+#resultTable{
+	border : 1px solid black;
+	width : 100%;
+	text-align: center;
+	margin: auto;
+}
+.listNum{
+	border : 1px solid black;
+	width : 10%;
+	text-align: center; 
+}
+.listName{
+	border : 1px solid black;
+	width : 40%;
+	text-align: center;
+}
+.listAddress{
+	border : 1px solid black;
+	width : 50%;
+	text-align: center;
+}
+#tableCase{
+	border : 1px solid red;
+	width: 80%;
+	margin: auto;
+	text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

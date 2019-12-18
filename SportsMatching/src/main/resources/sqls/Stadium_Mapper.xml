@@ -18,9 +18,9 @@
 	
 	<!-- 구장검색 -->
 	<select id="searchStadium" parameterType="java.lang.String" resultType="STDto">
-		SELECT STADIUM_CODE, STADIUM_NAME, ADDRESS, SI_GUN_GU
+		SELECT STADIUM_CODE, STADIUM_NAME, ADDRESS
 		FROM STADIUM
-		WHERE SI_GUN_GU LIKE '%'||#{condition}||'%' 
+		WHERE SI_GUN_GU LIKE '%'||#{condition}||'%'
 		OR STADIUM_NAME LIKE '%'||#{condition}||'%'
 	</select>
 	<!-- 구장상세조회 -->
@@ -52,7 +52,7 @@
 		AND TO_CHAR(GAME_DATE, 'DAY') = #{day}
 	</select>
 	<!-- 시간 별 통계 -->
-	<select id="selectStadiumTimeStatistic" parameterType="java.util.Map" resultType="java.util.Integer">
+	<select id="selectStadiumTimeStatistic" parameterType="java.util.Map" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM SCHEDULE
 		WHERE STADIUM_CODE = #{stadium_code}
