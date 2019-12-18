@@ -1,3 +1,4 @@
+<%@page import="com.sports.matching.dtos.Belonged_TeamDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -36,12 +37,13 @@ body {
 </style>
 </head>
 <body>
-<jsp:include page="LoginHeader.jsp"/>
+<jsp:include page="TeamLoginHeader.jsp"/>
 <nav style="text-align: center;" class="navbar">
   <a href="./TeamInfo.do">팀 정보</a>
   <a href="./TeamManageMent.do">팀원 관리</a>
   <a href="./CancelRes.do">예약 취소</a>
 </nav>
+${lists}
 
 </body>
 </html>

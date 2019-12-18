@@ -36,22 +36,12 @@ body {
 </style>
 </head>
 <body>
-<jsp:include page="LoginHeader.jsp"/>
+<jsp:include page="TeamLoginHeader.jsp"/>
 <nav style="text-align: center;" class="navbar">
-  <a href="./TeamInfo.do">팀 정보</a>
+  <a href="./TeamInfo.do?team_id=">팀 정보</a>
   <a href="./TeamManageMent.do">팀원 관리</a>
   <a href="./CancelRes.do">예약 취소</a>
 </nav>
-
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>

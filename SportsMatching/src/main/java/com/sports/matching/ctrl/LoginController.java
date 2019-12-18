@@ -277,11 +277,19 @@ public class LoginController {
     	map.put("team_pw", TDto.getTeam_pw());
     	TeamDto tdto = service.teamLogin(map);
     	if(tdto != null) {
-    		session.setAttribute("tdto", tdto);
+    		session.setAttribute("tdto", tdto.getTeam_id());
+    		
     	}else {
     		return "LoginPage";
     	}
     	return "teamPage";
+    }
+    
+    @RequestMapping(value = "/teamLogout.do", method = RequestMethod.GET)
+    public String teamLogout(HttpSession session) {
+    	log.info("팀 로그아웃");
+    	session.invalidate();
+    	return "redirect:/loginForm.do";
     }
 	
 }
