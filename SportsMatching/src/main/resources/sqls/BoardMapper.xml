@@ -4,24 +4,24 @@
 
 <!-- 게시글 조회 시작 -->
 	<!-- 멤버 게시글 조회 -->
-	<select id="MemberBoardList" parameterType="java.lang.String" resultType="MBDto">
-	SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT 
-		FROM(SELECT ROWNUM RNUM,MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT 
-		FROM (SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT 
+	<select id="MemberBoardList" parameterType="java.util.Map" resultType="MBDto">
+	SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,CATEGORY_CODE,REPLUCOUNT 
+		FROM(SELECT ROWNUM RNUM,MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,CATEGORY_CODE,REPLUCOUNT 
+		FROM (SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,CATEGORY_CODE,REPLUCOUNT 
 			FROM MEMBER_BOARD
 				WHERE CATEGORY_CODE = #{category_code}
 		ORDER BY MEMBER_BOARD_SEQ DESC))
 		  	WHERE 
-  				RNUM BETWEEN #{startList} AND #{listSize}
+  				RNUM BETWEEN #{start} AND #{end}
 	</select>
 	
 	
 	
 	<!-- 팀 게시글 조회 -->
-	<select id="TeamBoardList" parameterType="RowNum" resultType="TBDto">
-	SELECT TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT
- 		FROM(SELECT ROWNUM RNUM,TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT 
-  		FROM (SELECT TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT 
+	<select id="TeamBoardList" parameterType="java.util.Map" resultType="TBDto">
+	SELECT TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT,CATEGORY_CODE,CATEGORY_CODE,REPLUCOUNT 
+ 		FROM(SELECT ROWNUM RNUM,TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE,CATEGORY_CODE,REPLUCOUNT 
+  		FROM (SELECT TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE,CATEGORY_CODE,REPLUCOUNT 
    			FROM TEAM_BOARD
    				WHERE CATEGORY_CODE = #{category_code}
    		ORDER BY TEAM_BOARD_SEQ DESC))
@@ -29,10 +29,21 @@
   				RNUM BETWEEN #{startList} AND #{listSize}
 	</select>
 	
+	<!-- 멤버 게시글 전체 갯수 -->
+	<select id="MemberBoardTotalCount" resultType="java.lang.Integer">
+	SELECT COUNT(*) 
+		FROM MEMBER_BOARD
+	</select>
+	
+	<!-- 팀 게시글 전체 갯수 -->
+	<select id="TeamBoardTotalCount" resultType="java.lang.Integer">
+	SELECT COUNT(*) 
+		FROM TEAM_BOARD
+	</select>
 	
 	<!-- 멤버 게시글 상세 조회 -->
 	<select id="MemberBoardDetail" parameterType="java.lang.String" resultType="MBDto">
-	SELECT MEMBER_BOARD_SEQ, MEMBER_ID,BOARD_TITLE, NVL(BOARD_CONTENT, ' '),READCOUNT,REGDATE,CATEGORY_CODE,REPLUCOUNT 
+	SELECT MEMBER_BOARD_SEQ, MEMBER_ID,BOARD_TITLE, NVL(BOARD_CONTENT, ' '),BOARD_CONTENT,READCOUNT,REGDATE,REPLUCOUNT 
  		FROM MEMBER_BOARD
  			WHERE 
  				MEMBER_BOARD_SEQ = #{member_board_seq}
@@ -41,7 +52,7 @@
 	
 	<!-- 팀 게시글 상세 조회 -->
 	<select id="TeamBoardDetail" parameterType="java.lang.String" resultType="TBDto">
-	SELECT TEAM_BOARD_SEQ,TEAM_ID,BOARD_TITLE, NVL(BOARD_CONTENT, ' '),READCOUNT,REGDATE,CATEGORY_CODE,REPLUCOUNT 
+	SELECT TEAM_BOARD_SEQ,TEAM_ID,BOARD_TITLE, NVL(BOARD_CONTENT, ' '),BOARD_CONTENT,READCOUNT,REGDATE,REPLUCOUNT 
  		FROM TEAM_BOARD
  			WHERE 
  				TEAM_BOARD_SEQ = ${team_board_seq}
@@ -72,8 +83,6 @@
 <!--  		FROM MEMBER_BOARD -->
 <!--  		<include refid="Search"/> -->
 <!--  		ORDER BY MEMBER_BOARD_SEQ DESC, REGDATE DESC -->
-	
-	
 <!-- 	</select> -->
 	
 	<!-- 팀 게시글 검색 조회 -->
@@ -84,19 +93,30 @@
 <!--  		ORDER BY TEAM_BOARD_SEQ DESC, REGDATE DESC -->
 <!-- 	</select> -->
 	
+	<!-- 멤버 게시판 레코드 갯수 -->
+<!-- 	<select id="MemberCountArticle"> -->
+<!-- 	SELECT COUNT(*) FROM MEMBER_BOARD -->
+<!-- 		<include refid="Search"/> -->
+<!-- 	</select> -->
+	
+	<!-- 팀 게시판 레코드 갯수 -->
+<!-- 	<select id="MemberCountArticle"> -->
+<!-- 	SELECT COUNT(*) FROM TEAM_BOARD -->
+<!-- 		<include refid="Search"/> -->
+<!-- 	</select> -->
 	
 	<!-- sql code -->
 <!-- 	<sql id="Search"> -->
-<!--   		<choose> -->
+<!--   		<cChoose> -->
+		<!--검색 옵션을 사용으로 검색할 경우 -->
 <!--   			<when test="searchOption == 'all'"> -->
-<!--   			검색 옵션을 사용으로 검색할 경우 -->
-<!--   				WHERE writer like '%'||'keyword'||'%' -->
-<!--  				OR content like '%'||'keyword'|| '%' -->
-<!--  				OR title like '%'||'keyword'|| '%' -->
+<!--   				WHERE writer like '%'||#{keyword}||'%' -->
+<!--  				OR content like '%'||#{keyword}|| '%' -->
+<!--  				OR title like '%'||#{keyword}|| '%' -->
 <!--   			</when> -->
-<!--   			그러지 않을 경우 -->
+			<!--그러지 않을 경우 -->
 <!--   			<otherwise> -->
-<!--    				WHERE #{searchOption} like '%'||'keyword'|| '%'   -->
+<!--    				WHERE #{searchOption} like '%'||#{keyword}|| '%'   -->
 <!--   			</otherwise> -->
 <!--   		</choose> -->
 <!--  	</sql> -->
@@ -118,10 +138,6 @@
 	</select>
 	
 <!-- 게시글 조회 끝 -->
-
-
-
-
 
 
 
@@ -350,7 +366,31 @@
 	</delete>
 	
 <!-- 게시글 삭제 끝 -->
-
-
-
+	
+	<!-- 멤버 게시판 페이징 처리 -->
+<!-- 	<select id="MemberPageList" parameterType="RowNum" resultType="MBDto"> -->
+<!-- 			SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT  -->
+<!-- 		FROM(SELECT ROWNUM RNUM,MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT  -->
+<!-- 		FROM (SELECT MEMBER_BOARD_SEQ,MEMBER_ID,BOARD_TITLE,READCOUNT,REGDATE,REPLUCOUNT  -->
+<!-- 			FROM MEMBER_BOARD -->
+<!-- 				WHERE CATEGORY_CODE = #{category_code} -->
+<!-- 		ORDER BY MEMBER_BOARD_SEQ DESC)) -->
+<!-- 		  	WHERE  -->
+<!--   				RNUM BETWEEN #{start} AND #{end} -->
+<!-- 	</select> -->
+	
+	<!-- 팀 게시판 페이징 처리 -->
+<!-- 	<select id="TeamPageList" parameterType="RowNum" resultType="TBDto"> -->
+<!-- 	SELECT TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT -->
+<!--  		FROM(SELECT ROWNUM RNUM,TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT  -->
+<!--   		FROM (SELECT TEAM_BOARD_SEQ, TEAM_ID, BOARD_TITLE, READCOUNT, REGDATE, REPLUCOUNT  -->
+<!--    			FROM TEAM_BOARD -->
+<!--    				WHERE CATEGORY_CODE = #{category_code} -->
+<!--    		ORDER BY TEAM_BOARD_SEQ DESC)) -->
+<!--   			WHERE  -->
+<!--   				RNUM BETWEEN #{start} AND #{end} -->
+<!-- 	</select> -->
+	
+	
+	
 </mapper>

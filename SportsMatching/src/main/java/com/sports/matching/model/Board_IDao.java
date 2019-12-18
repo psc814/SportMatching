@@ -17,7 +17,7 @@ public interface Board_IDao {
 	 * 멤버 게시글 조회
 	 * @return MemberBoardList
 	 */
-	public List<MemberBoardDTO> MemberBoardList();
+	public List<MemberBoardDTO> MemberBoardList(Map<String, String> map);
 		
 	
 	/**
@@ -26,6 +26,17 @@ public interface Board_IDao {
 	 */
 	public List<TeamBoardDTO> TeamBoardList();
 	
+	/**
+	 * 멤버 게시글 전체 갯수
+	 * @return
+	 */
+	public int MemberBoardTotalCount();
+	
+	/**
+	 * 팀 게시글 전체 갯수
+	 * @return
+	 */
+	public int TeamBoardTotalCount();
 	
 	/**
 	 * 멤버 게시글 상세 조회
@@ -55,6 +66,23 @@ public interface Board_IDao {
 	 */
 	public TeamReplyDTO DetailTeamReply(String reply_seq);
 	
+	
+	/**
+	 * 멤버 게시글 검색 조회
+	 * @param searchOption
+	 * @param keyword
+	 * @return
+	 */
+//	public List<MemberBoardDTO> MemberBoardSearch(String searchOption, String keyword);
+	
+	
+	/**
+	 * 팀 게시글 검색 조회
+	 * @param searchOption
+	 * @param keyword
+	 * @return
+	 */
+//	public List<TeamBoardDTO> TeamBoardSearch(String searchOption, String keyword);
 	
 	/**
 	 * 멤버 게시판 상세글 조회수 증가
@@ -182,6 +210,20 @@ public interface Board_IDao {
 	 * @return TeamReplyDTO
 	 */
 	public boolean DelTeamReReply(TeamReplyDTO treplydto);
+	
+	/**
+	 * 멤버 게시판 페이징 처리
+	 * @param dto
+	 * @return
+	 */
+	public List<MemberBoardDTO> MemberPageList(RowNum_DTO dto);
+	
+	/**
+	 * 팀 게시판 페이징 처리
+	 * @param dto
+	 * @return
+	 */
+	public List<TeamBoardDTO> TeamPageList(RowNum_DTO dto);
 
 
 }

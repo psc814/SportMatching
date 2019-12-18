@@ -1,5 +1,6 @@
 package com.sports.matching.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sports.matching.dtos.MemberBoardDTO;
 import com.sports.matching.dtos.MemberReplyDTO;
+import com.sports.matching.dtos.RowNum_DTO;
 import com.sports.matching.dtos.TeamBoardDTO;
 import com.sports.matching.dtos.TeamReplyDTO;
 
@@ -27,8 +29,8 @@ public class Board_DaoImpl implements Board_IDao {
 	/**
 	 * 멤버 게시글 조회
 	 */
-	public List<MemberBoardDTO> MemberBoardList() {
-		return sqlsession.selectList(NS+"MemberBoardList");
+	public List<MemberBoardDTO> MemberBoardList(Map<String, String> map) {
+		return sqlsession.selectList(NS+"MemberBoardList",map);
 	}
 
 
@@ -39,6 +41,23 @@ public class Board_DaoImpl implements Board_IDao {
 	 */
 	public List<TeamBoardDTO> TeamBoardList() {
 		return sqlsession.selectList(NS+"TeamBoardList");
+	}
+	
+	@Override
+	/**
+	 * 멤버 게시글 전체 갯수
+	 */
+	public int MemberBoardTotalCount() {
+
+		return sqlsession.selectOne(NS+"MemberBoardTotalCount");
+	}
+	
+	/**
+	 * 팀 게시글 전체 갯수
+	 */
+	public int TeamBoardTotalCount() {
+		
+		return sqlsession.selectOne(NS+"TeamBoardTotalCount");
 	}
 			
 
@@ -74,6 +93,27 @@ public class Board_DaoImpl implements Board_IDao {
 	public TeamReplyDTO DetailTeamReply(String reply_seq) {
 		return sqlsession.selectOne(NS+"DetailTeamReply", reply_seq);
 	}
+	
+	/**
+	 * 멤버 게시글 검색 조회
+	 */
+//	public List<MemberBoardDTO> MemberBoardSearch(String searchOption, String keyword){
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("searchOption", searchOption);
+//		map.put("keyword", keyword);
+//		return sqlsession.selectList(NS+"MemberBoardSearch", map);
+//	}
+	
+	/**
+	 * 팀 게시글 검색 조회
+	 */
+//	public List<TeamBoardDTO> TeamBoardSearch(String searchOption, String keyword){
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("searchOption", searchOption);
+//		map.put("keyword", keyword);
+//		return sqlsession.selectList(NS+"TeamBoardSearch", map);
+//	}
+	
 	
 	
 	@Override
@@ -261,5 +301,22 @@ public class Board_DaoImpl implements Board_IDao {
 		int cnt = sqlsession.delete(NS+"DelTeamReReply", treplydto);
 		return cnt>0?true:false;
 	}
+	
+	@Override
+	/**
+	 * 멤버 게시판 페이징 처리
+	 */
+	public List<MemberBoardDTO> MemberPageList(RowNum_DTO dto){
+		return sqlsession.selectList(NS+"MemberPageList", dto);
+	}
+	
+	@Override
+	/**
+	 * 팀 게시판 페이징 처리
+	 */
+	public List<TeamBoardDTO> TeamPageList(RowNum_DTO dto){
+		return sqlsession.selectList(NS+"TeamPageList", dto);
+	}
+
 
 }

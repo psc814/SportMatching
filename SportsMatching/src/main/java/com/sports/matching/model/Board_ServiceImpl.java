@@ -29,10 +29,10 @@ public class Board_ServiceImpl implements Board_IService {
 	/**
 	 * 멤버 게시글 조회
 	 */
-	public List<MemberBoardDTO> MemberBoardList() {
+	public List<MemberBoardDTO> MemberBoardList(Map<String, String> map) {
 		logger.info("MemberBoardList 멤버 게시글 조회");
 		
-		return dao.MemberBoardList();
+		return dao.MemberBoardList(map);
 	}
 	
 
@@ -43,6 +43,25 @@ public class Board_ServiceImpl implements Board_IService {
 	public List<TeamBoardDTO> TeamBoardList() {
 		logger.info("TeamBoardList 팀 게시글 조회");
 		return dao.TeamBoardList();
+	}
+	
+	@Override
+	/**
+	 * 멤버 게시글 전체 갯수
+	 */
+	public int MemberBoardTotalCount() {
+		logger.info("MemberBoardTotalCount 멤버 게시글 전체 갯수");
+		return dao.MemberBoardTotalCount();
+	}
+	
+	@Override
+	/**
+	 * 팀 게시글 전체 갯수
+	 */
+	public int TeamBoardTotalCount() {
+		logger.info("TeamBoardTotalCount 팀 게시글 전체 갯수");
+		
+		return dao.TeamBoardTotalCount();
 	}
 	
 	@Override
@@ -80,7 +99,22 @@ public class Board_ServiceImpl implements Board_IService {
 		logger.info("DetailTeamReply 팀 게시글 댓글 조회");
 		return dao.DetailTeamReply(reply_seq);
 	}
-
+	
+	/**
+	 * 멤버 게시글 검색 조회
+	 */
+//	public List<MemberBoardDTO> MemberBoardSearch(String searchOption, String keyword){
+//		return dao.MemberBoardSearch(searchOption, keyword);
+//	}
+	
+	
+	/**
+	 * 팀 게시글 검색 조회
+	 */
+//	public List<TeamBoardDTO> TeamBoardSearch(String searchOption, String keyword){
+//		return dao.TeamBoardSearch(searchOption, keyword);
+//	}
+	
 
 	@Override
 	/**
@@ -253,6 +287,24 @@ public class Board_ServiceImpl implements Board_IService {
 	public boolean DelTeamReReply(TeamReplyDTO treplydto) {
 		logger.info("DelTeamReReply 팀 대댓글 삭제");
 		return dao.DelTeamReReply(treplydto);
+	}
+	
+	@Override
+	/**
+	 * 멤버 페이징 처리
+	 */
+	public List<MemberBoardDTO> MemberPageList(RowNum_DTO dto){
+		logger.info("MemberPageList 멤버 게시판 페이징 처리");
+		return dao.MemberPageList(dto);
+	}
+	
+	@Override
+	/**
+	 * 팀 페이징 처리
+	 */
+	public List<TeamBoardDTO> TeamPageList(RowNum_DTO dto){
+		logger.info("TeamPageList 팀 게시판 페이징 처리");
+		return dao.TeamPageList(dto);
 	}
 
 }
