@@ -117,14 +117,13 @@ body {
 			 <input type="text" name="answer" required="required">
 		</td>
 	</tr>
-	<tr>
-		<td colspan="2">
-			<input type="submit" value="회원가입">
-			<input type="button" value="취소" onclick="location.href='./SearchPage.do'">
-		</td>
-	</tr>
+	
 </table>
 </div>
+	<div style="text-align: center;">
+		<input type="submit" value="회원가입">
+		<input type="button" value="취소" onclick="location.href='./SearchPage.do'">
+	</div>
 </form>
 </body>
 </html>
