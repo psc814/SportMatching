@@ -43,7 +43,6 @@ public class MainPageController {
 	@RequestMapping(value = "/searchPage.do", method = RequestMethod.GET)
 	public String test() {
 		logger.info("검색페이지");
-		
 		return "SearchPage";
 	}
 	

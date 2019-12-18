@@ -58,8 +58,8 @@ body {
 				<td><%=s.getSchedule_id()%></td>
 				<td><%=s.getStadium_code()%></td>
 				<td><%=s.getGame_date().substring(2, 16)%></td>
-				<td><%=s.getHome_team()==null?"없음":s.getHome_team()%></td>
-				<td><%=s.getAway_team()==null?"없음":s.getAway_team()%></td>
+				<td><%=s.getHome_team() == null ? "없음" : s.getHome_team()%></td>
+				<td><%=s.getAway_team() == null ? "없음" : s.getAway_team()%></td>
 				<td>
 					<%
 						if (s.getHome_reservation() != null) {
@@ -72,12 +72,12 @@ body {
 					%>
 					<%
 						if (s.getAway_reservation() != null) {
-								if (s.getHome_reservation().equals("Y")) {
+								if (s.getAway_reservation().equals("Y")) {
 					%>
 					<button onclick="awaycancel(<%=s.getSchedule_id()%>)">어웨이 취소신청</button>
 					<%
 						}
-							}
+						}
 					%>
 				</td>
 			</tr>

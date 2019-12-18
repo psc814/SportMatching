@@ -69,8 +69,10 @@ public class TeamController {
 			return "TeamManageMent";
 		}
 	}
+
 	@RequestMapping(value = "/CancelRes.do", method = RequestMethod.GET)
 	public String cancelReservation(HttpSession session, Model model) {
+		log.info("예약 취소페이지로 이동(유저)");
 		String team_id = (String) session.getAttribute("tdto");
 		ScheduleDto dto = new ScheduleDto();
 		dto.setHome_team(team_id);
@@ -93,7 +95,6 @@ public class TeamController {
 	public boolean awaycancel(String schedule_id) {
 		log.info("아이디가 {}인 어웨이 취소신청",schedule_id);
 		return sc_service.homeCancel(Integer.parseInt(schedule_id));
-
 	}
 
 }

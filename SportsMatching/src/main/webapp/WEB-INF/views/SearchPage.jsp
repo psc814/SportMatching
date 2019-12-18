@@ -40,7 +40,7 @@ body {
   <a href="./TeamPage.do">팀페이지</a>
   <a href="./MakeTeam.do">팀 창설</a>
   <a href="./AnswerBoard.do">게시판</a>
-</nav> 
+</nav>
 	<div id="userMainContainer">
 		<div id="searchbox">
 			<select id="searchoption" onchange="chg(this)">
