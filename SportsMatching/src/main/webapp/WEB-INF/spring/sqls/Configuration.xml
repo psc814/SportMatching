@@ -24,6 +24,8 @@
 	<mappers>
 		<mapper resource="/sqls/Schedule_Mapper.xml" />
 		<mapper resource="/sqls/MemberShip_Mapper.xml" />
+		<mapper resource="/sqls/Stadium_Mapper.xml"/>
+		<mapper resource="/sqls/Matching_Mapper.xml" />
 	</mappers>
 
 </configuration>

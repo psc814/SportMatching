@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>검색페이지</title>
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
-<link type="text/css" rel="stylesheet" href="./css/userMain.css">
+<link type="text/css" rel="stylesheet" href="./css/SearchPage.css">
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -31,7 +31,7 @@ body {
 
 </style>
 </head>
-<script type="text/javascript" src="./js/UserMain.js"></script>
+<script type="text/javascript" src="./js/SearchPage.js"></script>
 <script type="text/javascript" src="./js/jquery-3.4.1.js"></script>
 <body>
 <jsp:include page="LoginHeader.jsp"/>
@@ -48,9 +48,23 @@ body {
 				<option value="matching" id="matching">매칭카드 검색</option>
 				<option value="team" id="team">팀 검색</option>
 			</select>
-			<input type="text" id="searchbar" placeholder="구장뭐로검색하더라;">
+			<input type="text" id="searchbar" placeholder="구장명 혹은 지역(시군구)로 구장검색">
 			<button id="btnSearch" class="btn btn-link" onclick="search()">검색</button>
+		</div>
+		<div id="searchResult">
+			<div id="tableCase">
+				
+			</div>
 		</div>
 	</div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
