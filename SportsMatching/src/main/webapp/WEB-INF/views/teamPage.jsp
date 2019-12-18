@@ -42,6 +42,5 @@ body {
   <a href="./TeamManageMent.do">팀원 관리</a>
   <a href="./CancelRes.do">예약 취소</a>
 </nav>
-
 </body>
 </html>
