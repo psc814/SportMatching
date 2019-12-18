@@ -604,11 +604,7 @@ $(document).ready(function() {
 						url : "reserve.do?game_date="+radioValue,
 						type : "post",
 						success: function(data) {
-							if(data==true){
-								alert("관리자가 승인하면 완료됩니다.");
-								}else{
-								alert("해당 시간은 모두 예약중이므로 사용 불가능합니다.");
-							}
+							alert(data);
 						},
 						error:function(request,status,error){
 					        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
