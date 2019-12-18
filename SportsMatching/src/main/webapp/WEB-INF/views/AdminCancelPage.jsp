@@ -33,6 +33,7 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 예약취소 페이지</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
 </head>
 <style TYPE="text/css">
 body {
@@ -272,4 +273,89 @@ function toCancel() {
 		</form>
 	</div>
 </body>
+<script type="text/javascript">
+$(document).ready(function() {
+	$(".clickedDate").click(function() {
+		var game_date_val = $(this).children('.datespan').text();
+		var temp = "<table id='timetable' width='712px'>";
+		temp+="<tr align='center' bgcolor='#00ffcc'>";
+		temp+="<td>예약번호</td>";
+		temp+="<td>홈팀</td>";
+		temp+="<td>어웨이팀</td>";
+		temp+="<td>경기날짜</td>";
+		temp+="<td>승인여부</td>";
+		temp+="</tr>";
+		$.ajax({
+			url : "showRequestCancel.do?game_date="+game_date_val,
+			type : "post",
+			success: function(data) {
+				$("#timetable").remove();
+				if(data == ""){
+					temp+="<tr><td colspan='5' align='center'>조회된 일정이 없습니다.</td></tr>";
+					temp+="</table>";
+					$("#calendarDiv").append(temp);
+				}else{
+					$.each(data, function(i, elt) {
+						temp += "<tr align='center' bgcolor='#9999ff'>";
+						temp += "<td>"+elt.schedule_id+"</td>";
+						if(elt.home_team == null){
+							temp += "<td>등록된 팀 없음</td>";
+						}else{
+							temp += "<td>"+elt.home_team+"</td>";
+						}
+						if(elt.away_team == null){
+							temp += "<td>등록된 팀 없음</td>";
+						}else{
+							temp += "<td>"+elt.away_team+"</td>";
+						}
+						temp += "<td>"+elt.game_date+"</td>";
+						temp += "<td><button onclick='approval(\""+elt.schedule_id+"\",\""+elt.home_cancel+"\",\""+elt.away_cancel+"\")'>취소승인</button>"
+						temp +="<button onclick='deny(\""+elt.schedule_id+"\",\""+elt.home_cancel+"\",\""+elt.away_cancel+"\")'>취소거절</button></td>"
+						temp += "</tr>";
+					});
+					temp += "</table>"
+					$("#calendarDiv").append(temp);
+				}
+			},
+			error:function(request,status,error){
+		        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
+		     }
+		});
+	});
+});
+
+function approval(schedule_id,home, away) {
+	 $.ajax({
+		url : "confirmCancel.do?schedule_id="+schedule_id+"&home_cancel="+home+"&away_cancel="+away,
+		type: "post",
+		success: function(data) {
+			if(data==true){
+				alert("승인완료!");
+			}else {
+				alert("승인오류!");
+			}
+		},
+		error : function(){
+			  alert("데이터를 불러올수 없습니다."); // 실패 시 처리
+		}
+	});
+};
+
+function deny(schedule_id, home, away) {
+	 $.ajax({
+		url : "denyCancel.do?schedule_id="+schedule_id+"&home_cancel="+home+"&away_cancel="+away,
+		type: "post",
+		success: function(data) {
+			if(data==true){
+				alert("거절완료!");
+			}else {
+				alert("거절오류!");
+			}
+		},
+		error : function(){
+			  alert("데이터를 불러올수 없습니다."); // 실패 시 처리
+		}
+	});
+};
+</script>
 </html>
