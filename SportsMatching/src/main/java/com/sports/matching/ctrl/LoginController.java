@@ -243,14 +243,15 @@ public class LoginController {
       } catch (MalformedURLException e) {
          e.printStackTrace();
       }
-		/*
-		 * 쿼리테스트 이후에 아이디 중복검사를 실행한후 중복이 o/x 여부에 따라 서비스를 태워 디비에 저장해준다.
-		 * service.dup() if() {
-		 * 
-		 * } service.regi(response.id);
-		 */
        
        return "SearchPage"; //여기 이제 메인(검색 페이지로)넘어갈곳 정해줘야함
+    }
+    
+    @RequestMapping(value = "/Nlogout.do", method = RequestMethod.GET)
+    public String naverLogout(HttpSession session) {
+    	log.info("네이버 로그아웃");
+    	session.invalidate();
+    	return "LoginPage";
     }
 	
     @RequestMapping(value = "/adminLogin.do", method = RequestMethod.GET)

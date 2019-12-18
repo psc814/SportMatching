@@ -192,11 +192,4 @@ DELETE FROM
 DELETE FROM BELONGED_TEAM  WHERE TEAM_ID = #{team_id}
 </delete>
 
-<!--만들어야할것  -->
-<!-- 소속팀 추가 -->
-<insert id="addBelongedTeam" parameterType="java.lang.String">
-INSERT INTO BELONGED_TEAM
-(BELONGED_TEAM_CODE, MEMBER_ID, TEAM_ID)
-VALUES(#{belonged_team_code},#{member_id},#{team_id})
-</insert>
 </mapper>

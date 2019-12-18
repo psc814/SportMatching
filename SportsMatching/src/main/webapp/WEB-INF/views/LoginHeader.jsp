@@ -20,5 +20,5 @@
 </header>
 <div style="position: absolute; right: 10px;top: 10px; height: 50px; text-align: right;">
 		<span style="font-size: 10px;">${uEmail}님 환영합니다</span><br> 
-		<span><a href="./logout.do" style="font-size: 10px; text-align: right;">로그아웃</a></span>
+		<span><a href="./Nlogout.do" style="font-size: 10px; text-align: right;">로그아웃</a></span>
 </div>
