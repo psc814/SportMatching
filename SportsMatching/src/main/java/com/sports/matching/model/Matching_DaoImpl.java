@@ -5,10 +5,11 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.sports.matching.dtos.MatchingCardDto;
 import com.sports.matching.dtos.ScheduledMatchingDto;
-
+@Repository
 public class Matching_DaoImpl implements Matching_IDao {
 
 	@Autowired

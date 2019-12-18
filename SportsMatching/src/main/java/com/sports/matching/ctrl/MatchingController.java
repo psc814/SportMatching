@@ -11,45 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sports.matching.dtos.StadiumDto;
-import com.sports.matching.model.Stadium_IService;
+import com.sports.matching.dtos.MatchingCardDto;
+import com.sports.matching.model.Matching_IService;
 
 @Controller
-public class StadiumController {
+public class MatchingController {
 
 	@Autowired
-	private Stadium_IService service;
+	private Matching_IService service;
 	
 	@ResponseBody
-	@RequestMapping(value="/stadiumSearch.do", method = RequestMethod.POST)
-	public Map<String, List<StadiumDto>> stadiumSearch(Model model, String condition) {
-		List<StadiumDto> lists = service.searchStadium(condition);
-		Map<String, List<StadiumDto>> map = new HashMap<String, List<StadiumDto>>();
+	@RequestMapping(value="/matchingSearch.do", method = RequestMethod.POST)
+	public Map<String, List<MatchingCardDto>> matchingSearch(Model model, String condition) {
+		List<MatchingCardDto> lists = service.searchMatching(condition);
+		Map<String, List<MatchingCardDto>> map = new HashMap<String, List<MatchingCardDto>>();
 		map.put("searchLists", lists);
 		return map;
 	}
-	
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sports.matching.dtos.MatchingCardDto;
 import com.sports.matching.dtos.ScheduledMatchingDto;
-
+@Service
 public class Matching_ServiceImpl implements Matching_IService {
 
 	@Autowired

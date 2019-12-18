@@ -106,10 +106,12 @@ A:hover {
 	<div id="stadiumDiv" style="width: 700px; margin: auto; background-color: yellow">
 		<table style="width: 700px;">
 			<tr>
-				<td>잠실종합운동</td>
+				<td>${dto.stadium_name}</td>
 			</tr>
 			<tr>
-				<td>이미지파일여기에</td>
+				<td>${dto.pdto.image1}</td>
+				<td>${dto.pdto.image2}</td>
+				<td>${dto.pdto.image3}</td>
 			</tr>
 		</table>
 	</div>
@@ -279,7 +281,7 @@ A:hover {
 				<div>
 					<form onsubmit="searchPlaces(); return false;">
 						검색어 :
-						<input type="text" value="스탬포드 풋살장" id="keyword" size="15">
+						<input type="text" value="${dto.stadium_name}" id="keyword" size="15">
 						<button type="submit">검색하기</button>
 					</form>
 				</div>

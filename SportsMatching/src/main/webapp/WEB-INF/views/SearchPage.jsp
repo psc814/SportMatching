@@ -53,7 +53,24 @@ body {
 		</div>
 		<div id="searchResult">
 			<div id="tableCase">
-				
+				<table id="resultTable">
+					<tr>
+						<th colspan="2">팀명</th>
+					</tr>
+					<tr>
+						<td colspan="2">주활동지</td>
+					</tr>
+					<tr>
+						<td rowspan="3">스탯</td>
+						<td>구장</td>
+					</tr>
+					<tr>
+						<td>경기방식</td>
+					</tr>
+					<tr>
+						<td>팀 소개</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
