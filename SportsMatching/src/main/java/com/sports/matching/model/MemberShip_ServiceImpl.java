@@ -1,6 +1,7 @@
 package com.sports.matching.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.sports.matching.dtos.MembersDto;
 import com.sports.matching.dtos.StadiumAdminDto;
 import com.sports.matching.dtos.StatDto;
 import com.sports.matching.dtos.TeamDto;
+import com.sports.matching.dtos.Team_Stat_Dto;
 @Service
 public class MemberShip_ServiceImpl implements MemberShip_IService {
 
@@ -17,18 +19,28 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	private MemberShip_IDao dao;
 	
 	@Override
-	public boolean apiLogin(MembersDto MDto) {
-		return dao.apiLogin(MDto);
+	public boolean apiLogin(String member_id) {
+		return dao.apiLogin(member_id);
+	}
+	
+	@Override
+	public int duplicateUserId(String member_id) {
+		return dao.duplicateUserId(member_id);
+	}
+	
+	@Override
+	public MembersDto selectUser(String member_id) {
+		return dao.selectUser(member_id);
 	}
 
 	@Override
-	public TeamDto teamLogin(TeamDto TDto) {
-		return dao.teamLogin(TDto);
+	public TeamDto teamLogin(Map<String, String> map) {
+		return dao.teamLogin(map);
 	}
 
 	@Override
-	public StadiumAdminDto adminLogin(StadiumAdminDto SADto) {
-		return dao.adminLogin(SADto);
+	public StadiumAdminDto adminLogin(Map<String, String> map) {
+		return dao.adminLogin(map);
 	}
 
 	@Override
@@ -42,7 +54,7 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	}
 
 	@Override
-	public TeamDto duplicateTeamId(String team_id) {
+	public int duplicateTeamId(String team_id) {
 		return dao.duplicateTeamId(team_id);
 	}
 
@@ -62,7 +74,7 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	}
 
 	@Override
-	public Belonged_TeamDto memberMypage(String member_id) {
+	public List<Belonged_TeamDto> memberMypage(String member_id) {
 		return dao.memberMypage(member_id);
 	}
 
@@ -72,7 +84,7 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	}
 
 	@Override
-	public StatDto selectTeam(String team_id) {
+	public Team_Stat_Dto selectTeam(String team_id) {
 		return dao.selectTeam(team_id);
 	}
 
@@ -107,13 +119,17 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	}
 
 	@Override
-	public boolean teamMemberMultiDel(String[] member_id) {
-		return dao.teamMemberMultiDel(member_id);
+	public boolean teamMemberMultiDel(Map<String, String[]> map) {
+		return dao.teamMemberMultiDel(map);
 	}
 
 	@Override
 	public boolean deleteBelongedTeam(String team_id) {
 		return dao.deleteBelongedTeam(team_id);
 	}
+
+	
+
+	
 
 }

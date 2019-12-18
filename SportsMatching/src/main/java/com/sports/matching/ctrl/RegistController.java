@@ -11,4 +11,6 @@ public class RegistController {
 	public String regForm() {
 		return null;
 	}
+	
+	
 }

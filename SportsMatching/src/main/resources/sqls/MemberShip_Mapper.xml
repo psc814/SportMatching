@@ -11,10 +11,30 @@
 	<result column="BELONGED_TEAM_CODE" property="belonged_team_code"/>
 	<result column="MEMBER_ID" property="member_id"/>
 	<result column="TEAM_ID" property="team_id"/>
-	<collection property="MDto" resultMap="memberMap"/>
+<!-- 	<collection property="MDto" resultMap="memberMap"/> -->
 </resultMap>
 
 <resultMap type="TDto" id="teamMap">
+	<result column="TEAM_ID" property="team_id"/>
+	<result column="CAPTAIN_ID" property="captain_id"/>
+	<result column="CAPTAIN_PHONE_NUMBER" property="captain_phone_number"/>
+	<result column="PLAYGROUND" property="playground"/>	
+</resultMap>
+
+<resultMap type="SDto" id="statMap">
+	<result column="TEAM_ID" property="team_id"/>
+	<result column="ATTACK" property="attack"/>
+	<result column="DEFENCE" property="defence"/>
+	<result column="MANNER" property="manner"/>
+	<collection property="TDto" resultMap="teamMap"></collection>
+</resultMap>
+
+<resultMap type="SADto" id="adminLogin">
+	<result column="ADMIN_ID" property="admin_id"/>
+	<result column="ADMIN_PW" property="admin_pw"/>
+</resultMap>
+
+<resultMap type="TDto" id="teamLogin">
 	<result column="TEAM_ID" property="team_id"/>
 	<result column="TEAM_PW" property="team_pw"/>
 	<result column="CAPTAIN_ID" property="captain_id"/>
@@ -26,29 +46,35 @@
 	<result column="LAST_LOGIN_DATE" property="last_login_date"/>
 </resultMap>
 
-<resultMap type="SDto" id="statMap">
-	<result column="TEAM_ID" property="team_id"/>
-	<result column="ATTACK" property="attack"/>
-	<result column="DEFENCE" property="defence"/>
-	<result column="MANNER" property="manner"/>
-	<collection property="TDto" resultMap="teamMap"></collection>
-</resultMap>
-
 <!-- 로그인  -->
-<!-- API 로그인 -->
-<insert id="apiLogin" parameterType="MDto">
+<!-- API 회원가입 -->
+<insert id="apiLogin" parameterType="java.lang.String">
 INSERT INTO MEMBERS (MEMBER_ID) VALUES(#{member_id})
 </insert>
 
+<!--가입된 회원  -->
+<select id="selectUser" parameterType="java.lang.String" resultType="MDto">
+SELECT MEMBER_ID
+	FROM MEMBERS
+		WHERE MEMBER_ID = #{member_id}
+</select>
+
+<!-- 일반회원 아이디 중복검사 -->
+<select id="duplicateUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
+SELECT COUNT(MEMBER_ID)
+	FROM MEMBERS
+		WHERE MEMBER_ID = #{member_id}
+</select>
+
 <!--팀 로그인  -->
-<select id="teamLogin" parameterType="TDto" resultType="TDto">
+<select id="teamLogin" parameterType="java.util.Map" resultMap="teamLogin">
 SELECT TEAM_ID
 	FROM TEAM
 		WHERE TEAM_ID = #{team_id} AND TEAM_PW = #{team_pw}
 </select>
 
 <!-- 관리자 로그인 -->
-<select id="adminLogin" parameterType="SADto" resultType="SADto">
+<select id="adminLogin" parameterType="java.util.Map" resultMap="adminLogin">
 SELECT ADMIN_ID
 	FROM STADIUM_ADMIN
 		WHERE ADMIN_ID = #{admin_id} AND ADMIN_PW = #{admin_pw}
@@ -68,7 +94,7 @@ VALUES(#{team_id}, #{team_pw}, #{captain_id}, #{captain_phone_number}, #{playgro
 </insert>
 
 <!-- 팀 아이디 중복검사 -->
-<select id="duplicateTeamId" parameterType="java.lang.String">
+<select id="duplicateTeamId" parameterType="java.lang.String" resultType="java.lang.Integer">
 SELECT COUNT(TEAM_ID)
 	FROM TEAM
 		WHERE TEAM_ID = #{team_id}
@@ -95,9 +121,7 @@ SELECT ANSWER
 <!-- 회원정보조회 -->
 <!-- 개인회원 마이페이지 -->
 <select id="memberMypage" parameterType="java.lang.String" resultType="BTDto">
-SELECT M.MEMBER_ID, BT.TEAM_ID
-	FROM  MEMBERS M, BELONGED_TEAM BT
-		WHERE M.MEMBER_ID = BT.MEMBER_ID AND M.MEMBER_ID= #{member_id}
+SELECT MEMBER_ID, TEAM_ID FROM BELONGED_TEAM WHERE MEMBER_ID = #{member_id}
 </select>
 
 <!--팀 회원 리스트  -->
@@ -108,8 +132,8 @@ SELECT MEMBER_ID
 </select>
 
 <!-- 팀 조회 (팀 페이지) -->
-<select id="selectTeam" parameterType="java.lang.String" resultType="SDto">
-SELECT T.TEAM_ID, T.CAPTAIN_ID, T.CAPTAIN_PHONE_NUMBER, T.PLAYGROUND, S.ATTACK,S.DEFENCE,S.MANNER
+<select id="selectTeam" parameterType="BTDto" resultType="TSDto">
+SELECT T.TEAM_ID TEAM_ID, CAPTAIN_ID, CAPTAIN_PHONE_NUMBER,PLAYGROUND, ATTACK,DEFENCE,MANNER
 	FROM TEAM T INNER JOIN STAT S
 		ON T.TEAM_ID = S.TEAM_ID
 		WHERE T.TEAM_ID = #{TEAM_ID}
@@ -167,6 +191,5 @@ DELETE FROM
 <delete id="deleteBelongedTeam" parameterType="java.lang.String">
 DELETE FROM BELONGED_TEAM  WHERE TEAM_ID = #{team_id}
 </delete>
-
 
 </mapper>

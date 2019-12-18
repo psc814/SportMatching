@@ -29,8 +29,8 @@ public class Schedule_ServiceImpl implements Schedule_IService {
 	}
 
 	@Override
-	public boolean awayRegisterSchedule(int schedule_id) {
-		return dao.awayRegisterSchedule(schedule_id);
+	public boolean awayRegisterSchedule(ScheduleDto dto) {
+		return dao.awayRegisterSchedule(dto);
 	}
 
 	@Override
@@ -59,13 +59,8 @@ public class Schedule_ServiceImpl implements Schedule_IService {
 	}
 
 	@Override
-	public boolean deleteSchedule(int schedule_id) {
-		return dao.deleteSchedule(schedule_id);
-	}
-
-	@Override
-	public boolean deleteMultiSchedule(int[] schedule_id) {
-		return dao.deleteMultiSchedule(schedule_id);
+	public boolean deleteSchedule(ScheduleDto dto) {
+		return dao.deleteSchedule(dto);
 	}
 
 	@Override
@@ -79,12 +74,12 @@ public class Schedule_ServiceImpl implements Schedule_IService {
 	}
 
 	@Override
-	public List<String> selectAllSchedule(ScheduleDto dto) {
+	public List<ScheduleDto> selectAllSchedule(ScheduleDto dto) {
 		return dao.selectAllSchedule(dto);
 	}
 
 	@Override
-	public List<ScheduleDto> selectSchedule(ScheduleDto dto) {
+	public ScheduleDto selectSchedule(ScheduleDto dto) {
 		return dao.selectSchedule(dto);
 	}
 
@@ -92,5 +87,16 @@ public class Schedule_ServiceImpl implements Schedule_IService {
 	public List<ScheduleDto> selectRequestReservation(ScheduleDto dto) {
 		return dao.selectRequestReservation(dto);
 	}
+
+	@Override
+	public List<ScheduleDto> selectAllReserved(ScheduleDto dto) {
+		return dao.selectAllReserved(dto);
+	}
+
+	@Override
+	public List<ScheduleDto> selectRequestCancel(ScheduleDto dto) {
+		return dao.selectRequestCancel(dto);
+	}
+	
 
 }

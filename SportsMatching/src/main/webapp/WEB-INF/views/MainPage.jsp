@@ -106,10 +106,12 @@ A:hover {
 	<div id="stadiumDiv" style="width: 700px; margin: auto; background-color: yellow">
 		<table style="width: 700px;">
 			<tr>
-				<td>잠실종합운동</td>
+				<td>${dto.stadium_name}</td>
 			</tr>
 			<tr>
-				<td>이미지파일여기에</td>
+				<td>${dto.pdto.image1}</td>
+				<td>${dto.pdto.image2}</td>
+				<td>${dto.pdto.image3}</td>
 			</tr>
 		</table>
 	</div>
@@ -245,7 +247,7 @@ A:hover {
 
 							<%
 								out.println("<br>");
-									out.println("<span class='datespan'>" + clickedDate + "</span>");
+								out.println("<span class='datespan' style='display:none;'>" + clickedDate + "</span>");
 									out.println("</TD>");
 									newLine++;
 									if (newLine == 7) {
@@ -279,7 +281,7 @@ A:hover {
 				<div>
 					<form onsubmit="searchPlaces(); return false;">
 						검색어 :
-						<input type="text" value="스탬포드 풋살장" id="keyword" size="15">
+						<input type="text" value="${dto.stadium_name}" id="keyword" size="15">
 						<button type="submit">검색하기</button>
 					</form>
 				</div>
@@ -526,7 +528,7 @@ A:hover {
 $(document).ready(function() {
 	$(".clickedDate").click(function() {
 		var game_date = $(this).children('.datespan').text();
-		var temp = "<table id='timetable' width='712px'><caption>시간표 선택</caption>";
+		var temp = "<table id='timetable' width='712px'><caption>시간표 선택("+game_date.substr(0, 4)+"년 "+game_date.substr(4, 2)+"월 "+game_date.substr(6, 2)+"일)</caption>";
 		$.ajax({
 			url : "showSchedule.do?game_date="+game_date,
 			type : "post",
@@ -535,17 +537,52 @@ $(document).ready(function() {
 					alert("선택한 날의 정보가 없습니다.");
 				}else{
 					$("#timetable").remove();
+					$("#teamInfo").remove();
+					$("#tableColor").remove();
 					temp += "<tr>";
 					$.each(data, function(i, elt) {
 						if( i % 6 != 0){
-							temp += "<td bgcolor='##04B404' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt+"'>"+elt+"시</td>";
+							if(elt.home_team == null && elt.away_team == null){
+								temp += "<td bgcolor='#66ff33' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>";	
+							}else if(elt.home_team != null && elt.away_team != null){
+								temp += "<td bgcolor='#ff0066' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>";
+							}else {
+								temp += "<td bgcolor='#ffff99' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>";
+							}
 						}else{
 							temp +="</tr>";
-							temp +="<tr><td bgcolor='##04B404' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt+"'>"+elt+"시</td>"
+							if(elt.home_team == null && elt.away_team == null){
+								temp +="<tr><td bgcolor='#66ff33' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>"
+							}else if(elt.home_team != null && elt.away_team != null){
+								temp +="<tr><td bgcolor='#ff0066' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>"
+							}else {
+								temp +="<tr><td bgcolor='#ffff99' align='center' height ='40px'><input type='radio' name='time' value='"+game_date+elt.game_date+"'>"+elt.game_date+"시</td>"
+							}
 						}
 					});
 					temp +="</tr>";
+					temp += "<div align='right' id='tableColor'><span style='background-color:#ff0066'>　</span><span> : 예약불가 </span>"
+					temp += "<span style='background-color:#ffff99'>　</span><span> : 한 팀 예약가능 </span>"
+					temp+= "<span style='background-color:#66ff33'>　</span><span> : 공석</span>"
+					temp += "</div>"
 					$("#calendarDiv").append(temp);
+					$("input:radio[name=time]").click(function() {
+						$("#teamInfo").remove();
+						$.ajax({
+							url : "selectSchedule.do?game_date="+$(this).val(),
+							type: "post",
+							success: function(selectedData) {
+								tmp = "<table id='teamInfo' width='712px' border='1'><caption>예약한 팀 정보</caption>"
+								tmp +="<tr bgcolor='#00ccff' align='center'><td>홈팀</td><td>어웨이팀</td></tr>";
+								tmp += "<tr align='center'><td id='reservedHomeTeam'>"+selectedData.home_team+"</td>"
+								tmp +="<td id='reservedAwayTeam'>"+selectedData.away_team+"</td></tr><table>";
+								$("#calendarDiv").append(tmp);
+							},
+							error:function(request,status,error){
+						        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
+						     }
+						})
+					});
 				}
 			},
 			error:function(request,status,error){
@@ -554,29 +591,28 @@ $(document).ready(function() {
 		});
 	});
 	
+	
 	$("#reserveButton").click(function() {
 		var radioValue = $(":input:radio[name=time]:checked").val();
-		var year = radioValue.substr(0, 4);
-		var month = radioValue.substr(4, 2);
-		var day = radioValue.substr(6, 2);
-		var hour = radioValue.substr(8,2);
-		if(confirm(year+"년 "+month+"월 "+day+"일 "+hour+"시에 예약하시겠습니까?")){
-			$.ajax({
-				url : "reserve.do?game_date="+radioValue,
-				type : "post",
-				success: function(data) {
-					if(data==true){
-						alert("관리자가 승인하면 완료됩니다.");
-						}else{
-						alert("예약실패");
-					}
-				},
-				error:function(request,status,error){
-			        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
-			     }
-			});
+		if(radioValue == null){
+			alert("날짜와 시간을 선택한 후 예약해주세요")
 		}else{
-			alert("예약안해!")
+			var year = radioValue.substr(0, 4);
+			var month = radioValue.substr(4, 2);
+			var day = radioValue.substr(6, 2);
+			var hour = radioValue.substr(8,2);
+			if(confirm(year+"년 "+month+"월 "+day+"일 "+hour+"시에 예약하시겠습니까?")){
+					$.ajax({
+						url : "reserve.do?game_date="+radioValue,
+						type : "post",
+						success: function(data) {
+							alert(data);
+						},
+						error:function(request,status,error){
+					        alert("데이터를 불러올수 없습니다."); // 실패 시 처리
+					     }
+					});
+			}
 		}
 	});
 	$("#chatButton").click(function() {

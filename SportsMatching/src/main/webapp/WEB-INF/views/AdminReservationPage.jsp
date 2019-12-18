@@ -110,9 +110,9 @@ function toCancel() {
 }
 </script>
 <body>
-	<jsp:include page="header.jsp" />
+	<jsp:include page="AdminLoginHeader.jsp"/>
 	<nav style="text-align: center; background-color: red; height: 50px; vertical-align: center;">
-		<input type="button" value="일정 등록" onclick="toRegisterPage()">
+		<input type="button" value="일정 등록 & 삭제" onclick="toRegisterPage()">
 		<input type="button" value="예약신청목록" onclick="toReservation()">
 		<input type="button" value="취소신청목록" onclick="toCancel()">
 	</nav>
@@ -249,7 +249,7 @@ function toCancel() {
 
 							<%
 								out.println("<br>");
-									out.println("<span class='datespan'>" + clickedDate + "</span>");
+							out.println("<span class='datespan' style='display:none;'>" + clickedDate + "</span>");
 									out.println("</TD>");
 									newLine++;
 									if (newLine == 7) {
@@ -309,7 +309,8 @@ $(document).ready(function() {
 							temp += "<td>"+elt.away_team+"</td>";
 						}
 						temp += "<td>"+elt.game_date+"</td>";
-						temp += "<td><button onclick='approval(\""+elt.schedule_id+"\")'>승인</button><button onclick='deny(\""+elt.schedule_id+"\")'>거절</button></td>"
+						temp += "<td><button onclick='approval(\""+elt.schedule_id+"\",\""+elt.home_team+"\",\""+elt.away_team+"\")'>승인</button>"
+						temp +="<button onclick='deny(\""+elt.schedule_id+"\",\""+elt.home_team+"\",\""+elt.away_team+"\")'>거절</button></td>"
 						temp += "</tr>";
 					});
 					temp += "</table>"
@@ -323,9 +324,9 @@ $(document).ready(function() {
 	});
 });
 
-function approval(schedule_id) {
+function approval(schedule_id,home, away) {
 	$.ajax({
-		url : "confirmReservation.do?schedule_id="+schedule_id,
+		url : "confirmReservation.do?schedule_id="+schedule_id+"&home_team="+home+"&away_team="+away,
 		type: "post",
 		success: function(data) {
 			if(data==true){
@@ -340,15 +341,15 @@ function approval(schedule_id) {
 	});
 };
 
-function deny(schedule_id) {
+function deny(schedule_id,home, away) {
 	$.ajax({
-		url : "denyReservation.do?schedule_id="+schedule_id,
+		url : "denyReservation.do?schedule_id="+schedule_id+"&home_team="+home+"&away_team="+away,
 		type: "post",
 		success: function(data) {
 			if(data==true){
-				alert("승인완료!");
+				alert("거절완료!");
 			}else {
-				alert("승인오류!");
+				alert("거절오류!");
 			}
 		},
 		error : function(){

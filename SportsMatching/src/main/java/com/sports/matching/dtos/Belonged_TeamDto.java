@@ -5,7 +5,6 @@ public class Belonged_TeamDto {
 	private int belonged_team_code;
 	private String member_id;
 	private String team_id;
-	
 	public Belonged_TeamDto() {
 		// TODO Auto-generated constructor stub
 	}
