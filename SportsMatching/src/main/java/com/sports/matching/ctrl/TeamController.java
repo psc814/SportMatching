@@ -68,7 +68,7 @@ public class TeamController {
 		}else {
 			return "TeamManageMent";
 		}
-
+	}
 	@RequestMapping(value = "/CancelRes.do", method = RequestMethod.GET)
 	public String cancelReservation(HttpSession session, Model model) {
 		String team_id = (String) session.getAttribute("tdto");

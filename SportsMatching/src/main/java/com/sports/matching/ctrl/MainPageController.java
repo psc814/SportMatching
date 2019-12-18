@@ -1,15 +1,12 @@
 package com.sports.matching.ctrl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sports.matching.dtos.ScheduleDto;
 import com.sports.matching.dtos.StadiumDto;
 import com.sports.matching.model.Schedule_IService;
+import com.sports.matching.model.Stadium_IService;
 
 @Controller
 public class MainPageController {
@@ -25,10 +23,14 @@ public class MainPageController {
 
 	@Autowired
 	private Schedule_IService sc_service;
+	@Autowired
+	private Stadium_IService st_service;
 
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public String mainPage() {
-		logger.info("메인페이지로~~!");
+	public String mainPage(Model model, String stadium_code) {
+		logger.info("{} 메인페이지로~~!", stadium_code);
+		StadiumDto sdto = st_service.selectDetailStadium(stadium_code);
+		model.addAttribute("dto",sdto);
 		return "MainPage";
 	}
 
