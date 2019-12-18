@@ -54,20 +54,30 @@ public class AdminController {
 	
 	@RequestMapping(value = "/confirmReservation.do",method = RequestMethod.POST)
 	@ResponseBody
-	public boolean confirmReservation(String schedule_id) {
+	public boolean confirmReservation(String schedule_id,String home_team, String away_team) {
 		logger.info("관리자가 스케쥴 아이디가 {}인 예약을 확정",schedule_id);
 		ScheduleDto dto = new ScheduleDto();
 		dto.setSchedule_id(Integer.parseInt(schedule_id));
-		dto.setHome_team("피닉스");
 		System.out.println(dto);
-		return sc_service.homeConfirmSchedule(dto);
+		if(home_team.equals("null")) {
+			dto.setHome_team("피닉스");
+			return sc_service.homeConfirmSchedule(dto);
+		}else {
+			dto.setAway_team("피닉스");
+			return sc_service.awayConfirmSchedule(dto);
+		}
 	}
 	
 	@RequestMapping(value = "/denyReservation.do", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean denyReservation(String schedule_id) {
+	public boolean denyReservation(String schedule_id,String home_team, String away_team) {
 		logger.info("관리자가 스케쥴 아이디가 {}인 예약을 거절",schedule_id);
-		return sc_service.denyHomeSchedule(Integer.parseInt(schedule_id));
+		if(home_team.equals("null")) {
+			return sc_service.denyHomeSchedule(Integer.parseInt(schedule_id));
+		}else {
+			return sc_service.denyAwaySchedule(Integer.parseInt(schedule_id));
+		}
+		
 	}
 	
 	@RequestMapping(value = "/registSchedule.do", method = RequestMethod.POST)
