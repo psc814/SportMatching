@@ -125,4 +125,28 @@ public class AdminController {
 		}
 		return (cnt == timeArray.length-1)?true:false;
 	}
+	
+	@RequestMapping(value = "/showRequestCancel.do",method = RequestMethod.POST)
+	@ResponseBody
+	public List<ScheduleDto> showRequestCancel(String game_date) {
+		logger.info("관리자가 {} 날짜로 요청된 취소를 조회",game_date);
+		ScheduleDto dto = new ScheduleDto();
+		dto.setGame_date(game_date);
+		dto.setStadium_code("SC0003");
+		List<ScheduleDto> lists = sc_service.selectRequestCancel(dto);
+		System.out.println(lists);
+		return lists;
+	}
+	
+	@RequestMapping(value = "/confirmCancel.do", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean confirmCancel(String schedule_id, String home_cancel, String away_cancel) {
+		if(home_cancel.equals("N")) {
+			return sc_service.homeCancelConfirm(Integer.parseInt(schedule_id));
+		}
+		if(away_cancel.equals("N")) {
+			return sc_service.awayCancelConfirm(Integer.parseInt(schedule_id));
+		}
+		return false;
+	}
 }

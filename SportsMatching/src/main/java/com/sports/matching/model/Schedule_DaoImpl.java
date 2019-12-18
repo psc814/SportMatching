@@ -122,4 +122,16 @@ public class Schedule_DaoImpl implements Schedule_IDao {
 		return session.selectList(NS+"selectRequestReservation", dto);
 	}
 
+	@Override
+	public List<ScheduleDto> selectAllReserved(ScheduleDto dto) {
+		logger.info("삭제할 예약 전체조회");
+		return session.selectList(NS+"selectAllReserved", dto);
+	}
+
+	@Override
+	public List<ScheduleDto> selectRequestCancel(ScheduleDto dto) {
+		logger.info("관리자가 요청된 취소 조회");
+		return session.selectList(NS+"selectRequestCancel", dto);
+	}
+
 }
