@@ -8,6 +8,7 @@ import com.sports.matching.dtos.MembersDto;
 import com.sports.matching.dtos.StadiumAdminDto;
 import com.sports.matching.dtos.StatDto;
 import com.sports.matching.dtos.TeamDto;
+import com.sports.matching.dtos.Team_Stat_Dto;
 
 public interface MemberShip_IService {
 
@@ -38,7 +39,7 @@ public interface MemberShip_IService {
 	//팀 회원 리스트
 	public List<Belonged_TeamDto> teamMemberList(String team_id);
 	//팀 조회 (팀 페이지)
-	public StatDto selectTeam(String team_id);
+	public Team_Stat_Dto selectTeam(String team_id);
 	//주장여부
 	public TeamDto captainId(TeamDto TDto);
 	//팀 정보 수정
@@ -52,7 +53,7 @@ public interface MemberShip_IService {
 	//회원탈퇴 
 	public boolean deleteMemberTeam(String member_id);
 	//팀회원 다중 삭제
-	public boolean teamMemberMultiDel(String[] member_id);
+	public boolean teamMemberMultiDel(Map<String, String[]> map);
 	//소속팀 삭제 
 	public boolean deleteBelongedTeam(String team_id);
 }

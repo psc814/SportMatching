@@ -4,9 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>팀페이지</title>
-<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
-<link type="text/css" rel="stylesheet" href="./css/userMain.css">
+<title>팀 페이지</title>
+<style type="text/css">
+#regiForm{
+	margin-left: 550px;
+	margin-top: 200px;
+}
+</style>
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -31,16 +35,13 @@ body {
 
 </style>
 </head>
-<script type="text/javascript" src="./js/UserMain.js"></script>
-<script type="text/javascript" src="./js/jquery-3.4.1.js"></script>
 <body>
-<jsp:include page="LoginHeader.jsp"/>
+<jsp:include page="TeamLoginHeader.jsp"/>
 <nav style="text-align: center;" class="navbar">
-  <a href="./MemberMyPage.do">마이페이지</a>
-  <a href="./TeamPage.do">팀페이지</a>
-  <a href="./MakeTeam.do">팀 창설</a>
-  <a href="./AnswerBoard.do">게시판</a>
+  <a href="./TeamInfo.do?team_id=">팀 정보</a>
+  <a href="./TeamManageMent.do">팀원 관리</a>
+  <a href="./CancelRes.do">예약 취소</a>
 </nav>
-ㅎㅇ
+
 </body>
 </html>

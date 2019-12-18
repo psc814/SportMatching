@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.sports.matching.dtos.Belonged_TeamDto;
 import com.sports.matching.dtos.MembersDto;
 import com.sports.matching.dtos.TeamDto;
+import com.sports.matching.dtos.Team_Stat_Dto;
 import com.sports.matching.model.MemberShip_IService;
 
 @Controller
@@ -107,7 +108,8 @@ public class HomePageController {
 	}
 	
 	@RequestMapping(value = "/TeamPage.do", method = RequestMethod.GET)
-	public String teamPage() {
+	public String teamPage(Belonged_TeamDto BTDto,Model model,HttpSession session) {
+		
 		return "teamPage";
 	}
 }

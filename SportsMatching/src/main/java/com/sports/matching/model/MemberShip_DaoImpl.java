@@ -14,6 +14,7 @@ import com.sports.matching.dtos.MembersDto;
 import com.sports.matching.dtos.StadiumAdminDto;
 import com.sports.matching.dtos.StatDto;
 import com.sports.matching.dtos.TeamDto;
+import com.sports.matching.dtos.Team_Stat_Dto;
 @Repository
 public class MemberShip_DaoImpl implements MemberShip_IDao {
 	
@@ -106,7 +107,7 @@ public class MemberShip_DaoImpl implements MemberShip_IDao {
 	}
 
 	@Override
-	public StatDto selectTeam(String team_id) {
+	public Team_Stat_Dto selectTeam(String team_id) {
 		logger.info("팀 조회 (팀 페이지)");
 		return session.selectOne(NS+"selectTeam", team_id);
 	}
@@ -153,9 +154,9 @@ public class MemberShip_DaoImpl implements MemberShip_IDao {
 	}
 
 	@Override
-	public boolean teamMemberMultiDel(String[] member_id) {
+	public boolean teamMemberMultiDel(Map<String, String[]> map) {
 		logger.info("팀회원 다중 삭제");
-		int a = session.delete(NS+"teamMemberMultiDel", member_id);
+		int a = session.delete(NS+"teamMemberMultiDel", map);
 		return (a>0)?true:false;
 	}
 
