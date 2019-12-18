@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>팀 페이지</title>
+<title>팀 정보</title>
 <style type="text/css">
 #regiForm{
 	margin-left: 550px;
@@ -42,16 +42,6 @@ body {
   <a href="./TeamManageMent.do">팀원 관리</a>
   <a href="./CancelRes.do">예약 취소</a>
 </nav>
-
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>

@@ -25,7 +25,7 @@ public class HomePageController {
 	private Logger log = LoggerFactory.getLogger(HomePageController.class);
 	
 	@Autowired
-	MemberShip_IService service;
+	private MemberShip_IService service;
 	
 	@RequestMapping(value = "/MemberMyPage.do", method = RequestMethod.GET)
 	public String myPage(Model model, HttpSession session) {

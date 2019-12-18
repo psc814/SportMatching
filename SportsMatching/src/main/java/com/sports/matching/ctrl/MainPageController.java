@@ -37,6 +37,14 @@ public class MainPageController {
 		logger.info("유저메인페이지");
 		return "UserMainPage";
 	}
+	
+	@RequestMapping(value = "/searchPage.do", method = RequestMethod.GET)
+	public String test() {
+		logger.info("검색페이지");
+		
+		return "SearchPage";
+	}
+	
 
 	@RequestMapping(value = "/showSchedule.do", method = RequestMethod.POST)
 	@ResponseBody
