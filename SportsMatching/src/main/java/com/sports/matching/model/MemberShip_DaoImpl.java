@@ -43,15 +43,15 @@ public class MemberShip_DaoImpl implements MemberShip_IDao {
 	}
 
 	@Override
-	public TeamDto teamLogin(TeamDto TDto) {
+	public TeamDto teamLogin(Map<String, String> map) {
 		logger.info("팀 로그인");
-		return session.selectOne(NS+"teamLogin", TDto);
+		return session.selectOne(NS+"teamLogin", map);
 	}
 
 	@Override
-	public StadiumAdminDto adminLogin(StadiumAdminDto SADto) {
+	public StadiumAdminDto adminLogin(Map<String, String> map) {
 		logger.info("관리자 로그인");
-		return session.selectOne(NS+"adminLogin", SADto);
+		return session.selectOne(NS+"adminLogin", map);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class MemberShip_DaoImpl implements MemberShip_IDao {
 	}
 
 	@Override
-	public TeamDto duplicateTeamId(String team_id) {
+	public int duplicateTeamId(String team_id) {
 		logger.info("팀 아이디 중복검사");
 		return session.selectOne(NS+"duplicateTeamId", team_id);
 	}

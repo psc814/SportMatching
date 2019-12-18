@@ -12,6 +12,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -29,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sports.matching.api.KakaoApi;
 import com.sports.matching.dtos.MembersDto;
+import com.sports.matching.dtos.StadiumAdminDto;
+import com.sports.matching.dtos.TeamDto;
 import com.sports.matching.model.MemberShip_IService;
 
 
@@ -249,5 +252,36 @@ public class LoginController {
        return "SearchPage"; //여기 이제 메인(검색 페이지로)넘어갈곳 정해줘야함
     }
 	
+    @RequestMapping(value = "/adminLogin.do", method = RequestMethod.GET)
+    public String admingLogin(HttpSession session, StadiumAdminDto SADto) {
+    	log.info("관리자 로그인 \t:{}", SADto);
+    	Map<String, String> map = new HashMap<String, String>();
+    	map.put("admin_id", SADto.getAdmin_id());
+    	map.put("admin_pw", SADto.getAdmin_pw());
+    	StadiumAdminDto sadto = service.adminLogin(map);
+    	System.out.println("sadto 값 확인 : "+sadto);
+    	if(sadto != null) {
+    		session.setAttribute("sadto", sadto);
+    	}else {
+    		return "LoginPage";
+    	}
+    	return "AdminReservationPage";
+    }
+    
+    
+    @RequestMapping(value = "/teamLogin.do", method = RequestMethod.GET)
+    public String teamLogin(HttpSession session, TeamDto TDto) {
+    	log.info("팀 로그인 \t:{}", TDto);
+    	Map<String, String> map = new HashMap<String, String>();
+    	map.put("team_id", TDto.getTeam_id());
+    	map.put("team_pw", TDto.getTeam_pw());
+    	TeamDto tdto = service.teamLogin(map);
+    	if(tdto != null) {
+    		session.setAttribute("tdto", tdto);
+    	}else {
+    		return "LoginPage";
+    	}
+    	return "teamPage";
+    }
 	
 }

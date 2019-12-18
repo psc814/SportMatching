@@ -34,10 +34,11 @@ body {
 <script type="text/javascript" src="./js/UserMain.js"></script>
 <script type="text/javascript" src="./js/jquery-3.4.1.js"></script>
 <body>
-<jsp:include page="KLoginHeader.jsp"/>
+<jsp:include page="LoginHeader.jsp"/>
 <nav style="text-align: center;" class="navbar">
   <a href="./MemberMyPage.do">마이페이지</a>
   <a href="./TeamPage.do">팀페이지</a>
+  <a href="./MakeTeam.do">팀 창설</a>
   <a href="./AnswerBoard.do">게시판</a>
 </nav> 
 	<div id="userMainContainer">

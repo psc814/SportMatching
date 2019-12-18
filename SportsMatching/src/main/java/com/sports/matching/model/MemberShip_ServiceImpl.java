@@ -33,13 +33,13 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	}
 
 	@Override
-	public TeamDto teamLogin(TeamDto TDto) {
-		return dao.teamLogin(TDto);
+	public TeamDto teamLogin(Map<String, String> map) {
+		return dao.teamLogin(map);
 	}
 
 	@Override
-	public StadiumAdminDto adminLogin(StadiumAdminDto SADto) {
-		return dao.adminLogin(SADto);
+	public StadiumAdminDto adminLogin(Map<String, String> map) {
+		return dao.adminLogin(map);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	}
 
 	@Override
-	public TeamDto duplicateTeamId(String team_id) {
+	public int duplicateTeamId(String team_id) {
 		return dao.duplicateTeamId(team_id);
 	}
 

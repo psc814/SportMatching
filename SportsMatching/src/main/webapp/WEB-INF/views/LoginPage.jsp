@@ -32,14 +32,14 @@
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" name="id" value="ADMIN">
+					<input type="text" id="id" name="id" value="">
 				</td>
 			</tr>
 			<tr>
 			<tr>			
 				<th>비밀번호</th>
 				<td>
-					<input type="password" name="password" value="ADMIN">
+					<input type="password" id="pw" name="password" value="">
 				</td>
 			</tr>
 			<tr>
@@ -50,6 +50,17 @@
 			</tr>
 		</table>
 </div>
-
 </body>
+<script type="text/javascript">
+	function adminLogin(){
+		var id = document.getElementById("id").value;
+		var pw = document.getElementById("pw").value;
+		location.href = "./adminLogin.do?admin_id="+id+"&admin_pw="+pw;
+	}
+	function teamLogin(){
+		var id = document.getElementById("id").value;
+		var pw = document.getElementById("pw").value;
+		location.href = "./teamLogin.do?team_id="+id+"&team_pw="+pw;
+	}
+</script>
 </html>
