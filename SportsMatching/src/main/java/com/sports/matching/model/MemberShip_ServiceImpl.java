@@ -11,6 +11,7 @@ import com.sports.matching.dtos.MembersDto;
 import com.sports.matching.dtos.StadiumAdminDto;
 import com.sports.matching.dtos.StatDto;
 import com.sports.matching.dtos.TeamDto;
+import com.sports.matching.dtos.Team_Stat_Dto;
 @Service
 public class MemberShip_ServiceImpl implements MemberShip_IService {
 
@@ -83,7 +84,7 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	}
 
 	@Override
-	public StatDto selectTeam(String team_id) {
+	public Team_Stat_Dto selectTeam(String team_id) {
 		return dao.selectTeam(team_id);
 	}
 
@@ -118,8 +119,8 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	}
 
 	@Override
-	public boolean teamMemberMultiDel(String[] member_id) {
-		return dao.teamMemberMultiDel(member_id);
+	public boolean teamMemberMultiDel(Map<String, String[]> map) {
+		return dao.teamMemberMultiDel(map);
 	}
 
 	@Override

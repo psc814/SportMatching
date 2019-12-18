@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>팀 정보</title>
+<title>팀원 관리</title>
 <style type="text/css">
 #regiForm{
 	margin-left: 550px;
@@ -37,13 +37,29 @@ body {
 
 table{
 	width: 300px;
+	border: 1px solid;
+}
+td, tr, th{
+	border: 1px solid;
 }
 th{
 	background-color: skyblue;
 }
 
+#userList{
+	margin-top: 250px;
+	margin-left: 600px;
+}
 </style>
 </head>
+<script type="text/javascript">
+	function checkAll(bool) {
+		var chk = document.getElementsByName("chk");
+		for (var i = 0; i < chk.length; i++) {
+			chk[i].checked = bool;
+		}
+	}
+</script>
 <body>
 <jsp:include page="TeamLoginHeader.jsp"/>
 <nav style="text-align: center;" class="navbar">
@@ -52,44 +68,24 @@ th{
   <a href="./CancelRes.do">예약 취소</a>
 </nav>
 
-<div style="width: 300px; height: 300px; float: left; margin-top:250px; margin-right: 300px; margin-left: 350px">
-	<table border="1px solid;" style="text-align: center;">
-			<th>팀 회원들</th>
+<div id="userList">
+<form action="./mutliDel.do" method="post">
+	<table style="text-align: center;">
+		<tr>
+			<td><input type="checkbox" onclick="checkAll(this.checked)"></td>
+			<th colspan="1">팀 회원들</th>
+		<tr>
 			<c:forEach items="${lists}" var="lists">
 				<tr>
+					<td><input type="checkbox" name="chk" value="${lists.member_id}"></td>
 					<td>${lists.member_id}</td>
 				</tr>
 			</c:forEach>
 	</table>
+	<input type="submit" value="추방" style="width: 300px;">
+</form>
 </div>
 
-<div style="width: 300px; height: 300px; float: left; margin-top:250px;">
-	<table  border="1px solid;" style="text-align: center;">
-		<tr>
-			<th>주장 아이디</th>
-			<td>${tsdto.captain_id}</td>
-		</tr>
-		<tr>
-			<th>주장 전화번호</th>
-			<td>${tsdto.captain_phone_number}</td>
-		</tr>
-		<tr>
-			<th>주활동지</th>
-			<td>${tsdto.playground}</td>
-		</tr>
-		<tr>
-			<th>공격력</th>
-			<td>${tsdto.attack}</td>
-		</tr>
-		<tr>
-			<th>수비력</th>
-			<td>${tsdto.defence}</td>
-		</tr>
-		<tr>
-			<th>매너점수</th>
-			<td>${tsdto.manner}</td>
-		</tr>
-	</table>
-</div>
+
 </body>
 </html>

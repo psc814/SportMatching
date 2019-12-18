@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -261,11 +262,19 @@ public class LoginController {
     	StadiumAdminDto sadto = service.adminLogin(map);
     	System.out.println("sadto 값 확인 : "+sadto);
     	if(sadto != null) {
-    		session.setAttribute("sadto", sadto);
+    		session.setAttribute("sadto", sadto.getAdmin_id());
     	}else {
     		return "LoginPage";
     	}
     	return "AdminReservationPage";
+    }
+    
+    
+    @RequestMapping(value = "/adminLogout.do", method = RequestMethod.GET)
+    public String adminLogout(HttpSession session) {
+    	log.info("관리자 로그아웃");
+    	session.invalidate();
+    	return "redirect:/loginForm.do";
     }
     
     
@@ -282,7 +291,7 @@ public class LoginController {
     	}else {
     		return "LoginPage";
     	}
-    	return "teamPage";
+    	return "teamLoginPage";
     }
     
     @RequestMapping(value = "/teamLogout.do", method = RequestMethod.GET)
