@@ -25,9 +25,9 @@
 	</select>
 	<!-- 구장상세조회 -->
 	<select id="selectDetailStadium" parameterType="java.lang.String" resultMap="StadiumMap">
-		SELECT STADIUM_CODE, STADIUM_NAME, ADDRESS, AREA, INFO, IMAGE1, IMAGE2, IMAGE3
+		SELECT S.STADIUM_CODE, STADIUM_NAME, ADDRESS, AREA, INFO, IMAGE1, IMAGE2, IMAGE3
 		FROM STADIUM S JOIN PICTURE P
-		USING(STADIUM_CODE)
+		ON S.STADIUM_CODE = P.STADIUM_CODE
 		WHERE S.STADIUM_CODE = #{stadium_code}
 	</select>
 	<!-- 내 구장 조회 -->
