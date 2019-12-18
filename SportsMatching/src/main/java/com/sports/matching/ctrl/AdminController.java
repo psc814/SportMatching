@@ -149,4 +149,15 @@ public class AdminController {
 		}
 		return false;
 	}
+	@RequestMapping(value = "/denyCancel.do", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean denyCancel(String schedule_id, String home_cancel, String away_cancel) {
+		if(home_cancel.equals("N")) {
+			return sc_service.homeCancelConfirm(Integer.parseInt(schedule_id));
+		}
+		if(away_cancel.equals("N")) {
+			return sc_service.awayCancelConfirm(Integer.parseInt(schedule_id));
+		}
+		return false;
+	}
 }
