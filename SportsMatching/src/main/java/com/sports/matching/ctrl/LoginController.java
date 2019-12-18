@@ -134,8 +134,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/loginForm.do",method = RequestMethod.GET)
     public String naverlogin(Model model, HttpSession session) throws UnsupportedEncodingException{
-       log.info("네이버 로그인 진입1");
-       
+       log.info("로그인 화면으로 이동");
        String clientId = "KeGpnYEEcMzRab38ZzNy";//애플리케이션 클라이언트 아이디값";
        String redirectURI = URLEncoder.encode("http://localhost:8090/SportsMatching/callback.do", "UTF-8");
        SecureRandom random = new SecureRandom();
@@ -146,7 +145,6 @@ public class LoginController {
        apiURL += "&state=" + state;
        session.setAttribute("state", state);
        model.addAttribute("apiURL", apiURL);
-       System.out.println("kkkkkkkkkkkkkkkkkkkk"+apiURL);
        return "LoginPage";
        
     }

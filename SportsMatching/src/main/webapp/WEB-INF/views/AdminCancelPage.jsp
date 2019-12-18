@@ -73,7 +73,7 @@ select {
 	text-overflow: ellipsis;
 }
 
-A:link {
+ A:link {
 	font-size: 9pt;
 	font-family: "돋움";
 	text-decoration: none;
@@ -91,12 +91,11 @@ A:active {
 	text-decoration: none;
 }
 
-s
 A:hover {
 	font-size: 9pt;
 	font-family: "돋움";
 	text-decoration: none;
-}
+} 
 </style>
 
 <script type="text/javascript">
@@ -112,11 +111,11 @@ function toCancel() {
 </script>
 <body>
 	<jsp:include page="header.jsp" />
-	<nav style="text-align: center; background-color: red; height: 50px; vertical-align: center;">
+ 	<nav style="text-align: center; background-color: #333; height: 50px;">
 		<input type="button" value="일정 등록 & 삭제" onclick="toRegisterPage()">
 		<input type="button" value="예약신청목록" onclick="toReservation()">
 		<input type="button" value="취소신청목록" onclick="toCancel()">
-	</nav>
+	</nav> 
 	<div style="width: 712px; margin: auto; text-align: center; font-size: 40px;">예약취소목록</div>
 	<div id="calendarDiv" style="width: 712px; margin: auto;">
 		<form name="calendarFrm" id="calendarFrm" action="" method="post">
@@ -230,12 +229,13 @@ function toCancel() {
 										color = "#529dbc";
 									} else {
 										color = "BLACK";
-									}
-									;
+									} ;
 									String sUseDate = Integer.toString(year);
-									sUseDate += Integer.toString(month + 1).length() == 1 ? "0" + Integer.toString(month + 1)
+									sUseDate += Integer.toString(month + 1).length() == 1
+											? "0" + Integer.toString(month + 1)
 											: Integer.toString(month + 1);
-									sUseDate += Integer.toString(index).length() == 1 ? "0" + Integer.toString(index)
+									sUseDate += Integer.toString(index).length() == 1
+											? "0" + Integer.toString(index)
 											: Integer.toString(index);
 									int iUseDate = Integer.parseInt(sUseDate);
 									clickedDate = Integer.toString(iUseDate);
@@ -249,7 +249,7 @@ function toCancel() {
 
 							<%
 								out.println("<br>");
-							out.println("<span class='datespan' style='display:none;'>" + clickedDate + "</span>");
+									out.println("<span class='datespan' style='display:none;'>" + clickedDate + "</span>");
 									out.println("</TD>");
 									newLine++;
 									if (newLine == 7) {
