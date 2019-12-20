@@ -105,14 +105,14 @@ A:hover {
 	<jsp:include page="header.jsp" />
 	<div id="stadiumDiv" style="width: 700px; margin: auto; background-color: yellow">
 		<table style="width: 700px;">
-			<tr>
+			<%-- <tr>
 				<td>${dto.stadium_name}</td>
 			</tr>
 			<tr>
 				<td>${dto.pdto.image1}</td>
 				<td>${dto.pdto.image2}</td>
 				<td>${dto.pdto.image3}</td>
-			</tr>
+			</tr> --%>
 		</table>
 	</div>
 	<div id="calendarDiv" style="width: 712px; margin: auto;">
@@ -281,7 +281,7 @@ A:hover {
 				<div>
 					<form onsubmit="searchPlaces(); return false;">
 						검색어 :
-						<input type="text" value="${dto.stadium_name}" id="keyword" size="15">
+						<input type="text" value="" id="keyword" size="15">
 						<button type="submit">검색하기</button>
 					</form>
 				</div>
