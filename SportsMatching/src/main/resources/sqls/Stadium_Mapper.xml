@@ -85,13 +85,7 @@
 		AND GAME_DATE > SYSDATE
 		AND STADIUM_CODE=#{stadium_code}
 	</select>
-	<!-- 관리자로그인 -->
-	<select id="adminLogin" parameterType="java.util.Map">
-		SELECT COUNT(*)
-		FROM STADIUM_ADMIN
-		WHERE ADMIN_ID = #{admin_id}
-		AND ADMIN_PW = #{admin_pw}
-	</select>
+
 	<!-- 구장 사진삭제 -->
 	<delete id="deleteStadiumPicture" parameterType="java.lang.String">
 		DELETE FROM PICTURE
@@ -99,11 +93,8 @@
 	</delete>
 	<!-- 구장 일정삭제 -->
 	<delete id="deleteStadiumSchedule" parameterType="java.lang.String">
-		<![CDATA[
-		DELETE FROM STADIUM
-		WHERE STADIUM_CODE = #{stadium_code}
-		AND (GAME_DATE < SYSDATE)
-		]]>
+		DELETE FROM SCHEDULE
+		WHERE STADIUM_CODE=#{stadium_code}
 	</delete>
 	<!-- 구장삭제 -->
 	<delete id="deleteStadium" parameterType="java.lang.String">

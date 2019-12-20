@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+#tableDiv{
+	margin-top: 5px;
+	text-align: center;
+}
+#resultTable{
+	
+	margin: 10px auto;
+}
+#pagingTable{
+	margin: 10px auto;
+}
+.result{
+	border: 1px solid black;
+	text-align: center;
+}
+#loginDiv{
+	width : 180px;
+	margin: 10px auto;
+	text-align: center;
+}
+
+

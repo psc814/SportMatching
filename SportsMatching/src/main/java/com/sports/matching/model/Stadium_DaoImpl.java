@@ -71,11 +71,6 @@ public class Stadium_DaoImpl implements Stadium_IDao {
 		return count;
 	}
 
-	@Override
-	public int adminLogin(Map<String, String> map) {
-		int login = session.selectOne(NS+"adminLogin", map);
-		return login;
-	}
 
 	@Override
 	public int deleteStadiumPicture(String stadium_code) {

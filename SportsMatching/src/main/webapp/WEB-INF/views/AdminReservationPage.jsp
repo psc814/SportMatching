@@ -111,6 +111,9 @@ function toCancel() {
 function changePw() {
 	location.href ="./changePw.do";
 }
+function selectMyStadium(){
+	location.href="./selectMyStadium.do?page=1";
+}
 </script>
 <body>
 	<jsp:include page="AdminLoginHeader.jsp"/>
@@ -119,6 +122,7 @@ function changePw() {
 		<input type="button" value="예약신청목록" onclick="toReservation()">
 		<input type="button" value="취소신청목록" onclick="toCancel()">
 		<input type="button" value="비밀번호 변경" onclick="changePw()">
+		<input type="button" value="내 구장 조회" onclick="selectMyStadium()">
 	</nav>
 	<div style="width: 712px; margin: auto; text-align: center; font-size: 40px;">예약신청목록</div>
 	<div id="calendarDiv" style="width: 712px; margin: auto;">

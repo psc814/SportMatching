@@ -28,7 +28,7 @@ public interface Stadium_IDao {
 
 	public int selectReservationInfo(String stadium_code);
 
-	public int adminLogin(Map<String, String> map);
+
 
 	public int deleteStadiumPicture(String stadium_code);
 
