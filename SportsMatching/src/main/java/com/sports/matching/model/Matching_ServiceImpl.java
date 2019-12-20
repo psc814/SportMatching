@@ -22,12 +22,12 @@ public class Matching_ServiceImpl implements Matching_IService {
 
 	@Override
 	public List<MatchingCardDto> searchMatching(String condition) {
-		return searchMatching(condition);
+		return dao.searchMatching(condition);
 	}
 
 	@Override
 	public List<ScheduledMatchingDto> selectMyMatching(String team_id) {
-		return selectMyMatching(team_id);
+		return dao.selectMyMatching(team_id);
 	}
 
 	@Override
@@ -37,8 +37,8 @@ public class Matching_ServiceImpl implements Matching_IService {
 	}
 
 	@Override
-	public boolean applyMatching(Map<String, String> map) {
-		int row = dao.applyMatching(map);
+	public boolean applyMatching(MatchingCardDto mcdto) {
+		int row = dao.applyMatching(mcdto);
 		return (row>0)?true:false;
 	}
 

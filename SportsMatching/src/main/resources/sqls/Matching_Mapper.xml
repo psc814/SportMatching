@@ -27,7 +27,7 @@
 	</select>
 	<!-- 매칭 검색 -->
 	<select id="searchMatching" parameterType="java.lang.String" resultType="MCDto">
-		SELECT M.GAME_DATE, M.REGIST_TEAM_ID, M.RESERVATION_STADIUM, M.MATCHING_STYLE
+		SELECT M.MATCHING_NUMBER, M.GAME_DATE, M.REGIST_TEAM_ID, M.REGIST_TEAM_INFO, M.RESERVATION_STADIUM, M.MATCHING_STYLE
 		FROM MATCHING_CARD M
 		JOIN TEAM T ON M.REGIST_TEAM_ID = T.TEAM_ID
 		WHERE T.PLAYGROUND LIKE '%'||#{condition}||'%' 
@@ -52,22 +52,22 @@
 		VALUES (MATCHING_SEQ.NEXTVAL, #{game_date}, #{team_id}, #{regist_team_info}, #{reservation_stadium}, #{matching_style})
 	</insert>
 	<!-- 매칭 신청 -->
-	<update id="applyMatching" parameterType="java.util.Map">
+	<update id="applyMatching" parameterType="MCDto">
 		UPDATE MATCHING_CARD 
-		SET APPLIED_TEAM_ID = #{team_id}, APPLIED_TEAM_INFO = #{applied_team_info}
-		WHERE MATCHING_NUMBER = #{matching_number};
+		SET APPLIED_TEAM_ID = #{applied_team_id}, APPLIED_TEAM_INFO = #{applied_team_info}
+		WHERE MATCHING_NUMBER = #{matching_number}
 	</update>
 	<!-- 기존 매칭 수 조회 -->
-	<select id="selectMatchingCount" parameterType="java.lang.String">
+	<select id="selectRegistCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM MATCHING_CARD
 		WHERE REGIST_TEAM_ID =#{team_id} AND ACCOMPLISH ='N'
 	</select>
 	<!-- 기존 신청 수 조회 -->
-	<select id="selectApplyCount" parameterType="java.lang.String">
+	<select id="selectApplyCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM MATCHING_CARD
-		WHERE APPLIED_TEAM_ID = #{team_id} AND ACCOMPLISH ='N';
+		WHERE APPLIED_TEAM_ID = #{team_id} AND ACCOMPLISH ='N'
 	</select>
 	<!-- 매칭 성사여부 수정 -->
 	<update id="modifyMatchingAccomplish" parameterType="java.lang.Integer">
