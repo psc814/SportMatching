@@ -76,15 +76,15 @@ public class MemberShip_DaoImpl implements MemberShip_IDao {
 	}
 
 	@Override
-	public MembersDto withDraw(MembersDto MDto) {
+	public MembersDto withDraw(String member_id) {
 		logger.info("탈퇴회원 검사");
-		return session.selectOne(NS+"withDraw", MDto);
+		return session.selectOne(NS+"withDraw", member_id);
 	}
 
 	@Override
-	public boolean reJoin(MembersDto MDto) {
+	public boolean reJoin(String member_id) {
 		logger.info("재가입");
-		int a = session.update(NS+"reJoin", MDto);
+		int a = session.update(NS+"reJoin", member_id);
 		return (a>0)?true:false;
 	}
 
@@ -165,6 +165,12 @@ public class MemberShip_DaoImpl implements MemberShip_IDao {
 		logger.info("소속팀 삭제 ");
 		int a = session.delete(NS+"deleteBelongedTeam", team_id);
 		return (a>0)?true:false;
+	}
+
+	@Override
+	public TeamDto teamResult(String team_id) {
+		logger.info("입력한 팀 조회");
+		return session.selectOne(NS+"teamResult", team_id);
 	}
 
 	

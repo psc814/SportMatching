@@ -37,23 +37,23 @@ public class HomePageController {
 		model.addAttribute("btdto", btdto);
 		return "MemberMyPage";
 	}
-	@RequestMapping(value = "/withdraw.do", method = RequestMethod.POST)
-	public String withdraw(HttpSession session, String member_id) {
+	@RequestMapping(value = "/withdraw.do", method = RequestMethod.GET)
+	public String withdraw(HttpSession session) {
 		log.info("개인회원 탈퇴");
-		MembersDto mdto = (MembersDto) session.getAttribute("uEmail");
-		boolean isc = service.updateWithdraw(member_id);
+		String member_id = (String) session.getAttribute("uEmail");
+		boolean isc = service.deleteMemberTeam(member_id);
 		if(isc) {
-			service.deleteMemberTeam(member_id);
+			service.updateWithdraw(member_id);
 		}else {
 			return "MemberMyPage";
 		}
-		return "SearchPage";
+		return "LoginPage";
 	}
 	
 	@RequestMapping(value = "/delTeam.do", method = RequestMethod.GET)
 	public String deleteBelongTeam(HttpSession session, String team_id) {
 		log.info("마이페이지에서 소속팀 탈퇴");
-		TeamDto Tdto = (TeamDto) session.getAttribute("tdto");
+		String member_id = (String) session.getAttribute("uEmail");
 		boolean isc = service.deleteBelongedTeam(team_id);
 		if(isc) {
 			return "redirect:/MemberMyPage.do";
@@ -69,10 +69,24 @@ public class HomePageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addTeam.do", method = RequestMethod.GET)
-	public String addBelongteam(HttpSession session, String team_id) {
-		
-		return "";
-		
+	public String addBelongteam(HttpSession session, String insertTeamName, Model model) {
+		log.info("팀가입");
+		String member_id = (String) session.getAttribute("uEmail");
+		TeamDto tdto = service.teamResult(insertTeamName);
+		Belonged_TeamDto BTDto = new Belonged_TeamDto();
+		BTDto.setMember_id(member_id);
+		BTDto.setTeam_id(insertTeamName);
+		System.out.println(BTDto);
+		if(tdto == null) {
+			return "redirect:/MemberMyPage.do";
+		}else {
+			boolean isc = service.joinTeam(BTDto);
+			if(isc) {
+				return "redirect:/MemberMyPage.do";
+			}else {
+				return "redirect:/MemberMyPage.do";
+			}
+		}
 	}
 	
 	
@@ -109,7 +123,17 @@ public class HomePageController {
 	
 	@RequestMapping(value = "/TeamPage.do", method = RequestMethod.GET)
 	public String teamPage(Belonged_TeamDto BTDto,Model model,HttpSession session) {
-		
+		String member_id = (String) session.getAttribute("uEmail");
+		List<Belonged_TeamDto> lists = service.memberMypage(member_id);
+		model.addAttribute("lists", lists);
 		return "teamPage";
+	}
+	
+	@RequestMapping(value = "./teamInfo.do", method = RequestMethod.GET)
+	public String teamInfo(String team_id, Model model) {
+		Team_Stat_Dto tsdto = service.selectTeam(team_id);
+		model.addAttribute("tsdto", tsdto);
+		
+		return "redirect:/TeamPage.do";
 	}
 }

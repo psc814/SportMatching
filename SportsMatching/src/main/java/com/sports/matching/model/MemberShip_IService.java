@@ -29,9 +29,9 @@ public interface MemberShip_IService {
 	//팀 아이디 중복검사
 	public int duplicateTeamId(String team_id);
 	//탈퇴회원 검사
-	public MembersDto withDraw(MembersDto MDto);
+	public MembersDto withDraw(String member_id);
 	//재가입
-	public boolean reJoin(MembersDto MDto);
+	public boolean reJoin(String member_id);
 	//팀 비밀번호 질문/답변 검사
 	public TeamDto teamPasswordQnA(TeamDto TDto);
 	//개인회원 마이페이지
@@ -56,5 +56,7 @@ public interface MemberShip_IService {
 	public boolean teamMemberMultiDel(Map<String, String[]> map);
 	//소속팀 삭제 
 	public boolean deleteBelongedTeam(String team_id);
+	// 입력한 팀 조회
+	public TeamDto teamResult(String team_id);
 }
 

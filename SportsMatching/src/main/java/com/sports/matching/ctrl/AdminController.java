@@ -3,16 +3,22 @@ package com.sports.matching.ctrl;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sports.matching.dtos.ScheduleDto;
+import com.sports.matching.dtos.StadiumAdminDto;
+import com.sports.matching.dtos.StadiumDto;
+import com.sports.matching.model.MemberShip_IService;
 import com.sports.matching.model.Schedule_IService;
 
 @Controller
@@ -22,6 +28,8 @@ public class AdminController {
 	
 	@Autowired
 	Schedule_IService sc_service;
+	@Autowired
+	MemberShip_IService service;
 
 	@RequestMapping(value = "/AdminRegisterSchedulePage.do", method =  RequestMethod.GET)
 	public String AdminMyPage() {
@@ -160,4 +168,18 @@ public class AdminController {
 		}
 		return false;
 	}
+	
+	@RequestMapping(value = "/changePw.do")
+	public String changePasswordPage() {
+		return "changePassword";
+	}
+	
+	@RequestMapping(value = "/modifyPW.do", method = RequestMethod.GET)
+	public String modifyPW(StadiumAdminDto SADto, HttpSession session) {
+		logger.info("관리자 비밀번호 변경");
+		session.getAttribute("sadto");
+		boolean isc = service.modifyAdminPassword(SADto);
+		return isc?"redirect:/loginForm.do":"redirect:/modifyPW.do";
+	}
+	
 }
