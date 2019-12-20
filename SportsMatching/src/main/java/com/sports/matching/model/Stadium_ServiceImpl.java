@@ -65,10 +65,6 @@ public class Stadium_ServiceImpl implements Stadium_IService {
 		return dao.selectReservationInfo(stadium_code);
 	}
 
-	@Override
-	public int adminLogin(Map<String, String> map) {
-		return dao.adminLogin(map);
-	}
 
 	@Override
 	@Transactional

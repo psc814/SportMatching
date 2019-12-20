@@ -26,8 +26,7 @@ public interface Stadium_IService {
 
 	public int selectReservationInfo(String stadium_code);
 
-	public int adminLogin(Map<String, String> map);
-	
+
 	public boolean deleteStadium(String stadium_code);
 
 	public boolean registStadium(StadiumDto stDto);
