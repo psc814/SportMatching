@@ -23,7 +23,7 @@
 <!-- 네이버 로그인  -->
 <div style="margin-top: 30px;">
 	<a href="${apiURL}"><img width="222" height="49" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
-</div>
+</div>	
 </div>
 
 <div style="width: 300px; height: 300px; float: left; margin-top:250px;">

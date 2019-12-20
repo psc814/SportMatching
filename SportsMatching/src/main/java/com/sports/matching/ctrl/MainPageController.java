@@ -27,10 +27,7 @@ public class MainPageController {
 	private Stadium_IService st_service;
 
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public String mainPage(Model model, String stadium_code) {
-		logger.info("{} 메인페이지로~~!", stadium_code);
-		StadiumDto sdto = st_service.selectDetailStadium(stadium_code);
-		model.addAttribute("dto",sdto);
+	public String mainPage(Model model) {
 		return "MainPage";
 	}
 

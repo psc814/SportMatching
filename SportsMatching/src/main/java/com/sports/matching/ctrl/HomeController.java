@@ -28,13 +28,4 @@ public class HomeController {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		return "home";
 	}
-	@RequestMapping(value = "/header.do", method = RequestMethod.GET)
-	public String header(Model model) {
-		return "header";
-	}
-	
-	@RequestMapping(value = "/adminReservation.do", method = RequestMethod.GET)
-	public String adminReservation(Model model) {
-		return "AdminReservationPage";
-	}
 }

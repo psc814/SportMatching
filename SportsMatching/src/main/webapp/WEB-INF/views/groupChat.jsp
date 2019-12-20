@@ -224,7 +224,6 @@
     		 url: "./viewChatList.do",
     		 data: "mem_id="+$("#nickName"),
     		 async: false,
-    		 
     		 success: function(result){
     			 for(var k in result.list){
  					if(result.list[k]==grId){
