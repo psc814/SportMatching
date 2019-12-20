@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,8 +32,20 @@ body {
 
 </style>
 </head>
-<script type="text/javascript" src="./js/UserMain.js"></script>
-<script type="text/javascript" src="./js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="./js/jquery-3.4.1.js">
+	$(function(){
+		$("#teamInfo").click(function(){
+			$.ajax({
+				type : 'post',
+				url : './teamInfo.do',
+				dataType : 'jsp',
+				success : function(info){
+					$("#info").jsp(info);
+				}
+			});
+		})
+	})
+</script>
 <body>
 <jsp:include page="LoginHeader.jsp"/>
 <nav style="text-align: center;" class="navbar">
@@ -41,8 +54,15 @@ body {
   <a href="./MakeTeam.do">팀 창설</a>
   <a href="./AnswerBoard.do">게시판</a>
 </nav>
+<table>
+<tr>
+<c:forEach items="${lists}" var="lists">
+		
+		<td><input type="button" id="teamInfo" value="${lists.team_id}"></td>
 
-ㅎㅇ
+</c:forEach>
+</tr>
+</table>
 
 </body>
 </html>

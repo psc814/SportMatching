@@ -108,6 +108,9 @@ function toReservation() {
 function toCancel() {
 	location.href ="./AdminCancel.do";
 }
+function changePw() {
+	location.href ="./changePw.do";
+}
 </script>
 <body>
 	<jsp:include page="AdminLoginHeader.jsp"/>
@@ -115,6 +118,7 @@ function toCancel() {
 		<input type="button" value="일정 등록 & 삭제" onclick="toRegisterPage()">
 		<input type="button" value="예약신청목록" onclick="toReservation()">
 		<input type="button" value="취소신청목록" onclick="toCancel()">
+		<input type="button" value="비밀번호 변경" onclick="changePw()">
 	</nav>
 	<div style="width: 712px; margin: auto; text-align: center; font-size: 40px;">예약신청목록</div>
 	<div id="calendarDiv" style="width: 712px; margin: auto;">

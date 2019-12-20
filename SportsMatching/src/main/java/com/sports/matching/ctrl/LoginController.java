@@ -206,6 +206,7 @@ public class LoginController {
        
        String header = "Bearer " + token;
        
+       
        try {
           String apiURL = "https://openapi.naver.com/v1/nid/me";
          URL url = new URL(apiURL);
@@ -234,8 +235,13 @@ public class LoginController {
          
          String[] userEmail = ((String) sjon.get("email")).split("@");
          String uEmail = userEmail[0];
-         
+     
          session.setAttribute("uEmail", uEmail);
+         String member_id = (String) session.getAttribute("uEmail");
+         boolean isc = service.reJoin(member_id);
+         if(isc) {
+        	 session.setAttribute("uEmail", uEmail);
+         }
          
          session.setAttribute("response", response);
       } catch (MalformedURLException e) {

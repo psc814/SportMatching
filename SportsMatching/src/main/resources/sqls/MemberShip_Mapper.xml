@@ -83,7 +83,7 @@ SELECT ADMIN_ID
 <!-- 회원가입 -->
 <!-- 개인회원의 팀 가입 -->
 <insert id="joinTeam" parameterType="BTDto">
-INSERT INTO BELONGED_TEAM (MEMBER_ID, TEAM_ID) VALUES(#{member_id}, #{team_id})
+INSERT INTO BELONGED_TEAM (BELONGED_TEAM_CODE,MEMBER_ID, TEAM_ID) VALUES(BELONGED_TEAM_CODE_SEQ.NEXTVAL, #{member_id}, #{team_id})
 </insert>
 
 <!-- 팀 회원 가입 (팀 창단) -->
@@ -101,13 +101,13 @@ SELECT COUNT(TEAM_ID)
 </select>
 
 <!-- 탈퇴회원 검사 -->
-<select id="withDraw" parameterType="MDto" resultType="MDto">
+<select id="withDraw" parameterType="java.lang.String" resultType="MDto">
 SELECT MEMBER_ID,WITHDRAW 
 	FROM MEMBERS WHERE MEMBER_ID= #{member_id} AND WITHDRAW = 'Y'
 </select>
 
 <!-- 재가입 -->
-<update id="reJoin" parameterType="MDto">
+<update id="reJoin" parameterType="java.lang.String">
 UPDATE MEMBERS SET WITHDRAW = 'N' WHERE MEMBER_ID = #{member_id}
 </update>
 
@@ -131,12 +131,19 @@ SELECT MEMBER_ID
 		 WHERE TEAM_ID= #{team_id}
 </select>
 
-<!-- 팀 조회 (팀 페이지) -->
-<select id="selectTeam" parameterType="BTDto" resultType="TSDto">
+<!-- 팀 정보조회 (팀 페이지) -->
+<select id="selectTeam" parameterType="java.lang.String" resultType="TSDto">
 SELECT T.TEAM_ID TEAM_ID, CAPTAIN_ID, CAPTAIN_PHONE_NUMBER,PLAYGROUND, ATTACK,DEFENCE,MANNER
 	FROM TEAM T INNER JOIN STAT S
 		ON T.TEAM_ID = S.TEAM_ID
-		WHERE T.TEAM_ID = #{TEAM_ID}
+		WHERE T.TEAM_ID = #{team_id}
+</select>
+
+<!-- 팀 명단 -->
+<select id="teamResult" parameterType="java.lang.String" resultType="TDto">
+SELECT TEAM_ID
+	FROM TEAM
+		WHERE TEAM_ID = #{team_id}
 </select>
 
 <!-- 주장여부 -->
@@ -168,7 +175,7 @@ WHERE ADMIN_ID= #{admin_id}
 
 <!-- 회원 정보 삭제/탈퇴 -->
 <!-- 탈퇴/미탈퇴 회원 구분 -->
-<update id="updateWithdraw" parameterType="MDto">
+<update id="updateWithdraw" parameterType="java.lang.String">
 UPDATE MEMBERS SET WITHDRAW ='Y' WHERE MEMBER_ID = #{member_id}
 </update>
 

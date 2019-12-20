@@ -59,13 +59,13 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	}
 
 	@Override
-	public MembersDto withDraw(MembersDto MDto) {
-		return dao.withDraw(MDto);
+	public MembersDto withDraw(String member_id) {
+		return dao.withDraw(member_id);
 	}
 
 	@Override
-	public boolean reJoin(MembersDto MDto) {
-		return dao.reJoin(MDto);
+	public boolean reJoin(String member_id) {
+		return dao.reJoin(member_id);
 	}
 
 	@Override
@@ -126,6 +126,11 @@ public class MemberShip_ServiceImpl implements MemberShip_IService {
 	@Override
 	public boolean deleteBelongedTeam(String team_id) {
 		return dao.deleteBelongedTeam(team_id);
+	}
+
+	@Override
+	public TeamDto teamResult(String team_id) {
+		return dao.teamResult(team_id);
 	}
 
 	

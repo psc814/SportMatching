@@ -60,11 +60,12 @@ body {
 			location.href = "./delTeam.do?team_id="+data;
 		}else{
 			alert("취소되었습니다")
-		}		
+		}
 	}
 	
 	function addTeam(){
-		location.href="./addTeam.do";
+		var dd = document.getElementById("insertTeamName").value;
+		location.href="./addTeam.do?insertTeamName="+dd;
 	}
 </script>
 <body>
@@ -79,7 +80,7 @@ body {
 	<table>
 		<tr>
 			<th>회원아이디:</th>
-			<td>${btdto[0].member_id}</td>
+			<td colspan="2">${btdto[0].member_id}</td>
 		</tr>
 		<c:forEach items="${btdto}" var="bt">
 			<tr>
@@ -87,7 +88,10 @@ body {
 			</tr>
 		</c:forEach>	
 		<c:if test="${btdto[2] eq null}">
-			 <td colspan="2">팀을 가입해주세요 <input type="button" value="추가" onclick="addTeam('${bt.team_id}')"></td>
+			 <td colspan="2">팀을 가입해주세요 </td>
+			 <tr>
+			 	<td><input id="insertTeamName" type="text" value=""></td><td><input type="button" value="추가" onclick="addTeam()"></td>
+			 </tr>
 		</c:if>
 	</table>
 </div>
