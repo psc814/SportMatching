@@ -20,7 +20,8 @@ function changePw() {
 	location.href ="./changePw.do";
 }
 function modifyPW(){
-	location.href ="./modifyPW.do?admin_id="ADMIN;
+	var pw = document.getElementById("insertPassword").value;
+	location.href ="./modifyPW.do?insertPassword="+pw;
 }
 </script>
 <body>
@@ -32,7 +33,7 @@ function modifyPW(){
 		<input type="button" value="비밀번호 변경" onclick="changePw()">
 	</nav>
 
-<form action="./modifyPW.do" method="get">
+
 <table>
 	<tr>
 		<th>아이디</th>
@@ -40,12 +41,8 @@ function modifyPW(){
 	</tr>
 	<tr>
 		<th>변경할 비밀번호</th>
-		<td><input type="text" id="admin_pw" name="admin_pw"></td>
-	</tr>
-	<tr>
-		<td><input type="submit" value="수정"></td>
+		<td><input type="text" id="insertPassword" value=""></td><td><input type="button" value="수정" onclick="modifyPW()"></td>
 	</tr>
 </table>
-</form>
 </body>
 </html>
