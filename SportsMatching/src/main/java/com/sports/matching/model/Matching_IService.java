@@ -16,7 +16,7 @@ public interface Matching_IService {
 
 	public boolean registMatchingCard(MatchingCardDto mcdto);
 
-	public boolean applyMatching(Map<String, String> map);
+	public boolean applyMatching(MatchingCardDto mcdto);
 
 	public int selectRegistCount(String team_id);
 

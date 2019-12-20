@@ -11,7 +11,6 @@
     display: flex;
     border: 1px solid #dfe1e5;
     box-shadow: none;
-    border-radius: 24px;
     z-index: 3;
     height: 44px;
     margin: 50px auto;
@@ -38,13 +37,13 @@
 	border-radius: 24px;
 }
 #searchResult{
-	border : 1px solid black;
+
 	width : 80%;
 	margin: auto;
 }
 #resultTable{
 	border : 1px solid black;
-	width : 100%;
+	width : 545px;
 	text-align: center;
 	margin: auto;
 }
@@ -64,13 +63,31 @@
 	text-align: center;
 }
 #tableCase{
-	border : 1px solid red;
+
 	width: 80%;
 	margin: auto;
 	text-align: center;
+	position : relative;
+}
+.cardCase{
+	margin : 10px auto;
+	width: 70%;
+	text-align: center;
 }
 
-
+.matchingCardTable{
+	border: 1px solid #dfe1e5;
+	margin: auto;
+	text-align: center;
+	border-radius: 24px;
+	background: #fff;
+	display: flex;
+	width: 40%;
+	padding : 1px;
+}
+tr, td, th{
+	text-align: center;
+}
 
 
 

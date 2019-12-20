@@ -16,7 +16,7 @@ public interface Matching_IDao {
 
 	public int registMatchingCard(MatchingCardDto mcdto);
 
-	public int applyMatching(Map<String, String> map);
+	public int applyMatching(MatchingCardDto mcdto);
 
 	public int selectRegistCount(String team_id);
 

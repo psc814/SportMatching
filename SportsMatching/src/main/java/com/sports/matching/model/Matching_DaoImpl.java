@@ -37,8 +37,8 @@ public class Matching_DaoImpl implements Matching_IDao {
 	}
 
 	@Override
-	public int applyMatching(Map<String, String> map) {
-		return session.update(NS+"applyMatching", map);
+	public int applyMatching(MatchingCardDto mcdto) {
+		return session.update(NS+"applyMatching", mcdto);
 	}
 
 	@Override
