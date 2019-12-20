@@ -129,11 +129,11 @@ public class HomePageController {
 		return "teamPage";
 	}
 	
-	@RequestMapping(value = "./teamInfo.do", method = RequestMethod.GET)
-	public String teamInfo(String team_id, Model model) {
+	@RequestMapping(value = "/teamInfo.do", method = RequestMethod.GET)
+	public String teamInfo(Model model, String team_id, HttpSession session) {
+		log.info("팀정보 표출 \t:{}"+team_id);
 		Team_Stat_Dto tsdto = service.selectTeam(team_id);
 		model.addAttribute("tsdto", tsdto);
-		
-		return "redirect:/TeamPage.do";
+		return "Information";
 	}
 }

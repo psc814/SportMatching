@@ -175,10 +175,13 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/modifyPW.do", method = RequestMethod.GET)
-	public String modifyPW(StadiumAdminDto SADto, HttpSession session) {
+	public String modifyPW(String insertPassword, HttpSession session) {
 		logger.info("관리자 비밀번호 변경");
-		session.getAttribute("sadto");
-		boolean isc = service.modifyAdminPassword(SADto);
+		String admin_id = (String) session.getAttribute("sadto");
+		StadiumAdminDto sadto = new StadiumAdminDto();
+		sadto.setAdmin_id(admin_id);
+		sadto.setAdmin_pw(insertPassword);
+		boolean isc = service.modifyAdminPassword(sadto);
 		return isc?"redirect:/loginForm.do":"redirect:/modifyPW.do";
 	}
 	

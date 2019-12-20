@@ -33,18 +33,10 @@ body {
 </style>
 </head>
 <script type="text/javascript" src="./js/jquery-3.4.1.js">
-	$(function(){
-		$("#teamInfo").click(function(){
-			$.ajax({
-				type : 'post',
-				url : './teamInfo.do',
-				dataType : 'jsp',
-				success : function(info){
-					$("#info").jsp(info);
-				}
-			});
-		})
-	})
+	function teamInfo(team){
+		location.href="./teamInfo.do?team_id="+team;
+	} 
+	
 </script>
 <body>
 <jsp:include page="LoginHeader.jsp"/>
@@ -57,9 +49,7 @@ body {
 <table>
 <tr>
 <c:forEach items="${lists}" var="lists">
-		
-		<td><input type="button" id="teamInfo" value="${lists.team_id}"></td>
-
+		<td><input type="button" id="teamInfo" value="${lists.team_id}" onclick="teamInfo('${lists.team_id}')"></td>
 </c:forEach>
 </tr>
 </table>

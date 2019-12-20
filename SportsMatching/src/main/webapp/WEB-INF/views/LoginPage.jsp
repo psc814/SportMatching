@@ -52,11 +52,11 @@
 </div>
 </body>
 <script type="text/javascript">
-	function adminLogin(){
+	 function adminLogin(){
 		var id = document.getElementById("id").value;
 		var pw = document.getElementById("pw").value;
 		location.href = "./adminLogin.do?admin_id="+id+"&admin_pw="+pw;
-	}
+	} 
 	function teamLogin(){
 		var id = document.getElementById("id").value;
 		var pw = document.getElementById("pw").value;
